@@ -10,5 +10,7 @@ namespace Maths
     * @return   V projected on U
     */
    Vector3 project(Vector3 v, Vector3 u);
+
+   Quaternion quatFromEuler(Vector3 euler);
 }
 #endif

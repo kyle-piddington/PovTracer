@@ -26,3 +26,24 @@ TEST_CASE("Parsing Vec3", "[Parse]")
    REQUIRE(vec2.y() == 5.5f);
    REQUIRE(vec2.z() == 6.0f);
 }
+TEST_CASE("Reading Comments", "[Parse]")
+{
+   std::stringstream str;
+   str << "//Comment\nUncomment\n//Comment\nUnComment2";
+   std::string readOut;
+   str >> readOut;
+   REQUIRE(PovUtil::isComment(readOut));
+   PovUtil::processComment(str);
+   str >> readOut;
+   REQUIRE(readOut == "Uncomment");
+   str >> readOut;
+   REQUIRE(PovUtil::isComment(readOut));
+   PovUtil::processComment(str);
+   str >> readOut;
+   REQUIRE(readOut == "UnComment2");
+   str >> readOut;
+   
+
+   
+   
+}

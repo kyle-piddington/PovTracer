@@ -12,13 +12,13 @@ ParseState * CameraState::accept(std::stringstream & stream)
    stream >> bfr; //Read '{''
    stream >> bfr;
    
-   while(bfr.find("}") == std::string::npos)
+   while(bfr.find("}") == std::string::npos || PovUtil::isComment(bfr))
    {
       if(PovUtil::isComment(bfr))
       {
-         continue;
+         PovUtil::processComment(stream);
       }
-      if(bfr == "location")
+      else if(bfr == "location")
       {
          cam.setLocation(PovUtil::readVec3(stream));
       }

@@ -38,6 +38,7 @@ private:
    //Vector from location to view screen
    Vector3 direction;
 
+   bool initLookAt;
    Vector3 look_at;
    Vector3 sky;
    //Relative height and width of the viewScreen

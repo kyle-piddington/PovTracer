@@ -6,6 +6,7 @@
  */
 class Ray
 {
-
+   Vector3 begin;
+   Vector3 direction;
 };
 #endif

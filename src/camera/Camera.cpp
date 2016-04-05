@@ -3,6 +3,7 @@
 Camera::Camera():
   location(0,0,0),
   direction(0,0,1),
+  initLookAt(false),
   look_at(0,0,1),
   sky(0,1,0),
   upVec(0,1,0),
@@ -19,6 +20,7 @@ void Camera::setLocation(const Vector3 & location)
 void Camera::setLookAt(const Vector3 & look_at)
 {
   this->look_at = look_at;
+  initLookAt=true;
 }
 void Camera::setSky(const Vector3 & sky)
 {
@@ -42,7 +44,6 @@ void Camera::setAngle(const double angle)
   this->direction  = this->direction.normalized() * dirLen;
 }
 
-
 const Vector3 & Camera::getLocation() const
 {
   return this->location;
@@ -65,6 +66,11 @@ const Vector3 & Camera::getUp() const
  */
 void Camera::init()
 {
+  if(!initLookAt)
+  {
+    this->look_at = this->location + Vector3(0,0,1);
+  }
+
   this->direction = (this->look_at - this->location).normalized() * direction.norm();
   this->upVec = 
     (this->sky - Maths::project(this->sky,this->direction)) * this->upVec.norm();

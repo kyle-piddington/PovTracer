@@ -6,9 +6,14 @@
  * to render  a scene. PovrayParser
  * also performs some validation and throws exceptions as neccesary
  */
+#include <memory>
+#include "scene/Scene.hpp"
+#include <string>
+
 class PovParser
 {
 public:
-   static std::shared_ptr<Scene> createScene(std::string povFile);
+   static std::shared_ptr<Scene> CreateScene(std::string povFile);
+   static std::shared_ptr<Scene> CreateScene(std::stringstream file);
 };
 #endif

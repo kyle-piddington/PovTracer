@@ -34,5 +34,29 @@ SCENARIO("Camera state accepts a stream","[Parse]")
             REQUIRE(dir.z() == -1.f);
          }
       }
+      WHEN("A camera with a comment is read")
+      {
+         std::stringstream file;
+         file << "{\n\
+                     location  <0, 0, 14>\n\
+                     //{Hello world}\n\
+                     look_at   <0, 0, 0>\n\
+                  }";
+         auto next = cState.accept(file);
+
+         THEN("The comment should be ignored.")
+         {
+            Vector3 loc = scene->getCamera().getLocation();
+            REQUIRE(loc.x() == 0.f);
+            REQUIRE(loc.y() == 0.f);
+            REQUIRE(loc.z() == 14.f);
+            Vector3 dir = scene->getCamera().getDirection();
+            REQUIRE(dir.x() == 0.f);
+            REQUIRE(dir.y() == 0.f);
+            REQUIRE(dir.z() == -1.f);
+
+         }
+        
+      }
    }
 }

@@ -2,7 +2,10 @@
 
 ParseState * EndState::accept(std::stringstream & token)
 {
-   throw ParseException(token.str(),"Accept called on end state");
+   token.str(std::string());
+   token.clear();
+   return this;
+   //throw ParseException(token.str(),"Accept called on end state");
 }
 
 std::string EndState::toString()

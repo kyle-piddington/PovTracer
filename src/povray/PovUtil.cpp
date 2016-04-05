@@ -20,6 +20,13 @@ bool PovUtil::isComment(const std::string & comment)
    }
 }
 
+void PovUtil::processComment(std::stringstream & istream)
+{
+   //Read until newline
+   std::string bfr;
+   std::getline(istream, bfr);
+}
+ 
 void checkStream(std::stringstream & stream, std::string err)
 {
    if(stream.fail())
@@ -32,6 +39,7 @@ Vector3 PovUtil::readVec3(std::stringstream & istream)
    Vector3 vector;
    char dummy;
    istream >> dummy; //Read <
+   assert(dummy == '<');
    //Try to read out 3 floats
    istream >> vector[0];
    checkStream(istream, "Could not parse X");
@@ -42,5 +50,29 @@ Vector3 PovUtil::readVec3(std::stringstream & istream)
    istream >> vector[2];
    checkStream(istream, "Could not parse Z");
    istream >> dummy; //Read >
+   assert(dummy == '>');
+   return vector;
+}
+Vector4 PovUtil::readVec4(std::stringstream & istream)
+{
+   Vector4 vector;
+   char dummy;
+   istream >> dummy; //Read <
+   assert(dummy == '<');
+   //Try to read out 3 floats
+   istream >> vector[0];
+   checkStream(istream, "Could not parse X");
+   istream >> dummy; // Read ,
+   istream >> vector[1];
+   checkStream(istream, "Could not parse Y");
+   istream >> dummy; //Read ,
+   istream >> vector[2];
+   checkStream(istream, "Could not parse Z");
+   istream >> dummy; //Read ,
+   istream >> vector[3];
+   checkStream(istream, "Could not parse Z");
+   
+   istream >> dummy; //Read >
+   assert(dummy == '>');
    return vector;
 }

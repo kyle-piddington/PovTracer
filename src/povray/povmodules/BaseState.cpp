@@ -11,11 +11,12 @@ ParseState * BaseState::accept(std::stringstream & stream)
    if(!stream.str().empty())
    {
       std::string state;
-      do
+      stream >> state;
+      if(PovUtil::isComment(state))
       {
-         stream >> state;
+         PovUtil::processComment(stream);
+         return this;
       }
-      while(PovUtil::isComment(state));
       if(state.empty())
       {
          return transition(&PovStates::endState);
