@@ -11,10 +11,14 @@ class FinishState : public ParseState{
     */
 public:
    /**
+    * Construct an invalid finish state
+    */
+   FinishState();
+   /**
     * Construct a finish state with an object to work on,
     * and a parse state to transition back to.
     */
-   FinishState(Finish & finishObject, ParseState * parent);
+   FinishState(Finish * finishObject, ParseState * parent);
    
    /**
     * Read in a whole finish stream, and return.
@@ -27,6 +31,6 @@ public:
 
 private:
    ParseState * parent;
-   Finish & fObject;
+   Finish * fObject;
 };
 #endif

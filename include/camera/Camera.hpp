@@ -2,6 +2,7 @@
 #define __CAMERA_H__
 #include <Eigen/Dense>
 #include "Precision.hpp"
+#include "base/Ray.hpp"
 /**
  * A camera creates a 
  * virtual point and a view screen
@@ -10,6 +11,14 @@ class Camera
 {
 public:
    Camera();
+   /**
+    * Get a ray from the camera in a direction
+    * @param  u The u-value, from -0.5 to 0.5
+    * @param  v the v-value, from -0.5 to 0.5   
+    * @return   A ray
+    */
+   Ray getRay(Amount u, Amount v) const;
+
    /**
     * Setters
     */

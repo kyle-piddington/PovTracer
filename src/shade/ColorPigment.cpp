@@ -14,3 +14,12 @@ Color4 ColorPigment::getColor(const Hit & hit) const
 {
    return thisColor;
 }
+
+std::shared_ptr<IPigment> ColorPigment::CreateDefault()
+{
+   return std::shared_ptr<IPigment>(new ColorPigment(Color3(1,0,0)));
+}
+std::shared_ptr<IPigment> ColorPigment::Create(const Color3 & color)
+{
+   return std::shared_ptr<IPigment>(new ColorPigment(color));
+}

@@ -1,14 +1,26 @@
 #include "povray/povmodules/FinishState.hpp"
 #include "povray/PovUtil.hpp"
 #include "povray/povmodules/PovStates.hpp"
-FinishState::FinishState(Finish & finishObject, ParseState * parent):
+FinishState::FinishState(Finish * finishObject, ParseState * parent):
    fObject(finishObject),
    parent(parent)
    {
 
    }
+FinishState::FinishState():
+   fObject(nullptr),
+   parent(nullptr)
+{
+
+}
 ParseState * FinishState::accept(std::stringstream & stream)
 {
+
+   if(fObject == nullptr)
+   {
+      throw ParseException(stream.str(), "Finish state  called without setting finish object");
+   }
+
    std::string bfr;
    Amount numBuffer;
    stream >> bfr; //Read '{''
@@ -27,32 +39,32 @@ ParseState * FinishState::accept(std::stringstream & stream)
       if(bfr == "ambient")
       {
 
-         fObject.setAmbient(numBuffer);
+         fObject->setAmbient(numBuffer);
       }
       else if(bfr == "diffuse")
       {
-         fObject.setDiffuse(numBuffer);
+         fObject->setDiffuse(numBuffer);
       }
       else if(bfr == "specular")
       {
-         fObject.setSpecular(numBuffer);
+         fObject->setSpecular(numBuffer);
       }
       else if(bfr == "roughness")
       {
-         fObject.setRoughness(numBuffer);
+         fObject->setRoughness(numBuffer);
       }
       else if(bfr == "reflection")
       {
 
-         fObject.setReflection(numBuffer);
+         fObject->setReflection(numBuffer);
       }
       else if(bfr == "refraction")
       {
-         fObject.setRefraction(numBuffer);
+         fObject->setRefraction(numBuffer);
       }
       else if(bfr == "ior")
       {
-         fObject.setIor(numBuffer);
+         fObject->setIor(numBuffer);
       }
       else
       {

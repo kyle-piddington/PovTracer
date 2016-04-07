@@ -14,7 +14,7 @@ TEST_CASE("Read rgb color","[Parse]")
    std::shared_ptr<IPigment> pigment;
    PigmentState state(&pigment, nullptr);
    state.accept(stream);
-   Color4 col = pigment->getColor(Hit());
+   Color4 col = pigment->getColor(Hit(Ray()));
    REQUIRE(col[0] == 0.2f);
    REQUIRE(col[1] == 0.3f);
    REQUIRE(col[2] == 0.8f);
@@ -32,7 +32,7 @@ TEST_CASE("Read rgbf 4 state","[Parse]")
    PigmentState state(&pigment, nullptr);
    state.accept(stream);
    REQUIRE(pigment != nullptr);
-   Color4 col = pigment->getColor(Hit());
+   Color4 col = pigment->getColor(Hit(Ray()));
    REQUIRE(col[0] == 0.2f);
    REQUIRE(col[1] == 0.3f);
    REQUIRE(col[2] == 0.8f);

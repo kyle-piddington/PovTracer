@@ -1,5 +1,6 @@
 #include "camera/Camera.hpp"
 #include "math/Maths.hpp"
+#include "base/Ray.hpp"
 Camera::Camera():
   location(0,0,0),
   direction(0,0,1),
@@ -12,7 +13,13 @@ Camera::Camera():
 
   }
 
-
+Ray Camera::getRay(Amount u, Amount v) const
+{
+  Ray r;
+  r.origin = this->location;
+  r.direction = rightVec * u + upVec * v + direction;
+  return r;
+}
 void Camera::setLocation(const Vector3 & location)
 {
   this->location = location;
@@ -74,7 +81,7 @@ void Camera::init()
   this->direction = (this->look_at - this->location).normalized() * direction.norm();
   this->upVec = 
     (this->sky - Maths::project(this->sky,this->direction)) * this->upVec.norm();
-  this->rightVec =  (upVec.cross(direction)).normalized() * this->rightVec.norm();
+  this->rightVec =  (direction.cross(upVec)).normalized() * this->rightVec.norm();
 
 
 }

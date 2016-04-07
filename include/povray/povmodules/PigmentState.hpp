@@ -17,6 +17,8 @@ public:
     */
    PigmentState(std::shared_ptr<IPigment> * pigment, ParseState * parent);
 
+   PigmentState();
+
    /**
     * Read in a whole finish stream, and return.
     * @param  token the stream to read

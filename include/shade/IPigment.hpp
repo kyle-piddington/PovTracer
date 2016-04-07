@@ -11,5 +11,6 @@ class IPigment
 {
 public:
    virtual Color4 getColor(const Hit & hit) const = 0;
+   
 };
 #endif

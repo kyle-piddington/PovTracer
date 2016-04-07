@@ -12,5 +12,7 @@ namespace Maths
    Vector3 project(Vector3 v, Vector3 u);
 
    Quaternion quatFromEuler(Vector3 euler);
+
+   Matrix4 Matrix4_cast(const Quaternion & q);
 }
 #endif

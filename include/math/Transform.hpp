@@ -37,13 +37,13 @@ public:
     * @param angle the angle
     * @param axis  the axis to rotate on
     */
-   void setRotation(Amount angle, const Vector3 & axis);
+   void setRotation(Amount angle, Vector3 axis);
 
     /* Set the rotation using a straight quaternion
     * @param angle the angle
     * @param axis  the axis to rotate on
     */
-   void setRotation(const glm::quat & q);
+   void setRotation(const Quaternion & q);
    /**
     * Move by a vector
     * @param pos the delta vector
@@ -62,19 +62,7 @@ public:
     */
    void rotate(Amount angle, const Vector3 & axis, Space::spaceType type = Space::WORLD);
    
-   /**
-    * Orient the transform to point towards a target
-    * @param target the target position
-    */
-   void lookAt(Vector3 target,Vector3 up = World::Up);
-
-   /**
-    * Orient the transform to point along a vector
-    * @param forward the new forward vector
-    * @param up      the world's up direction.
-    */
-   void lookAlong(Vector3 forward, Vector3 up = World::Up);
-
+  
    /**
     * Scale the transform
     */
@@ -88,13 +76,9 @@ public:
     * Get the current rotation expressed as a quaternion
     * @return [description]
     */
-   glm::quat getRotation() const;
+   Quaternion getRotation() const;
 
-   /**
-    * Get the rotation expressed as euler angles
-    * @return euler angle rotation
-    */
-   Vector3 getRotationEuler() const;
+   
 
    /**
     * Get the scale of the transform

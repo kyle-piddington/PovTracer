@@ -1,20 +1,22 @@
-#include "Transform.h"
+#include "math/Transform.hpp"
 #include <iostream>
 #include "math/Maths.hpp"
+#include "scene/World.hpp"
 
-#define GLM_FORCE_RADIANS
+
 
 Transform::Transform():
-   position(Vector3(0)),
-   rotation(Vector3(0.0)),
-   scale(Vector3(1.0)),
+   position(Vector3(0,0,0)),
+   rotation(Maths::quatFromEuler(Vector3(0,0,0))),
+   scale(Vector3(1,1,1)),
    localUp(Vector4(World::Up[0],World::Up[1],World::Up[2],0.0)),
    localRight(Vector4(World::Right[0],World::Right[1],World::Right[2],0.0)),
    localForward(Vector4(World::Forward[0],World::Forward[1],World::Forward[2],0.0)),
-   currentMatrix(Matrix4(1.0)),
+   currentMatrix(),
    isDirty(false),
    parent(nullptr)
    {
+      currentMatrix.setIdentity();
    }
 
 Transform::Transform(const Transform & other):
@@ -45,23 +47,24 @@ void Transform::setRotation(const Vector3 & eulerAngles)
    updateFrame();
 }
 
-void Transform::setRotation(float angle, const Vector3 & axis)
+void Transform::setRotation(float angle, Vector3 axis)
 {
    //Assert axis greater than zero
-   if(axis.length() == 0)
+   
+   if(axis.norm() == 0)
    {
       assert(false);
    }
-   glm::normalize(axis);
+   axis.normalize();
 
-   this->rotation = AngleAxis<Amount>(angle,axis);
+   this->rotation = Eigen::AngleAxis<Amount>(angle,axis);
 
    isDirty = true;
    //glm::normalize(this->rotation);
    updateFrame();
 }
 
-void Transform::setRotation(const glm::quat & quat)
+void Transform::setRotation(const Quaternion & quat)
 {
    this->rotation = quat;
    isDirty = true;
@@ -73,7 +76,8 @@ void Transform::translate(const Vector3 & pos, Space::spaceType type)
    Vector3 transPosition = pos;
    if(type == Space::LOCAL)
    {
-      transPosition = Vector3(getMatrix() * Vector4(pos,0.0));
+      Vector4 tmp = (getMatrix() * Vector4(pos.x(),pos.y(),pos.z(),0.0));
+      transPosition = Vector3(tmp.x(),tmp.y(),tmp.z());
    }
    this->position += transPosition;
    isDirty = true;
@@ -92,7 +96,7 @@ void Transform::copy(Transform & other)
 void Transform::rotate(const Vector3 eulerAngles, Space::spaceType type)
 {
    
-   this->rotation = glm::normalize(this->rotation * glm::quat(eulerAngles));
+   this->rotation = (this->rotation * Maths::quatFromEuler(eulerAngles)).normalized();
    isDirty = true;
  
    updateFrame();
@@ -100,7 +104,7 @@ void Transform::rotate(const Vector3 eulerAngles, Space::spaceType type)
 
 void Transform::rotate(float angle, const Vector3 & axis, Space::spaceType space)
 {
-   if(axis.length() == 0)
+   if(axis.norm() == 0)
    {
       assert(false);
    }
@@ -108,14 +112,14 @@ void Transform::rotate(float angle, const Vector3 & axis, Space::spaceType space
    Vector3 localAxis = axis;
    if(space == Space::WORLD)
    {
-      Matrix4 rotMtx = Matrix4_cast(rotation);
-      localAxis = Vector3(rotMtx * Vector4(axis,0.0));
+      Matrix4 rotMtx = Maths::Matrix4_cast(rotation);
+      Vector4 tmp = (rotMtx * Vector4(axis.x(),axis.y(),axis.z(),0.0));
+      localAxis = Vector3(tmp.x(),tmp.y(),tmp.z());
    }
-   glm::normalize(localAxis);
+   localAxis.normalize();
 
 
-   glm::quat newQuat = AngleAxis<Amount>(angle,localAxis);
-   this->rotation = glm::normalize(this->rotation * newQuat);
+   this->rotation = (this->rotation * Eigen::AngleAxis<Amount>(angle,localAxis)).normalized();
    isDirty = true;
  
    updateFrame();
@@ -126,33 +130,30 @@ Vector3 Transform::getPosition(Space::spaceType type) const
    if(type == Space::LOCAL || parent == nullptr)
       return position;
    else
-      return Vector3(parent->getMatrix() * Vector4(position,1.0));
+      return (parent->getMatrix() * Vector4(position.x(),position.y(),position.z(),1.0)).segment<3>(0);
 }
-glm::quat Transform::getRotation() const
+Quaternion Transform::getRotation() const
 {
    return rotation;
 }
 
-Vector3 Transform::getRotationEuler() const
-{
-   return glm::eulerAngles(rotation);
-}
+
 const Matrix4 & Transform::getMatrix()
 {
    if(isDirty)
    { 
 
 
-      Matrix4 s =    Matrix4(this->scale.x,0,0,0,
-                                 0,this->scale.y,0,0,
-                                 0,0,this->scale.z,0,
-                                 0,0,0,1);
+      Matrix4 s; s <<   this->scale.x(),0,0,0,
+                                 0,this->scale.y(),0,0,
+                                 0,0,this->scale.z(),0,
+                                 0,0,0,1;
 
-      Matrix4 t =    Matrix4(1,0,0,0,
+      Matrix4 t; t<<             1,0,0,0,
                                  0,1,0,0,
                                  0,0,1,0,
-                                 this->position.x,this->position.y,this->position.z,1);
-      currentMatrix =   t * Matrix4_cast(rotation) * s;
+                                 this->position.x(),this->position.y(),this->position.z(),1;
+      currentMatrix =   t * Maths::Matrix4_cast(rotation) * s;
       isDirty = false;
 
    }
@@ -163,57 +164,6 @@ const Matrix4 & Transform::getMatrix()
    return currentMatrix;
 }
 
-void Transform::lookAt(Vector3 target, Vector3 upVec)
-{
-   /*Vector forward = lookAt.Normalized();
-   Vector right = Vector::Cross(up.Normalized(), forward);
-   Vector up = Vector::Cross(forward, right);*/
-
-   Vector3 forward = glm::normalize(target-position);
-   Vector3 up = glm::orthonormalize(upVec, forward); // Keeps up the same, make forward orthogonal to up
-   Vector3 right = glm::normalize(glm::cross(forward, up));
-
-   Matrix4 rotMat;
-   rotMat[0] = Vector4(right.x,right.y,right.z,0);
-   rotMat[1] = Vector4(up.x, up.y, up.z, 0);
-   rotMat[2] = Vector4(-forward.x, -forward.y, -forward.z, 0);
-   rotMat[3] = Vector4(0,0,0,1);
-   //Create a quaternion from the three vectors above.
-   glm::quat ret = glm::quat_cast(rotMat);
-
-
-   this->rotation = glm::normalize(ret);
-   isDirty = true;
-   updateFrame();
-
-
-
-}
-void Transform::lookAlong(Vector3 forward, Vector3 upVec)
-{
-   /*Vector forward = lookAt.Normalized();
-   Vector right = Vector::Cross(up.Normalized(), forward);
-   Vector up = Vector::Cross(forward, right);*/
-   
-   Vector3 up = glm::orthonormalize(upVec, forward); // Keeps up the same, make forward orthogonal to up
-   Vector3 right = glm::normalize(glm::cross(forward, up));
-
-   Matrix4 rotMat;
-   rotMat[0] = Vector4(right.x,right.y,right.z,0);
-   rotMat[1] = Vector4(up.x, up.y, up.z, 0);
-   rotMat[2] = Vector4(-forward.x, -forward.y, -forward.z, 0);
-   rotMat[3] = Vector4(0,0,0,1);
-   //Create a quaternion from the three vectors above.
-   glm::quat ret = glm::quat_cast(rotMat);
-
-
-   this->rotation = glm::normalize(ret);
-   isDirty = true;
-   updateFrame();
-
-
-
-}
 
 void Transform::setScale(Vector3 scale)
 {
@@ -223,30 +173,30 @@ void Transform::setScale(Vector3 scale)
 
 Vector3 Transform::up(Space::spaceType type) const
 {
-   Vector3 vec =  Vector3(localUp);
+   Vector3 vec =  localUp.segment<3>(0);
    if(type == Space::WORLD)
    {
-      vec = Vector3(parent->getMatrix() * Vector4(vec,0.0));
+      vec = (parent->getMatrix() * Vector4(vec.x(),vec.y(),vec.z(),0.0)).segment<3>(0);
    }
    return vec;
 }
 
 Vector3 Transform::right(Space::spaceType type) const
 {
-   Vector3 vec =  Vector3(localRight);
+   Vector3 vec =  localRight.segment<3>(0);
    if(type == Space::WORLD)
    {
-      vec = Vector3(parent->getMatrix() * Vector4(vec,0.0));
+      vec = (parent->getMatrix() * Vector4(vec.x(),vec.y(),vec.z(),0.0)).segment<3>(0);
    }
    return vec;
 }
 
 Vector3 Transform::forward(Space::spaceType type) const
 {
-   Vector3 vec =  Vector3(localForward);
+   Vector3 vec =  localForward.segment<3>(0);
    if(type == Space::WORLD)
    {
-      vec = Vector3(parent->getMatrix() * Vector4(vec,0.0));
+      vec = (parent->getMatrix() * Vector4(vec.x(),vec.y(),vec.z(),0.0)).segment<3>(0);
    }
    return vec;
 }
@@ -258,25 +208,25 @@ Vector3 Transform::getScale() const
 void Transform::updateFrame()
 {
 
-   Vector4 wUp(World::Up,0.0);
-   Vector4 wRt(World::Right,0.0);
-   Vector4 wFw(World::Forward,0.0);
-   Matrix4 rotMtx = Matrix4_cast(rotation);
-   localRight = glm::normalize(rotMtx * wRt);
-   localUp = glm::normalize(rotMtx * wUp);
-   localForward = glm::normalize(rotMtx * wFw);
+   Vector4 wUp; wUp << World::Up,0.0;
+   Vector4 wRt; wRt << World::Right,0.0;
+   Vector4 wFw; wFw << World::Forward,0.0;
+   Matrix4 rotMtx = Maths::Matrix4_cast(rotation);
+   localRight = (rotMtx * wRt).normalized();
+   localUp = (rotMtx * wUp).normalized();
+   localForward = (rotMtx * wFw).normalized();
 
 
 }
 
 void Transform::setIdentity()
 {
-   position = (Vector3(0));
-   rotation = glm::quat(Vector3(0.0));
+   position = (Vector3(0,0,0));
+   rotation = Maths::quatFromEuler(Vector3(0,0,0));
    scale = (Vector3(1.0));
-   localUp = (Vector4(World::Up,0.0));
-   localRight = (Vector4(World::Right,0.0));
-   localForward = (Vector4(World::Forward,0.0));
-   currentMatrix= (Matrix4(1.0));
+   localUp << World::Up,0.0 ;
+   localRight <<  World::Right,0.0;
+   localForward  << World::Forward,0.0;
+   currentMatrix.setIdentity();
    isDirty = (true);
 }
