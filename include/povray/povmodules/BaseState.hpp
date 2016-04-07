@@ -7,6 +7,6 @@ class BaseState : public ParseState{
     */
 public:
    std::string toString();
-   ParseState * accept(std::stringstream & token);
+   ParseState * accept(std::istream & token);
 };
 #endif

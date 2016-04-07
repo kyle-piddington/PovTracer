@@ -5,6 +5,7 @@ class Renderer
 {
 public:
    Renderer(int imgw, int imgh, std::shared_ptr<Scene> scene);
+   virtual ~Renderer();
    /**
     * Get the ray for a given pixel, with 0,0 being the
     * top left pixel
@@ -14,7 +15,14 @@ public:
     */
    Ray getRayForPx(int px, int py);
 
+   virtual void init();
+
+   virtual void shutdown();
+
+   virtual Color4 shade(Hit & hit);
+
 private:
+
    int width;
    int height;
    std::shared_ptr<Scene> scenePtr;

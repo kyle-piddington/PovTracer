@@ -11,5 +11,8 @@ struct Ray
    Ray(Vector3 orig, Vector3 dir);
    Vector3 origin;
    Vector3 direction;
+
+   friend std::ostream& operator<<(std::ostream& os, const Ray& ray);
+
 };
 #endif

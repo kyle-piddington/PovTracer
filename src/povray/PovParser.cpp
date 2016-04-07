@@ -7,12 +7,13 @@
 #include "povray/povmodules/PovStates.hpp"
 
 
-std::shared_ptr<Scene> parseScene(std::stringstream & buffer)
+std::shared_ptr<Scene> parseScene(std::istream & buffer)
 {
    std::shared_ptr<Scene> scenePtr = std::make_shared<Scene>();
+   PovStates::SetScene(scenePtr);
    ParseState * cState = &PovStates::baseState;
    cState->setScene(scenePtr);
-   while(!buffer.str().empty())
+   while(!buffer.eof())
    {
       cState = cState->accept(buffer);
    }
@@ -35,7 +36,7 @@ std::shared_ptr<Scene> PovParser::CreateScene(std::string povFile)
    }
 }
 
-std::shared_ptr<Scene> PovParser::CreateScene(std::stringstream bfr)
+std::shared_ptr<Scene> PovParser::CreateScene(std::istream & bfr)
 {
    return parseScene(bfr);
 }

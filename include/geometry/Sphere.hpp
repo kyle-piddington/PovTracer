@@ -11,7 +11,7 @@ public:
    void setPosition(Vector3 position);
    void setRadius(Amount radius);
 
-   virtual Color4 shade(const Hit & hit);
+
    virtual Hit intersect(const Ray & ray);
 
 private:

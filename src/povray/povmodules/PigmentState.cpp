@@ -2,6 +2,12 @@
 #include "povray/PovUtil.hpp"
 #include "povray/povmodules/PovStates.hpp"
 #include "shade/ColorPigment.hpp"
+PigmentState::PigmentState():
+   pigmentPtr(nullptr),
+   parent(nullptr)
+   {
+
+   }
 PigmentState::PigmentState(std::shared_ptr<IPigment> * ptr, ParseState * parent):
    pigmentPtr(ptr),
    parent(parent)
@@ -9,13 +15,7 @@ PigmentState::PigmentState(std::shared_ptr<IPigment> * ptr, ParseState * parent)
 
    }
 
-PigmentState::PigmentState():
-   pigmentPtr(nullptr),
-   parent(nullptr)
-   {
-
-   }
-void PigmentState::processColorPigment(std::stringstream & stream)
+void PigmentState::processColorPigment(std::istream & stream)
 {
 
    std::string type;
@@ -39,16 +39,12 @@ void PigmentState::processColorPigment(std::stringstream & stream)
 
 }
 
-ParseState * PigmentState::accept(std::stringstream & stream)
+ParseState * PigmentState::accept(std::istream & stream)
 {
    std::string bfr;
    Amount numBuffer;
    stream >> bfr; //Read '{''
    stream >> bfr;
-   if(pigmentPtr == nullptr)
-   {
-      throw ParseException(bfr, "PigmentState entered without a pigment");
-   }
    while(bfr.find("}") == std::string::npos || PovUtil::isComment(bfr))
    {
       if(PovUtil::isComment(bfr))

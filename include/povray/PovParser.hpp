@@ -14,6 +14,6 @@ class PovParser
 {
 public:
    static std::shared_ptr<Scene> CreateScene(std::string povFile);
-   static std::shared_ptr<Scene> CreateScene(std::stringstream file);
+   static std::shared_ptr<Scene> CreateScene(std::istream & file);
 };
 #endif

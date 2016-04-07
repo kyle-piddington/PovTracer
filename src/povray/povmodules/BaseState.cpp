@@ -1,6 +1,6 @@
 #include "povray/PovUtil.hpp"
 #include "povray/povmodules/PovStates.hpp"
-ParseState * BaseState::accept(std::stringstream & stream)
+ParseState * BaseState::accept(std::istream & stream)
 {
    //Possible states for base to transition to
    //are the following:
@@ -8,7 +8,7 @@ ParseState * BaseState::accept(std::stringstream & stream)
    //Sphere
    //light_source
    //Plane
-   if(!stream.str().empty())
+   if(!stream.eof())
    {
       std::string state;
       stream >> state;

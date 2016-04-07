@@ -56,10 +56,11 @@ std::ostream& operator<<(std::ostream& os, const Hit& hit)
 {
    if(hit.didHit())
    {
-      os << "Hit: " << hit.getHitpoint().transpose() << " : " << hit.getDistance();
+      os << "hit position " << hit.getHitpoint().transpose() << " :  t = " << hit.getDistance();
    }
    else
    {
       os << "Hit: No Intersection";
    }
+   return os;
 }

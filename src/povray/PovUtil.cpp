@@ -20,21 +20,21 @@ bool PovUtil::isComment(const std::string & comment)
    }
 }
 
-void PovUtil::processComment(std::stringstream & istream)
+void PovUtil::processComment(std::istream & istream)
 {
    //Read until newline
    std::string bfr;
    std::getline(istream, bfr);
 }
  
-void checkStream(std::stringstream & stream, std::string err)
+void checkStream(std::istream & stream, std::string err)
 {
    if(stream.fail())
    {
       throw ParseException("--", err);
    }
 }
-Vector3 PovUtil::readVec3(std::stringstream & istream)
+Vector3 PovUtil::readVec3(std::istream & istream)
 {
    Vector3 vector;
    char dummy;
@@ -53,7 +53,7 @@ Vector3 PovUtil::readVec3(std::stringstream & istream)
    assert(dummy == '>');
    return vector;
 }
-Vector4 PovUtil::readVec4(std::stringstream & istream)
+Vector4 PovUtil::readVec4(std::istream & istream)
 {
    Vector4 vector;
    char dummy;

@@ -24,13 +24,13 @@ public:
     * @param  token the stream to read
     * @return       the parent state.
     */
-   ParseState * accept(std::stringstream & token);
+   ParseState * accept(std::istream & token);
 
 
    std::string toString();
 
 private:
-   void processColorPigment(std::stringstream & stream);
+   void processColorPigment(std::istream & stream);
 
    ParseState * parent;
    std::shared_ptr<IPigment> * pigmentPtr;

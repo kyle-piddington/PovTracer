@@ -14,7 +14,7 @@
 
 #define Matrix4 Eigen::Matrix4f
 #define Quaternion  Eigen::Quaternionf
- 
+
 #define Amount float
 
 #define kEpsilon 0.001

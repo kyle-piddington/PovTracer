@@ -5,6 +5,9 @@
 #include "EndState.hpp"
 #include "PigmentState.hpp"
 #include "FinishState.hpp"
+#include "SphereState.hpp"
+#include "ObjectModifierState.hpp"
+#include "scene/Scene.hpp"
 struct PovStates
 {
    static BaseState baseState;
@@ -12,6 +15,9 @@ struct PovStates
    static EndState endState;
    static PigmentState pigmentState;
    static FinishState finishState;
+   static SphereState sphereState;
+   static ObjectModifierState objectState;
 
+   static void SetScene(std::shared_ptr<Scene> scenePtr);
 };
 #endif

@@ -1,6 +1,7 @@
 #ifndef __PARSESTATE_H__
 #define __PARSESTATE_H__
 #include <sstream>
+#include <istream>
 #include "scene/Scene.hpp"
 #include "povray/ParseException.hpp"
 /**
@@ -18,7 +19,7 @@ public:
    * @param  povFile The stream containing file data.
    * @return         a new state of parsing.
    */
-   virtual ParseState * accept(std::stringstream & povFile) = 0;
+   virtual ParseState * accept(std::istream & povFile) = 0;
    virtual std::string toString() = 0;
    void setScene(std::shared_ptr<Scene> scene);
 protected:

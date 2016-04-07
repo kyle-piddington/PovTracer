@@ -17,7 +17,7 @@ Ray Camera::getRay(Amount u, Amount v) const
 {
   Ray r;
   r.origin = this->location;
-  r.direction = rightVec * u + upVec * v + direction;
+  r.direction = (rightVec * u + upVec * v + direction).normalized();
   return r;
 }
 void Camera::setLocation(const Vector3 & location)

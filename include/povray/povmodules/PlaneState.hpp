@@ -20,7 +20,7 @@ public:
     * @param  token the stream to read
     * @return       the parent state.
     */
-   ParseState * accept(std::stringstream & token);
+   ParseState * accept(std::istream & token);
 
    std::string toString();
 

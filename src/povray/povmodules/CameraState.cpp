@@ -5,7 +5,7 @@
 /**
  * The camera state looks like the following:
  */
-ParseState * CameraState::accept(std::stringstream & stream)
+ParseState * CameraState::accept(std::istream & stream)
 {
    Camera cam;
    std::string bfr;

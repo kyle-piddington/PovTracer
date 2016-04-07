@@ -2,10 +2,23 @@
 #include "povray/povmodules/PovStates.hpp"
 #include "povray/PovUtil.hpp"
 #include "camera/Camera.hpp"
+
+ObjectModifierState::ObjectModifierState():
+   geometry(nullptr)
+   {
+
+   }
+ObjectModifierState::ObjectModifierState(IGeometry * object):
+   geometry(object)
+   {
+
+   }
+
+   
 /**
  * The camera state looks like the following:
  */
-ParseState * ObjectModifierState::accept(std::stringstream & stream)
+ParseState * ObjectModifierState::accept(std::istream & stream)
 {
    std::string bfr;
    stream >> bfr;
@@ -14,7 +27,7 @@ ParseState * ObjectModifierState::accept(std::stringstream & stream)
       throw ParseException(bfr, "Object modifier state entered without an object!");
       
    }
-   while(bfr.find("}") == std::string::npos || PovUtil::isComment(bfr))
+   if(bfr.find("}") == std::string::npos || PovUtil::isComment(bfr))
    {
       
       if(PovUtil::isComment(bfr))

@@ -13,18 +13,19 @@ FinishState::FinishState():
 {
 
 }
-ParseState * FinishState::accept(std::stringstream & stream)
+ParseState * FinishState::accept(std::istream & stream)
 {
 
-   if(fObject == nullptr)
-   {
-      throw ParseException(stream.str(), "Finish state  called without setting finish object");
-   }
+
 
    std::string bfr;
    Amount numBuffer;
    stream >> bfr; //Read '{''
    stream >> bfr;
+   if(fObject == nullptr)
+   {
+      throw ParseException(bfr, "Finish state  called without setting finish object");
+   }
    //While end not found and or is comment
    while(bfr.find("}") == std::string::npos  || PovUtil::isComment(bfr))
    {
@@ -65,6 +66,7 @@ ParseState * FinishState::accept(std::stringstream & stream)
       else if(bfr == "ior")
       {
          fObject->setIor(numBuffer);
+  
       }
       else
       {

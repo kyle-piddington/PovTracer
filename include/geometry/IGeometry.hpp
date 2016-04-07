@@ -20,7 +20,7 @@ public:
    
     IGeometry();
 
-   virtual Color4 shade(const Hit & hit) = 0;
+
    virtual Hit intersect(const Ray & ray) = 0;
 
 

@@ -4,7 +4,8 @@ TEST_CASE("Blank Parse","[Parser]")
 {
    std::string test = 
    "";
-   auto scene = PovParser::CreateScene(std::stringstream(test));
+   std::stringstream file(test);
+   auto scene = PovParser::CreateScene(file);
    auto camera = scene->getCamera();
    REQUIRE(camera.getLocation() == Vector3(0,0,0));
    REQUIRE(camera.getDirection() == Vector3(0,0,1));
@@ -22,7 +23,8 @@ TEST_CASE("Setting up camera","[Parser]")
                      location  <0, 0, 14>\n\
                      look_at   <0, 0, 0>\n\
    }";
-   auto scene = PovParser::CreateScene(std::stringstream(test));
+   std::stringstream file(test);
+   auto scene = PovParser::CreateScene(file);
    auto camera = scene->getCamera();
    REQUIRE(camera.getLocation().z() == 14);
 

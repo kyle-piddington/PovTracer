@@ -22,13 +22,7 @@ void Sphere::setRadius(Amount radius)
 {
    rad = radius;
 }
-/**
- * For now, the shade returns a solid color
- */
-Color4 Sphere::shade(const Hit & hit)
-{
-   return this->getPigment()->getColor(hit);
-}
+
 
 Hit Sphere::intersect(const Ray & ray)
 {
@@ -46,7 +40,10 @@ Hit Sphere::intersect(const Ray & ray)
    }
    else
    {
-      Amount t = (-B - sqrt(det))/(2*A);
+      Amount sqDet = sqrt(det);
+      Amount t1 = (-B - sqDet)/(2*A);
+      Amount t2 = (-B + sqDet)/(2*A);
+      Amount t = std::min(t1,t2);
       if(t < kEpsilon)
       {
          return Hit(ray);

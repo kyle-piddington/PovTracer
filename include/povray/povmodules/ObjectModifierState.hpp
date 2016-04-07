@@ -13,22 +13,22 @@ public:
     */
    ObjectModifierState();
    /**
-    * Construct a ObjectModifier state with an object to work on,
-    * and a parse state to transition back to.
+    * Construct a ObjectModifier state with an object to work on
+    * After parsing finishes, the state returns to the base state.
     */
-   ObjectModifierState(IGeometry * object, ParseState * parent);
+   ObjectModifierState(IGeometry * object);
    
    /**
     * Read in a whole ObjectModifier stream, and return.
     * @param  token the stream to read
     * @return       the parent state.
     */
-   ParseState * accept(std::stringstream & token);
+   ParseState * accept(std::istream & token);
 
    std::string toString();
 
 private:
-   ParseState * parent;
+
    IGeometry * geometry;
 };
 #endif

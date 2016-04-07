@@ -8,6 +8,6 @@ class EndState : public ParseState
 {
 
 public:
-   ParseState * accept(std::stringstream & token);
+   ParseState * accept(std::istream & token);
    std::string toString();
 };
