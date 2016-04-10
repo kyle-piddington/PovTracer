@@ -1,3 +1,5 @@
+#ifndef __ENDSTATE_H__
+#define __ENDSTATE_H__ 
 #include "ParseState.hpp"
 /**
  * The end state should never have accept called on
@@ -11,3 +13,4 @@ public:
    ParseState * accept(std::istream & token);
    std::string toString();
 };
+#endif

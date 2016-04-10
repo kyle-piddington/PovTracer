@@ -3,6 +3,7 @@
 #include "camera/Camera.hpp"
 #include "geometry/IGeometry.hpp"
 #include "geometry/Sphere.hpp"
+#include "geometry/Plane.hpp"
 #include <vector>
 /**
  * The Scene represents all active geometry, camera,
@@ -13,6 +14,9 @@ class Scene
 {
 
 public:
+
+   Scene();
+
    /**
     * Set the camera for the scene
     * @param cam the camera to view the scene from.
@@ -36,12 +40,20 @@ public:
     */
    std::shared_ptr<Sphere> addSphere();
 
+   /**Add a plane to the scene, and return
+      a pointer to the newly added plane
+    */
+   std::shared_ptr<Plane> addPlane();
 
 
+
+   Color4 getBackgroundColor() const;
 
 
 private:
+   Color4 backgroundColor;
    Camera camera;
    std::vector<std::shared_ptr<IGeometry>> geometry;
+
 };
 #endif

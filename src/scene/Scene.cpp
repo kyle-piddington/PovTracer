@@ -1,4 +1,10 @@
 #include "scene/Scene.hpp"
+
+Scene::Scene():
+   backgroundColor(0,0,0,0)
+{
+
+}
 void Scene::setCamera(const Camera & cam)
 {
    this->camera = cam;
@@ -16,6 +22,13 @@ std::shared_ptr<Sphere> Scene::addSphere()
    return sphPt;
 }
 
+std::shared_ptr<Plane> Scene::addPlane()
+{
+   auto planePt = std::make_shared<Plane>();
+   geometry.push_back(std::static_pointer_cast<IGeometry>(planePt));
+   return planePt;
+}
+
 Hit Scene::trace(const Ray & ray)
 {
    Amount mDist = -1;
@@ -30,4 +43,8 @@ Hit Scene::trace(const Ray & ray)
       }
    }
    return returnHit;
+}
+Color4 Scene::getBackgroundColor() const
+{
+   return backgroundColor;
 }

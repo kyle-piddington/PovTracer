@@ -10,5 +10,6 @@ namespace PovUtil
    void processComment(std::istream & istream);
    Vector3 readVec3(std::istream & istream);
    Vector4 readVec4(std::istream & istream);
+
 }
 #endif

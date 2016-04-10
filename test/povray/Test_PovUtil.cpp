@@ -8,12 +8,14 @@ TEST_CASE("Comment detection","[Parse]")
    REQUIRE(!PovUtil::isComment("Not Comment!"));
    REQUIRE(!PovUtil::isComment("/Not comment either"));
    REQUIRE(!PovUtil::isComment("/"));
+   REQUIRE(PovUtil::isComment("//     Hello world!"));
+
 
 }
 
 TEST_CASE("Parsing Vec3", "[Parse]")
 {
-   std::string test("<1, 2.0, 3.3> <4, 5.5, 6.0>");
+   std::string test("  <1, 2.0, 3.3>  <4, 5.5, 6.0>");
    std::stringstream stream;
    stream.str(test);
    Vector3 vec, vec2;

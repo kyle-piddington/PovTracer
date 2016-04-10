@@ -6,7 +6,9 @@ EndState PovStates::endState;
 PigmentState PovStates::pigmentState;
 FinishState PovStates::finishState;
 SphereState PovStates::sphereState;
+PlaneState PovStates::planeState;
 ObjectModifierState PovStates::objectState;
+LightSourceState PovStates::lightSourceState;
 
 
 void PovStates::SetScene(std::shared_ptr<Scene> scenePtr)
@@ -17,5 +19,7 @@ void PovStates::SetScene(std::shared_ptr<Scene> scenePtr)
    pigmentState.setScene(scenePtr);
    finishState.setScene(scenePtr);
    sphereState.setScene(scenePtr);
+   planeState.setScene(scenePtr);
    objectState.setScene(scenePtr);
+   lightSourceState.setScene(scenePtr);
 }

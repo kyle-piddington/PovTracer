@@ -3,7 +3,7 @@
 #include "Precision.hpp"
 bool PovUtil::isComment(const std::string & comment)
 {
-   if(comment.size() > 2)
+   if(comment.size() >= 2)
    {
       if(comment[0] == '/' && comment[1] == '/')
       {
@@ -38,8 +38,12 @@ Vector3 PovUtil::readVec3(std::istream & istream)
 {
    Vector3 vector;
    char dummy;
-   istream >> dummy; //Read <
-   assert(dummy == '<');
+   istream >> dummy;
+   if(dummy != '<')
+   {
+      printf("'%c' != <\n", dummy);
+      assert(false);
+   }
    //Try to read out 3 floats
    istream >> vector[0];
    checkStream(istream, "Could not parse X");

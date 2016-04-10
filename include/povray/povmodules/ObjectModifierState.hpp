@@ -23,6 +23,9 @@ public:
     * @param  token the stream to read
     * @return       the parent state.
     */
+   
+   void setObject(IGeometry * object);
+   
    ParseState * accept(std::istream & token);
 
    std::string toString();

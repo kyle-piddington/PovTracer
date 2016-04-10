@@ -5,11 +5,14 @@
 class Plane : public IGeometry
 {
 public:
-   Plane(Vector3 position, Vector3 orientation)
-   virtual Color shade(const Hit & hit);
+   Plane();
+   Plane(Vector3 position, Vector3 orientation);
+   Plane(Vector3 orientation, float distance);
    virtual Hit intersect(const Ray & ray);
 
 private:
+   Vector3 position;
+   Vector3 orientation;
 
 };
 #endif

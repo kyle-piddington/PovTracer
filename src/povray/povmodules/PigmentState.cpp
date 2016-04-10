@@ -42,8 +42,9 @@ void PigmentState::processColorPigment(std::istream & stream)
 ParseState * PigmentState::accept(std::istream & stream)
 {
    std::string bfr;
+   char cBuffer;
    Amount numBuffer;
-   stream >> bfr; //Read '{''
+   stream >> cBuffer; //Read '{''
    stream >> bfr;
    while(bfr.find("}") == std::string::npos || PovUtil::isComment(bfr))
    {

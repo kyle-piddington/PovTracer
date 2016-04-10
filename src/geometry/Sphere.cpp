@@ -33,7 +33,6 @@ Hit Sphere::intersect(const Ray & ray)
    C =  (ray.origin - pos).dot(ray.origin - pos) - rad*rad;
    Amount det = B*B - 4*A*C;
    
-   
    if(det < 0)
    {
       return Hit(ray);
@@ -44,10 +43,14 @@ Hit Sphere::intersect(const Ray & ray)
       Amount t1 = (-B - sqDet)/(2*A);
       Amount t2 = (-B + sqDet)/(2*A);
       Amount t = std::min(t1,t2);
+      if(t < 0)
+      {
+         t = std::max(t1,t2);
+      }
       if(t < kEpsilon)
       {
          return Hit(ray);
       }
-      return Hit(ray, this, ray.origin + ray.direction * t);
+      return Hit(ray, this, t);
    }
 }

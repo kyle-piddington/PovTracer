@@ -11,10 +11,10 @@ Hit::Hit(Ray ray):
 
 }
 
-Hit::Hit(Ray ray, IGeometry * obj, Vector3 hPoint):
+Hit::Hit(Ray ray, IGeometry * obj, Amount t):
    ray(ray),
    object(obj),
-   hPoint(hPoint),
+   hPoint(ray.origin + ray.direction * t),
    hitGeometry(true)
 {
 

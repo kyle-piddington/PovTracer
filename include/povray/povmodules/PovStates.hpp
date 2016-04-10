@@ -6,8 +6,11 @@
 #include "PigmentState.hpp"
 #include "FinishState.hpp"
 #include "SphereState.hpp"
+#include "PlaneState.hpp"
 #include "ObjectModifierState.hpp"
+#include "LightSourceState.hpp"
 #include "scene/Scene.hpp"
+
 struct PovStates
 {
    static BaseState baseState;
@@ -16,7 +19,9 @@ struct PovStates
    static PigmentState pigmentState;
    static FinishState finishState;
    static SphereState sphereState;
+   static PlaneState planeState;
    static ObjectModifierState objectState;
+   static LightSourceState lightSourceState;
 
    static void SetScene(std::shared_ptr<Scene> scenePtr);
 };

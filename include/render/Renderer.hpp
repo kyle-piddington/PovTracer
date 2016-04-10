@@ -6,6 +6,7 @@ class Renderer
 public:
    Renderer(int imgw, int imgh, std::shared_ptr<Scene> scene);
    virtual ~Renderer();
+
    /**
     * Get the ray for a given pixel, with 0,0 being the
     * top left pixel
@@ -21,11 +22,14 @@ public:
 
    virtual Color4 shade(Hit & hit);
 
-private:
+   Color4 cast(int px, int py);
 
+private:
+  int comp = 3;
    int width;
    int height;
    std::shared_ptr<Scene> scenePtr;
+   const Camera & sceneCam;
 
 };
 #endif

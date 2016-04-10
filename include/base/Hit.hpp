@@ -22,7 +22,7 @@ public:
    /**
     * Construct a hit that resulted from a successful raytrace
     */
-   Hit(Ray ray,  IGeometry * obj, Vector3 hPoint);
+   Hit(Ray ray,  IGeometry * obj, Amount t);
    /**
     * Get the distance from the ray 
     * origin to the hit point

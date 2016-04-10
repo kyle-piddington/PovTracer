@@ -21,22 +21,21 @@ ParseState * BaseState::accept(std::istream & stream)
       {
          return transition(&PovStates::endState);
       }
-
       if(state == "camera")
       {
          return transition(&PovStates::cameraState);
       }
       else if(state == "light_source")
       {
-
+         return transition(&PovStates::lightSourceState);
       }
       else if(state == "sphere")
       {
-
+         return transition(&PovStates::sphereState);
       }
       else if(state == "plane")
       {
-
+         return transition(&PovStates::planeState);
       }
       else
       {

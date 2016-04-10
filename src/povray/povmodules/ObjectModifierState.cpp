@@ -37,15 +37,17 @@ ParseState * ObjectModifierState::accept(std::istream & stream)
       else if(bfr == "finish")
       {
          PovStates::finishState = FinishState(geometry->getFinish(),this);
-         return &PovStates::finishState;
+         return transition(&PovStates::finishState);
       }
       else if(bfr == "pigment")
       {
          PovStates::pigmentState = PigmentState(geometry->getPigmentPtr(),this);
-         return &PovStates::pigmentState;
+         return transition(&PovStates::pigmentState);
       }
-      else if(bfr == "transform")
+      else if(bfr == "translate")
       {
+         PovUtil::readVec3(stream);
+         return this;
          //cam.setRight(PovUtil::readVec3(stream));
       }
       else
@@ -58,6 +60,10 @@ ParseState * ObjectModifierState::accept(std::istream & stream)
    return transition(&PovStates::baseState);
 }
 
+void ObjectModifierState::setObject(IGeometry * object)
+{
+   this->geometry = object;
+}
 std::string ObjectModifierState::toString()
 {
    return "ObjectModifierState";

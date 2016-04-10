@@ -19,8 +19,9 @@ ParseState * FinishState::accept(std::istream & stream)
 
 
    std::string bfr;
+   char cBuffer;
    Amount numBuffer;
-   stream >> bfr; //Read '{''
+   stream >> cBuffer; //Read '{'
    stream >> bfr;
    if(fObject == nullptr)
    {

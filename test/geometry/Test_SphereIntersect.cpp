@@ -29,3 +29,20 @@ TEST_CASE("Sphere Intersection 3 (miss)", "[Sphere]")
    REQUIRE(!h.didHit());
    
 }
+
+TEST_CASE("Sphere Intersection 4 (internal)", "[Sphere]")
+{
+   Ray ray(Vector3(0,0,1), Vector3(0,0,-1));
+   Sphere sph(Vector3(0,10,-1),100.0);
+   Hit h = sph.intersect(ray);
+   REQUIRE(h.didHit());
+   
+}
+TEST_CASE("Sphere Intersection 5 (backwards)", "[Sphere]")
+{
+   Ray ray(Vector3(0,0,1), Vector3(0,0,-1));
+   Sphere sph(Vector3(0,10,2),1.0);
+   Hit h = sph.intersect(ray);
+   REQUIRE(!h.didHit());
+   
+}

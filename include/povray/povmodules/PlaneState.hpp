@@ -1,5 +1,5 @@
-#ifndef __Sphere_STATE_H__
-#define __Sphere_STATE_H__
+#ifndef __PLANE_STATE_H__
+#define __PLANE_STATE_H__
 #include "ParseState.hpp"
 #include "ObjectModifierState.hpp"
 #include "geometry/IGeometry.hpp"
