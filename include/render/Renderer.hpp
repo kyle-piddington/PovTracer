@@ -14,20 +14,38 @@ public:
     * @param  py the y-pixel, between 0 and image height
     * @return    A ray
     */
-   Ray getRayForPx(int px, int py);
+   Ray getRayForPx(Amount px, Amount py);
+
 
    virtual void init();
 
    virtual void shutdown();
 
-   virtual Color4 shade(Hit & hit);
+   /**
+    * Set a number of samples for this render
+    * @param numSamples the number of samples to take.
+    */
+   virtual void setNSamples(int numSamples);
+
+   /**
+    * Shade a hit object. This method must be overloaded
+    * in a renderer subclass
+    * @param  hit the hit object to shade
+    * @return     a color
+    */
+   virtual Color4 shade(Hit & hit) = 0;
 
    Color4 cast(int px, int py);
 
 private:
-  int comp = 3;
+
+   Color4 shadePixel(Amount px, Amount py);
+   int comp = 3;
    int width;
    int height;
+   int N_SAMPLES;
+protected:
+
    std::shared_ptr<Scene> scenePtr;
    const Camera & sceneCam;
 

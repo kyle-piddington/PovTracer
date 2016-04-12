@@ -6,6 +6,7 @@
  * Precision.hpp contains several macros and defines to help
  * keep precision consistant throughout the application
  */
+#define Vector2 Eigen::Vector2f
 #define Vector3 Eigen::Vector3f
 #define Vector4 Eigen::Vector4f
 
@@ -17,6 +18,7 @@
 
 #define Amount float
 
-#define kEpsilon 0.001
+
+#define kEpsilon (Amount)1e-4
 
 #endif

@@ -12,17 +12,9 @@
 class IGeometry
 {
 public:
-   /**
-    * Return a color from a shade
-    * @param  hit [description]
-    * @return     [description]
-    */
-   
     IGeometry();
 
-
    virtual Hit intersect(const Ray & ray) = 0;
-
 
    void setPigment(std::shared_ptr<IPigment> pigment);
 

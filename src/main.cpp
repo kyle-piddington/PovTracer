@@ -1,9 +1,11 @@
 #include "scene/Scene.hpp"
 #include "povray/PovParser.hpp"
 #include "window/ImageWriter.hpp"
-#include "render/Renderer.hpp"
 #include <iostream>
 #include <fstream>
+#include "render/Renderer.hpp"
+#include "render/FlatRenderer.hpp"
+#include "render/PhongRenderer.hpp"
 int main(int argC, char ** argV)
 {
    //./raytrace wdth ht povray
@@ -43,12 +45,15 @@ int main(int argC, char ** argV)
       scene = PovParser::CreateScene(file);
    }
    file.close();
-   Renderer renderer(width, height, scene);
+   std::shared_ptr<Renderer> renderer;
+   renderer = std::make_shared<PhongRenderer>(width, height, scene);
+   //Take 4x4 samples (16 per pixel)
+   //renderer->setNSamples(4);
    for(int j = 0; j < height; j++)
    {
       for(int i = 0; i < width; i++)
       {
-         window->set_pixel(i,j,renderer.cast(i,j));
+         window->set_pixel(i,j,renderer->cast(i,j));
       }
    }
    if(window->shutdown())

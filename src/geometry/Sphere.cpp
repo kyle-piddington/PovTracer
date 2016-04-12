@@ -51,6 +51,7 @@ Hit Sphere::intersect(const Ray & ray)
       {
          return Hit(ray);
       }
-      return Hit(ray, this, t);
+      Vector3 normal = (ray.at(t) - pos).normalized();
+      return Hit(ray, this, normal,  t);
    }
 }

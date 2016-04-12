@@ -8,7 +8,7 @@
 #include "SphereState.hpp"
 #include "PlaneState.hpp"
 #include "ObjectModifierState.hpp"
-#include "LightSourceState.hpp"
+#include "LightState.hpp"
 #include "scene/Scene.hpp"
 
 struct PovStates
@@ -21,7 +21,7 @@ struct PovStates
    static SphereState sphereState;
    static PlaneState planeState;
    static ObjectModifierState objectState;
-   static LightSourceState lightSourceState;
+   static LightState lightState;
 
    static void SetScene(std::shared_ptr<Scene> scenePtr);
 };

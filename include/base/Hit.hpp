@@ -11,6 +11,8 @@
  */
 class IGeometry;
 class Ray;
+class Scene;
+
 
 class Hit
 {
@@ -18,11 +20,11 @@ public:
    /**
     * Construct a 'missed' hit, a hit that did not hit a target
     */
-   Hit(Ray ray);
+   Hit(const Ray & ray);
    /**
     * Construct a hit that resulted from a successful raytrace
     */
-   Hit(Ray ray,  IGeometry * obj, Amount t);
+   Hit(const Ray & ray,  IGeometry * obj, const Vector3 & normal, Amount t);
    /**
     * Get the distance from the ray 
     * origin to the hit point
@@ -44,7 +46,26 @@ public:
     * Get the interescted object
     * @return the object this hit intersected with
     */
-   IGeometry * getGeometry();
+   IGeometry * getGeometry() const;
+
+   /**
+    * Set the scene this hit belongs to
+    * @param  scene the scene
+    */
+   void setScene(Scene * scene);
+
+   /**
+    * Retreve the scene this belongs to.
+    * @return the scene
+    */
+   Scene * getScene() const;
+
+   /**
+    * Retrieve the normal of this hit vector.
+    * @return [description]
+    */
+   Vector3 getNormal() const;
+
 
    /**
     * Check to see if this hit actually was a hit
@@ -57,8 +78,10 @@ public:
 private:
 
    Vector3 hPoint;
+   Vector3 normal;
    Ray  ray;
    IGeometry * object;
+   Scene * scene;
 
    bool hitGeometry;
 

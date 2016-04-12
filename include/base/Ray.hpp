@@ -11,6 +11,12 @@ struct Ray
    Ray(Vector3 orig, Vector3 dir);
    Vector3 origin;
    Vector3 direction;
+   /**
+    * Get the position of the ray at time t
+    * @param  t the time of impact
+    * @return   the position at the time.
+    */
+   Vector3 at(Amount t) const;
 
    friend std::ostream& operator<<(std::ostream& os, const Ray& ray);
 

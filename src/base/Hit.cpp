@@ -2,19 +2,21 @@
 #include "geometry/IGeometry.hpp"
 #include "base/Ray.hpp"
 
-Hit::Hit(Ray ray):
+Hit::Hit(const Ray & ray):
    ray(ray),
    object(nullptr),
    hitGeometry(false),
+   normal(Vector3(0,0,0)),
    hPoint(ray.origin)
 {
 
 }
 
-Hit::Hit(Ray ray, IGeometry * obj, Amount t):
+Hit::Hit(const Ray & ray, IGeometry * obj, const Vector3 & normal, Amount t):
    ray(ray),
    object(obj),
    hPoint(ray.origin + ray.direction * t),
+   normal(normal),
    hitGeometry(true)
 {
 
@@ -42,7 +44,12 @@ Vector3 Hit::getHitpoint() const
    return hPoint;
 }
 
-IGeometry * Hit::getGeometry()
+Vector3 Hit::getNormal() const
+{
+   return normal;
+}
+
+IGeometry * Hit::getGeometry() const
 {
    return object;
 }
@@ -52,6 +59,15 @@ bool Hit::didHit() const
    return hitGeometry;
 }
 
+void Hit::setScene(Scene * scene)
+{
+   this->scene = scene;
+}
+
+Scene * Hit::getScene() const
+{
+   return this->scene;
+}
 std::ostream& operator<<(std::ostream& os, const Hit& hit)
 {
    if(hit.didHit())

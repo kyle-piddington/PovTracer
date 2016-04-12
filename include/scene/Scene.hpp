@@ -3,6 +3,7 @@
 #include "camera/Camera.hpp"
 #include "geometry/IGeometry.hpp"
 #include "geometry/Sphere.hpp"
+#include "light/PointLight.hpp"
 #include "geometry/Plane.hpp"
 #include <vector>
 /**
@@ -45,6 +46,17 @@ public:
     */
    std::shared_ptr<Plane> addPlane();
 
+   /**
+    * Add a light to the scene, and retunr a reference
+    * to the newly added light.
+    * @return [description]
+    */
+   PointLight & addPointLight();
+
+   /**
+    * Retrieve all the lights in the scene
+    */
+   const std::vector<PointLight> & getLights();
 
 
    Color4 getBackgroundColor() const;
@@ -54,6 +66,7 @@ private:
    Color4 backgroundColor;
    Camera camera;
    std::vector<std::shared_ptr<IGeometry>> geometry;
+   std::vector<PointLight> lights;
 
 };
 #endif

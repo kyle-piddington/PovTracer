@@ -12,7 +12,7 @@ int ImageWriter::init(int argC, char ** argV)
    height = atoi(argV[2]);
    if(argC >= 5)
    {
-      outName = argV[4];
+      outName = argV[argC-1];
    }
    buffer.resize(comp * width *height);
    return 0;

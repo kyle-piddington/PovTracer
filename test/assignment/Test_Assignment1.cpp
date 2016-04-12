@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 #include "render/Renderer.hpp"
+#include "render/FlatRenderer.hpp"
 #include "shade/ColorPigment.hpp"
 #include <iostream>
 
@@ -36,7 +37,7 @@ TEST_CASE("Test Ray orientation","[Assignment 1]")
 
    scene->setCamera(cam);
 
-   Renderer renderer(640,480,scene);
+   FlatRenderer renderer(640,480,scene);
    /**
     * {320, 240}
       {170, 120}
@@ -93,7 +94,7 @@ TEST_CASE("Test Ray/Sphere collisions", "[Assignment 1]")
    sph4->setRadius(1.1);
    sph4->setPigment(ColorPigment::Create(Vector3(0.12,0.34,0.56)));
 
-   Renderer renderer(640,480,scene);
+   FlatRenderer renderer(640,480,scene);
 
 
    //Should intersect w/ white sphere
@@ -146,7 +147,7 @@ TEST_CASE("Test In Class" , "[Assignment 1]")
    sph4->setRadius(1.1);
    sph4->setPigment(ColorPigment::Create(Vector3(0.12,0.34,0.56)));
 
-   Renderer renderer(640,480,scene);
+   FlatRenderer renderer(640,480,scene);
 
    Ray r1 = renderer.getRayForPx(320,239);
    Hit h1 = scene->trace(r1);

@@ -11,7 +11,10 @@ Ray::Ray(Vector3 o, Vector3 d):
 
    }
 
-
+Vector3 Ray::at(Amount t) const
+{
+   return origin + t*direction;
+}
 std::ostream& operator<<(std::ostream& os, const Ray& ray)
 {
    os << "Position: " << ray.origin.transpose() << std::endl

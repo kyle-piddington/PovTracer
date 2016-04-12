@@ -27,7 +27,7 @@ ParseState * BaseState::accept(std::istream & stream)
       }
       else if(state == "light_source")
       {
-         return transition(&PovStates::lightSourceState);
+         return transition(&PovStates::lightState);
       }
       else if(state == "sphere")
       {

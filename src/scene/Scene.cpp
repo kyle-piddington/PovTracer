@@ -29,6 +29,12 @@ std::shared_ptr<Plane> Scene::addPlane()
    return planePt;
 }
 
+PointLight & Scene::addPointLight()
+{
+   lights.push_back(PointLight());
+   return lights.back();
+}
+
 Hit Scene::trace(const Ray & ray)
 {
    Amount mDist = -1;
@@ -42,7 +48,13 @@ Hit Scene::trace(const Ray & ray)
          mDist = returnHit.getDistance();
       }
    }
+   returnHit.setScene(this);
    return returnHit;
+}
+
+const std::vector<PointLight> & Scene::getLights()
+{
+   return lights;
 }
 Color4 Scene::getBackgroundColor() const
 {

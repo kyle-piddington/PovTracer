@@ -35,6 +35,6 @@ Hit Plane::intersect(const Ray & ray)
       {
          return Hit(ray);
       }
-      return Hit(ray, this, t);
+      return Hit(ray, this, orientation, t);
    }
 }
