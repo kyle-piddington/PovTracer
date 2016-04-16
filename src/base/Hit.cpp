@@ -16,7 +16,7 @@ Hit::Hit(const Ray & ray, IGeometry * obj, const Vector3 & normal, Amount t):
    ray(ray),
    object(obj),
    hPoint(ray.origin + ray.direction * t),
-   normal(normal),
+   normal(normal.normalized()),
    hitGeometry(true)
 {
 

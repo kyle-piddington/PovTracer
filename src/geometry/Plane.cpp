@@ -13,7 +13,7 @@ Plane::Plane(Vector3 position, Vector3 orientation):
 {
 
 }
-Plane::Plane(Vector3 orientation, float distance) :
+Plane::Plane(Vector3 orientation, Amount distance) :
    position(orientation*distance),
    orientation(orientation)
 {

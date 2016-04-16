@@ -35,6 +35,9 @@ look_at   <0, 0, 0>
 
 light_source {<-100, 100, 100> color rgb <1.5, 1.5, 1.5>}
 
+
+light_source {<100, 100, 100> color rgb <1.5, 1.5, 1.5>}
+
 sphere { <-3.5, 0, 0>, 1
   pigment { color rgb <1.0, 0.0, 1.0>}
   finish {ambient 0.2 diffuse 0.4 specular 0.1 roughness 0.01}

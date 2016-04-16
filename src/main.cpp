@@ -5,7 +5,10 @@
 #include <fstream>
 #include "render/Renderer.hpp"
 #include "render/FlatRenderer.hpp"
-#include "render/PhongRenderer.hpp"
+#include "render/SpecDiffuseBRDFRenderer.hpp"
+#include "material/LambertianBRDF.hpp"
+#include "material/PhongBRDF.hpp"
+#include "material/CookTorrance.hpp"
 int main(int argC, char ** argV)
 {
    //./raytrace wdth ht povray
@@ -46,9 +49,13 @@ int main(int argC, char ** argV)
    }
    file.close();
    std::shared_ptr<Renderer> renderer;
-   renderer = std::make_shared<PhongRenderer>(width, height, scene);
+   auto diffBRFD = std::make_shared<LambertianBRDF>();
+   auto specBRDF = std::make_shared<CookTorrance>();
+
+
+   renderer = std::make_shared<SpecDiffuseBRDFRenderer>(width, height, scene, diffBRFD, specBRDF);
    //Take 4x4 samples (16 per pixel)
-   //renderer->setNSamples(4);
+   renderer->setNSamples(4);
    for(int j = 0; j < height; j++)
    {
       for(int i = 0; i < width; i++)

@@ -7,7 +7,7 @@ class Plane : public IGeometry
 public:
    Plane();
    Plane(Vector3 position, Vector3 orientation);
-   Plane(Vector3 orientation, float distance);
+   Plane(Vector3 orientation, Amount distance);
    virtual Hit intersect(const Ray & ray);
 
 private:

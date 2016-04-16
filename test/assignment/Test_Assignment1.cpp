@@ -2,6 +2,7 @@
 #include "render/Renderer.hpp"
 #include "render/FlatRenderer.hpp"
 #include "shade/ColorPigment.hpp"
+#include "povray/PovParser.hpp"
 #include <iostream>
 
 #define EPS 0.003
@@ -18,7 +19,7 @@ bool compareEps(Vector3 a, Vector3 b)
 void printTest(int px, int py, Hit & h, Renderer & r)
 {
    std::cout << "(" << px << "," << py << ") -> ";
-   std::cout << h.getRay() << std::endl 
+   std::cout << h.getRay() << std::endl
              << h << std::endl;
    if(h.didHit())
    {
@@ -114,7 +115,7 @@ TEST_CASE("Test Ray/Sphere collisions", "[Assignment 1]")
    REQUIRE(renderer.shade(h2) == Color4(0,0,0,0));
 
    REQUIRE(!h3.didHit());
-   
+
 }
 TEST_CASE("Test In Class" , "[Assignment 1]")
 {
@@ -169,7 +170,29 @@ TEST_CASE("Test In Class" , "[Assignment 1]")
    printTest(230,239, h3, renderer);
    printTest(120,349, h4, renderer);
    printTest(490,119, h5, renderer);
-   
+
+}
+
+TEST_CASE("Planes test", "[Assignment 1]")
+{
+   std::shared_ptr<Scene> scene = PovParser::CreateScene("../assets/povray/planes.pov");
+   FlatRenderer renderer(640,480,scene);
+
+   Ray r1 = renderer.getRayForPx(320, 50);
+   Hit h1 = scene->trace(r1);
+
+   Ray r2 = renderer.getRayForPx(50, 240);
+   Hit h2 = scene->trace(r2);
+
+   Ray r3 = renderer.getRayForPx(590, 240);
+   Hit h3 = scene->trace(r3);
+
+   std::cout << "------Planes------" << std::endl;
+
+   printTest(50,240, h2,renderer);
+   printTest(320,50, h1,renderer);
+   printTest(590,240,h3,renderer);
+
 
 
 }

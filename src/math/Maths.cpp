@@ -15,6 +15,11 @@ Quaternion Maths::quatFromEuler(Vector3 euler)
 
 }
 
+Amount Maths::map(Amount aMin, Amount aMax, Amount bMin, Amount bMax, Amount value)
+{
+   return ((value - aMin)/(aMax-aMin))*(bMax - bMin) + bMin;
+}
+
 Matrix4 Maths::Matrix4_cast(const Quaternion & q)
 {
    Matrix4 m;

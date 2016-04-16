@@ -36,5 +36,11 @@ TEST_CASE("Projection3","[Vectors]")
    
 
 }
-
+TEST_CASE("Map", "[Mapping]")
+{
+   REQUIRE(Maths::map(0,1,0,100,0.5) == 50);
+   REQUIRE(Maths::map(0,640,-0.5,0.5,320) == 0);
+   REQUIRE(Maths::map(0,1,1,2,0.5) == 1.5);
+   
+}
 
