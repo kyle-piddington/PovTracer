@@ -9,6 +9,13 @@
 #include "material/LambertianBRDF.hpp"
 #include "material/PhongBRDF.hpp"
 #include "material/CookTorrance.hpp"
+#include "material/NullBRDF.hpp"
+#include "material/OrenNayar.hpp"
+enum BRDFSwitch
+{
+   PHONG = 0,
+   COOKTORRANCE = 1,
+};
 int main(int argC, char ** argV)
 {
    //./raytrace wdth ht povray
@@ -17,9 +24,9 @@ int main(int argC, char ** argV)
    std::shared_ptr<Scene> scene = nullptr;
 
    int width, height;
-   if(argC < 4)
+   if(argC < 5)
    {
-      std::cout << "raytrace <width> <height> <input_file> " << window->flags();
+      std::cout << "raytrace <width> <height> <input_file> <BRDF Switch> " << window->flags();
       return -1;
    }
    if(window->init(argC, argV))
@@ -48,10 +55,27 @@ int main(int argC, char ** argV)
       scene = PovParser::CreateScene(file);
    }
    file.close();
+   BRDFSwitch brdfswitch = (BRDFSwitch)atoi(argV[4]);
+   //Choose renderer
    std::shared_ptr<Renderer> renderer;
-   auto diffBRFD = std::make_shared<LambertianBRDF>();
-   auto specBRDF = std::make_shared<CookTorrance>();
+   std::shared_ptr<BRDF> diffBRFD;
+   std::shared_ptr<BRDF> specBRDF;
+   switch(brdfswitch){
+      case PHONG:
+         specBRDF = std::make_shared<PhongSpecularBRDF>();
+         diffBRFD = std::make_shared<LambertianBRDF>();
 
+         break;
+      case COOKTORRANCE:
+         specBRDF = std::make_shared<PhongSpecularBRDF>();
+         diffBRFD = std::make_shared<OrenNayar>();
+
+         break;
+      default:
+         specBRDF = std::make_shared<NullBRDF>();
+         diffBRFD = std::make_shared<NullBRDF>();
+         break;
+   }
 
    renderer = std::make_shared<SpecDiffuseBRDFRenderer>(width, height, scene, diffBRFD, specBRDF);
    //Take 4x4 samples (16 per pixel)

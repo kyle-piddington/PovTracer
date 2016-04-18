@@ -27,3 +27,9 @@ Matrix4 Maths::Matrix4_cast(const Quaternion & q)
    m.block<3,3>(0,0) = q.toRotationMatrix();
    return m;
 }
+
+Amount Maths::Fresnel0(Amount iorA, Amount iorB)
+{
+   return pow((iorA - iorB)/(iorA + iorB),2);
+}
+

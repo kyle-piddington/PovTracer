@@ -22,6 +22,12 @@ namespace Maths
     */
    Amount map(Amount aMin, Amount aMax, Amount bMin, Amount bMax, Amount value);
 
+   /**
+    * Calculate the fresnel term for two indicies
+    * of refraction
+    */
+   Amount Fresnel0(Amount iorA, Amount iorb);
+
    Quaternion quatFromEuler(Vector3 euler);
 
    Matrix4 Matrix4_cast(const Quaternion & q);

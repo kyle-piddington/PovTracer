@@ -10,7 +10,7 @@ int ImageWriter::init(int argC, char ** argV)
 
    width = atoi(argV[1]);
    height = atoi(argV[2]);
-   if(argC >= 5)
+   if(argC >= 6)
    {
       outName = argV[argC-1];
    }
