@@ -89,6 +89,12 @@ public:
 
    friend std::ostream& operator<<(std::ostream& os, const Hit& hit);
 
+   /**
+    * Return the ID number of the object hit.
+    * @Todo, this.
+    */
+   int ID() const;
+
 private:
    Amount t;
    Vector3 hPoint;

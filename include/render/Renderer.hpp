@@ -1,6 +1,7 @@
 #ifndef __RENDERER_H__
 #define __RENDERER_H__
 #include "scene/Scene.hpp"
+#include "log/ILogger.hpp"
 class Renderer
 {
 public:
@@ -37,6 +38,12 @@ public:
 
    Color4 cast(int px, int py);
 
+   /**
+    * Provide a new logger to the renderer
+    * @param logger the new logger.
+    */
+   void provideLogger(std::shared_ptr<ILogger> logger);
+
 private:
 
    Color4 shadePixel(Amount px, Amount py);
@@ -45,9 +52,12 @@ private:
    int height;
    int N_SAMPLES;
 protected:
+   //Logging method, px and py are more or less just for logging.
+   Color4 shadeRay(Ray & ray, int px, int py);
    Color4 shadeRay(Ray & ray);
    std::shared_ptr<Scene> scenePtr;
    const Camera & sceneCam;
+   std::shared_ptr<ILogger> logger;
 
 };
 #endif

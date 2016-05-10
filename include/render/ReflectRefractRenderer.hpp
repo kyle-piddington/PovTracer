@@ -17,7 +17,14 @@ public:
 
    Color4 shade(Hit & hit);
 private:
-   Color4 calculateDiffuseSpec(Hit & hit);
+   //Shading info:
+   struct ColorInfo{
+      Color4 amb;
+      Color4 diff;
+      Color4 spec;
+   };
+   
+   ColorInfo calculateDiffuseSpec(Hit & hit);
    Color4 calculateReflection(Hit & hit);
    Color4 calculateRefraction(Hit & hit);
    Amount kDepth;

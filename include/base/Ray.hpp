@@ -5,8 +5,17 @@
  * A ray is an infinite line that 
  * can instersect with Geometry objects.
  */
+
 struct Ray
 {
+   enum RayType
+   {
+      PRIMARY,
+      REFLECTION,
+      REFRACTION
+   };
+
+
    Ray();
    Ray(Vector3 orig, Vector3 dir);
    Ray(const Ray & other);
@@ -15,6 +24,7 @@ struct Ray
    Vector3 direction;
    Amount ior;
    Amount iter;
+   RayType type;
    /**
     * Get the position of the ray at time t
     * @param  t the time of impact

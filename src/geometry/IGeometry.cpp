@@ -48,19 +48,17 @@ void IGeometry::setPigment(std::shared_ptr<IPigment> pigment)
 
 void IGeometry::setTransform(const Matrix4 & transform)
 {
-   std::cout << "Transform is now :" << transform << std::endl;
    this->transform = transform;
    //Inverse the transform matrix for hit detection
    this->transformInv = transform.inverse();
-   std::cout << "Inverse is now :" << transformInv << std::endl;
    transformed = true;
 }
+
 std::shared_ptr<IPigment>  IGeometry::getPigment()
 {
    return pigment;
 
 }
-
 std::shared_ptr<IPigment> * IGeometry::getPigmentPtr()
 {
    return &pigment;

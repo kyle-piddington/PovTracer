@@ -14,7 +14,7 @@ ParseState * SphereState::accept(std::istream & token)
    char bfr;
    token >> bfr;
 
-   Sphere * sphere = &(* (currentScene->addSphere()));
+   Sphere * sphere = &(*(currentScene->addSphere()));
    //Read vec3
    sphere->setPosition(PovUtil::readVec3(token));
    //Read ','

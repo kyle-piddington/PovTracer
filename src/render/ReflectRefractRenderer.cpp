@@ -13,12 +13,12 @@ ReflectRefractRenderer::ReflectRefractRenderer(int imgw, int imgh, std::shared_p
 
    }
 
-Color4 ReflectRefractRenderer::calculateDiffuseSpec(Hit & hit)
+ReflectRefractRenderer::ColorInfo ReflectRefractRenderer::calculateDiffuseSpec(Hit & hit)
 {
    Color4 pigmentColor = hit.getGeometry()->getPigment()->getColor(hit);
    Finish * finish = hit.getGeometry()->getFinish();
-   Color4 endRes;
-   endRes = finish->getAmbient() * pigmentColor;
+   ColorInfo info;
+   info.amb = finish->getAmbient() * pigmentColor;
    Vector3 wr = (sceneCam.getLocation() - hit.getHitpoint()).normalized();
    for (std::vector<const PointLight>::iterator pLight = lights.begin(); pLight != lights.end(); ++pLight)
    {
@@ -42,19 +42,10 @@ Color4 ReflectRefractRenderer::calculateDiffuseSpec(Hit & hit)
          //Specular color of surface assumed to be (1,1,1)
          specularColor = pLight->getColor() * specular;
       }
-      #ifdef TEST_MODE
-      std::cout << "Ambient: " << endRes.segment<3>(0).transpose()       << std::endl
-                << "Diffuse: " << diffuseColor.segment<3>(0).transpose() << std::endl
-                << "Specular " << specularColor.segment<3>(0).transpose() << std::endl;
-      
-      #endif
-
-      endRes += diffuseColor + specularColor;
-
+      info.diff = diffuseColor;
+      info.spec = specularColor;
    }
-
-   endRes.w() = pigmentColor.w();
-   return endRes;
+   return info;
 }
 
 Color4 ReflectRefractRenderer::calculateReflection(Hit & hit)
@@ -66,11 +57,7 @@ Color4 ReflectRefractRenderer::calculateReflection(Hit & hit)
    //Increment iteration
    next.iter = r.iter + 1;
    //Recursive call
-   #ifdef TEST_MODE
-   {
-      std::cout << "Iteration type: Reflection" << std::endl;
-   }
-   #endif
+   next.type = Ray::REFLECTION;
    return this->shadeRay(next);
 }
 
@@ -78,7 +65,7 @@ Color4 ReflectRefractRenderer::calculateReflection(Hit & hit)
 Color4 ReflectRefractRenderer::calculateRefraction(Hit & hit)
 {
    //Create new ray
-   
+    
    Finish * finish = hit.getGeometry()->getFinish();
    const Ray & r = hit.getRay();
    Amount iorA = 1.0;
@@ -99,30 +86,20 @@ Color4 ReflectRefractRenderer::calculateRefraction(Hit & hit)
    Ray refrRay(hit.getHitpoint() + refractDir * kEpsilon, refractDir);
    refrRay.ior = finish->getIor();
    refrRay.iter = r.iter + 1;
-   #ifdef TEST_MODE
-   {
-      std::cout << "Iteration type: Refraction" << std::endl;
-   }
-   #endif
+   refrRay.type = Ray::REFRACTION;
    return shadeRay(refrRay);
 
 }
 
 Color4 ReflectRefractRenderer::shade(Hit & hit)
 {
-   #ifdef TEST_MODE
-   {
-      std::cout << hit.getRay() << std::endl;
-   }
-   #endif
    Finish * finish = hit.getGeometry()->getFinish();
-   Color4 diffSpec = calculateDiffuseSpec(hit);
-   Color4 resColor;
-   #ifdef TEST_MODE
-   {
-      std::cout << "---------" << std::endl;
-   }
-   #endif
+   ColorInfo diffSpecInfo = calculateDiffuseSpec(hit);
+   Color4 diffSpec = diffSpecInfo.amb + diffSpecInfo.diff + diffSpecInfo.spec;
+   logger->logRay(hit.getRay(),hit,diffSpecInfo.amb.segment<3>(0), 
+                                   diffSpecInfo.diff.segment<3>(0),
+                                   diffSpecInfo.spec.segment<3>(0));
+   diffSpec.w() = hit.getGeometry()->getPigment()->getColor(hit)(3);
    if(hit.getRay().iter < kDepth && (finish->getReflection() > kEpsilon || finish->getRefraction()))
    {
 

@@ -29,7 +29,9 @@ std::shared_ptr<Scene> PovParser::CreateScene(std::string povFile)
       std::stringstream buffer;
       buffer << file.rdbuf();
       file.close();
-      return parseScene(buffer); 
+      std::shared_ptr<Scene> scene = parseScene(buffer);
+      scene->initialize();
+      return scene;
    }
    else
    {

@@ -2,14 +2,14 @@
 #include <catch/catch.hpp>
 TEST_CASE("Blank Parse","[Parser]")
 {
-   std::string test = 
+   std::string test =
    "";
    std::stringstream file(test);
    auto scene = PovParser::CreateScene(file);
    auto camera = scene->getCamera();
    REQUIRE(camera.getLocation() == Vector3(0,0,0));
    REQUIRE(camera.getDirection() == Vector3(0,0,1));
-   
+
 
 
 

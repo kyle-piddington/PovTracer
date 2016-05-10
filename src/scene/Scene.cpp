@@ -15,6 +15,13 @@ const Camera & Scene::getCamera()
    return this->camera;
 }
 
+/**
+ * The default scene has no extra post processing
+ */
+void Scene::initialize()
+{
+
+}
 std::shared_ptr<Sphere> Scene::addSphere()
 {
    auto sphPt = std::make_shared<Sphere>();

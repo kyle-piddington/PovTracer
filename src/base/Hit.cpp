@@ -76,7 +76,14 @@ void Hit::transform(const Matrix4  & transform, const Matrix4 & transposeInverse
 {
    this->hPoint = (transform * Maths::make_vec4(this->hPoint,1)).segment<3>(0);
    this->normal = (transposeInverse * Maths::make_vec4(this->normal,0)).segment<3>(0);
-   
+
+}
+
+//@TODO, Finish
+int Hit::ID() const
+{
+   return -1;
+
 }
 Scene * Hit::getScene() const
 {

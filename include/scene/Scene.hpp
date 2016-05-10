@@ -61,12 +61,19 @@ public:
    PointLight & addPointLight();
 
    /**
+    * Set up any BVH/Spatial data structures
+    * that need to be set up.
+    */
+   virtual void initialize();
+
+   /**
     * Retrieve all the lights in the scene
     */
    const std::vector<PointLight> & getLights();
 
 
    Color4 getBackgroundColor() const;
+
 
 
 private:

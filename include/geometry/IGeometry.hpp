@@ -30,7 +30,8 @@ public:
    
    Finish * getFinish();
 
-   
+
+
 private:
    bool transformed;
    Matrix4 transform, transformInv;

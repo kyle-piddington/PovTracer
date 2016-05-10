@@ -1,10 +1,12 @@
 #include "render/Renderer.hpp"
 #include <random>
+#include "log/NulLLogger.hpp"
 Renderer::Renderer(int imgw, int imgh, std::shared_ptr<Scene> scene):
 width(imgw),
 height(imgh),
 scenePtr(scene),
 sceneCam(scene->getCamera()),
+logger(std::make_shared<NullLogger>()),
 N_SAMPLES(1)
 {
 
@@ -25,22 +27,25 @@ Ray Renderer::getRayForPx(Amount px, Amount py)
 Color4 Renderer::shadePixel(Amount px, Amount py)
 {
    Ray r = getRayForPx(px, py);
-   //std::cout << "Iteration type: Primary" << std::endl;
-   Color4 rayColor =  shadeRay(r);
-   /*
-   #ifdef TEST_MODE
-   {
-      Color3 outColor; outColor << (int)rayColor(0)*255, (int)rayColor(1)*255, (int)rayColor(2)*255;
-      std::cout << "Pixel:  [" << px << ", " << py << "] Ray : " << r << " T = " << hit.getDistance()
-                << " Color: " << outColor.transpose() << std::endl;
-
-   }
-
-   #endif
-   */
-   return rayColor;
+   return shadeRay(r,px,py);
+   
 }
 
+Color4 Renderer::shadeRay(Ray & ray, int px, int py)
+{
+   Hit hit = scenePtr->trace(ray);
+   Color4 color;
+   if(hit.didHit())
+   {
+      color = shade(hit);
+   }
+   else
+   {
+      color = scenePtr->getBackgroundColor();
+   }
+   logger->logPixel(px,py,ray,hit.getT(),color.segment<3>(0));
+   return color;
+}
 Color4 Renderer::shadeRay(Ray & ray)
 {
    Hit hit = scenePtr->trace(ray);
@@ -87,6 +92,10 @@ Color4 Renderer::cast(int px, int py)
 
 }
 
+void Renderer::provideLogger(std::shared_ptr<ILogger> logger)
+{
+   this->logger = logger;
+}
 
 void Renderer::init()
 {

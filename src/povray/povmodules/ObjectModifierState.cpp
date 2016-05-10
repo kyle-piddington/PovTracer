@@ -30,7 +30,6 @@ ParseState * ObjectModifierState::accept(std::istream & stream)
    }
    if(bfr.find("}") == std::string::npos || PovUtil::isComment(bfr))
    {
-      std::cout << bfr << std::endl;
       
       if(PovUtil::isComment(bfr))
       {
@@ -85,7 +84,7 @@ ParseState * ObjectModifierState::accept(std::istream & stream)
 
 void ObjectModifierState::setObject(IGeometry * object)
 {
-   std::cout << "Set object" << std::endl;
+
    cTransform = Matrix4::Identity();
    this->geometry = object;
 }
