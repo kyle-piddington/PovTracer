@@ -1,129 +1,20 @@
-#ifndef __TRANSFORM_H__
-#define __TRANSFORM_H__
+#pragma once
 #include "Precision.hpp"
-namespace Space
+namespace Transform
 {
-  enum spaceType
-  {
-    WORLD = 0,
-    LOCAL = 1
-  };
-}
-class Transform
-{
-public:
-   Transform();
-   Transform(const Transform & other);
-   /**
-    * Set the position of the transform
-    * @param pos position to go to
-    */
-   void setPosition(const Vector3 & pos);
-
-   /**
-    * Copy a transform from another transofrm
-    * @param other the transform to copy.
-    */
-   void copy(Transform & other);
-
-   /**
-    * Set the rotation of the transform
-    * @param eulerAngles the angles to rotate to
-    */
-   void setRotation(const Vector3 & eulerAngles);
-
-   /**
-    * Set the rotation using Angle-Axis
-    * @param angle the angle
-    * @param axis  the axis to rotate on
-    */
-   void setRotation(Amount angle, Vector3 axis);
-
-    /* Set the rotation using a straight quaternion
-    * @param angle the angle
-    * @param axis  the axis to rotate on
-    */
-   void setRotation(const Quaternion & q);
-   /**
-    * Move by a vector
-    * @param pos the delta vector
-    */
-   void translate(const Vector3 & pos, Space::spaceType type = Space::WORLD);
-
-   /**
-    * Rotate by a set of angles
-    * @param eulerAngles the new orientation to rotate to
-    */
-   void rotate(const Vector3 eulerAngles, Space::spaceType type = Space::WORLD);
-
-    /**
-    * Rotate by a set of angles
-    * @param eulerAngles the new orientation to rotate to
-    */
-   void rotate(Amount angle, const Vector3 & axis, Space::spaceType type = Space::WORLD);
-   
-  
-   /**
-    * Scale the transform
-    */
-   void setScale(Vector3 scale);
-   /**
-    * Get the current position expressed as a 3d vector
-    */
-   Vector3 getPosition(Space::spaceType type = Space::WORLD) const;
-
-   /**
-    * Get the current rotation expressed as a quaternion
-    * @return [description]
-    */
-   Quaternion getRotation() const;
-
-   
-
-   /**
-    * Get the scale of the transform
-    */
-   Vector3 getScale() const;
-
-   /**
-    * Get a 4x4 transform matrix representing this transform
-    */
-   const Matrix4 & getMatrix();
-
-   Matrix4 getRotationMatrix();
-   /**
-    * Get the local up facing vector
-    */
-   Vector3 up(Space::spaceType space = Space::LOCAL) const;
-   /**
-    * Get the local right facing vector
-    */
-   Vector3 right(Space::spaceType space = Space::LOCAL) const;
-   /**
-    * Get the local forward facing vector
-    */
-   Vector3 forward(Space::spaceType space = Space::LOCAL) const;
-
-   /*
-   void setParent(Transform * parent)
-   {
-     this->parent = parent;
-   }
+  /**
+   * Create a translation matrix out of a Vector3
    */
+   Matrix4 createTranslationMatrix(const Vector3 & tranlsation);
 
-   void setIdentity();
+   /**
+    * Create a rotation matrix out of a Vector3
+    */
+   Matrix4 createRotationMatirx(const Vector3 & eulerAngles);
 
-private:
-   void updateFrame();
-   Vector3 position;
-   Vector4 localUp;
-   Vector4 localRight;
-   Vector4 localForward;
-   Vector3 scale;
-   bool isDirty;
-   Matrix4 currentMatrix;
-   Quaternion rotation;
-   Transform * parent;
+   /**
+    * Create a scale matrix out of a Vector3
+    */
+   Matrix4 createScaleMatrix(const Vector3 & scale);
 
 };
-#endif

@@ -48,7 +48,7 @@ Hit Scene::trace(const Ray & ray)
    Hit returnHit(ray);
    for (std::vector<std::shared_ptr<IGeometry>>::iterator i = geometry.begin(); i != geometry.end(); ++i)
    {
-      Hit hit = (*i)->intersect(ray, mDist);
+      Hit hit = (*i)->intersectTransform(ray, mDist);
       if(hit.didHit() && (mDist < 0 || hit.getDistance() < mDist))
       {
          returnHit = hit;

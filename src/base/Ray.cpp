@@ -17,6 +17,30 @@ Ray::Ray(Vector3 o, Vector3 d):
 
    }
 
+Ray::Ray(const Ray & other):
+origin(other.origin),
+direction(other.direction),
+ior(other.ior),
+iter(other.iter)
+{
+
+}
+
+Ray & Ray::operator=(const Ray &rhs){
+   if(this == &rhs)
+   {
+      return *this;
+   }
+   else
+   {
+      this->origin = rhs.origin;
+      this->direction = rhs.direction;
+      this->ior = rhs.ior;
+      this->iter = rhs.iter;
+      return *this;
+   }
+}
+
 Vector3 Ray::at(Amount t) const
 {
    return origin + t*direction;

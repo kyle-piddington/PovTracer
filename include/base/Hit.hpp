@@ -36,6 +36,11 @@ public:
     * @return the ray
     */
    const Ray & getRay();
+
+   /**
+    * Get the t-value of the hit
+    */
+   const Amount getT() const;
    /**
     * Get the location of the intersection
     * @return the intersection
@@ -73,10 +78,19 @@ public:
     */
    bool didHit() const;
 
+   /**
+    * Transform a hit using a transformation
+    * matrix. 
+    * @param transform    The Model transform to modify the hitpoint
+    * @param invTranspose the inverse transpose of the transform matrix, to 
+    *                     calculate the normal.
+    */
+   void transform(const Matrix4 & transform, const Matrix4 & invTranspose);
+
    friend std::ostream& operator<<(std::ostream& os, const Hit& hit);
 
 private:
-
+   Amount t;
    Vector3 hPoint;
    Vector3 normal;
    Ray  ray;

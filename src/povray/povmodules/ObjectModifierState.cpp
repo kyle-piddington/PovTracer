@@ -2,16 +2,15 @@
 #include "povray/povmodules/PovStates.hpp"
 #include "povray/PovUtil.hpp"
 #include "camera/Camera.hpp"
-
+#include "math/Transform.hpp"
 ObjectModifierState::ObjectModifierState():
    geometry(nullptr)
    {
 
    }
-ObjectModifierState::ObjectModifierState(IGeometry * object):
-   geometry(object)
+ObjectModifierState::ObjectModifierState(IGeometry * object)
    {
-
+      setObject(object);
    }
 
    
@@ -21,6 +20,8 @@ ObjectModifierState::ObjectModifierState(IGeometry * object):
 ParseState * ObjectModifierState::accept(std::istream & stream)
 {
    std::string bfr;
+   bool setTransform;
+
    stream >> bfr;
    if(geometry == nullptr)
    {
@@ -29,6 +30,7 @@ ParseState * ObjectModifierState::accept(std::istream & stream)
    }
    if(bfr.find("}") == std::string::npos || PovUtil::isComment(bfr))
    {
+      std::cout << bfr << std::endl;
       
       if(PovUtil::isComment(bfr))
       {
@@ -46,9 +48,23 @@ ParseState * ObjectModifierState::accept(std::istream & stream)
       }
       else if(bfr == "translate")
       {
-         PovUtil::readVec3(stream);
+         setTransform = true;
+         cTransform = 
+            Transform::createTranslationMatrix(PovUtil::readVec3(stream)) * cTransform;
          return this;
-         //cam.setRight(PovUtil::readVec3(stream));
+      }
+      else if(bfr == "rotate")
+      {
+         setTransform = true;
+         cTransform = 
+            Transform::createRotationMatirx(PovUtil::readVec3(stream)) * cTransform;
+         return this;
+      }
+      else if(bfr == "scale")
+      {
+         setTransform = true;
+         cTransform = Transform::createScaleMatrix(PovUtil::readVec3(stream)) * cTransform;
+         return this;
       }
       else
       {
@@ -63,11 +79,14 @@ ParseState * ObjectModifierState::accept(std::istream & stream)
       stream.unget();
       backTrace --;
    }
+   geometry->setTransform(cTransform);
    return transition(&PovStates::baseState);
 }
 
 void ObjectModifierState::setObject(IGeometry * object)
 {
+   std::cout << "Set object" << std::endl;
+   cTransform = Matrix4::Identity();
    this->geometry = object;
 }
 std::string ObjectModifierState::toString()

@@ -48,3 +48,9 @@ Vector3 Maths::refract(Amount iorA, Amount iorB, const Vector3  & incoming, cons
   const Amount cosT = sqrt(1.0 - sinT2);
   return (iorRatio * d + (iorRatio * cosD - cosT) * n).normalized();
 }
+
+Vector4 Maths::make_vec4(const Vector3 & vec3, Amount hCoord)
+{
+  Vector4 ret; ret<< vec3, hCoord;
+  return ret;
+}

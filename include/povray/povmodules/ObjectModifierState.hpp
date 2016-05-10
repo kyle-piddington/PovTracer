@@ -31,7 +31,8 @@ public:
    std::string toString();
 
 private:
-
+   Matrix4 cTransform;
+   
    IGeometry * geometry;
 };
 #endif

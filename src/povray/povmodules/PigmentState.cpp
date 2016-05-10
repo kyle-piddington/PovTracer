@@ -62,6 +62,7 @@ ParseState * PigmentState::accept(std::istream & stream)
       }
       stream >> bfr;
    }
+   
    int backTrace = bfr.size() - 1;
    while(backTrace > 0)
    {

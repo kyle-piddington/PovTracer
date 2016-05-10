@@ -40,6 +40,8 @@ namespace Maths
 
    Quaternion quatFromEuler(Vector3 euler);
 
+   Vector4 make_vec4(const Vector3 & vec3, Amount hCoord);
+
    Matrix4 Matrix4_cast(const Quaternion & q);
 }
 #endif

@@ -25,8 +25,9 @@ Ray Renderer::getRayForPx(Amount px, Amount py)
 Color4 Renderer::shadePixel(Amount px, Amount py)
 {
    Ray r = getRayForPx(px, py);
-   std::cout << "Iteration type: Primary" << std::endl;
+   //std::cout << "Iteration type: Primary" << std::endl;
    Color4 rayColor =  shadeRay(r);
+   /*
    #ifdef TEST_MODE
    {
       Color3 outColor; outColor << (int)rayColor(0)*255, (int)rayColor(1)*255, (int)rayColor(2)*255;
@@ -34,7 +35,9 @@ Color4 Renderer::shadePixel(Amount px, Amount py)
                 << " Color: " << outColor.transpose() << std::endl;
 
    }
+
    #endif
+   */
    return rayColor;
 }
 

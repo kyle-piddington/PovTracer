@@ -35,10 +35,6 @@ Hit Plane::intersect(const Ray & ray, Amount closestT)
       {
          return Hit(ray);
       }
-      if(ray.direction.dot(orientation) > 0)
-      {
-         return Hit(ray, this, -orientation, t)
-      }
       else
       {
          return Hit(ray, this, orientation, t);
