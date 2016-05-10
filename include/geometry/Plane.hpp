@@ -8,7 +8,7 @@ public:
    Plane();
    Plane(Vector3 position, Vector3 orientation);
    Plane(Vector3 orientation, Amount distance);
-   virtual Hit intersect(const Ray & ray);
+   virtual Hit intersect(const Ray & ray, Amount closestT);
 
 private:
    Vector3 position;

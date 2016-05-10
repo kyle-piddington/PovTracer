@@ -45,7 +45,7 @@ private:
    int height;
    int N_SAMPLES;
 protected:
-
+   Color4 shadeRay(Ray & ray);
    std::shared_ptr<Scene> scenePtr;
    const Camera & sceneCam;
 

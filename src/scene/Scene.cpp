@@ -29,6 +29,13 @@ std::shared_ptr<Plane> Scene::addPlane()
    return planePt;
 }
 
+std::shared_ptr<Triangle> Scene::addTriangle(Vector3 vA, Vector3 vB, Vector3 vC)
+{
+   auto triPt = std::make_shared<Triangle>(vA, vB, vC);
+   geometry.push_back(std::static_pointer_cast<IGeometry>(triPt));
+   return triPt;
+}
+
 PointLight & Scene::addPointLight()
 {
    lights.push_back(PointLight());
@@ -41,7 +48,7 @@ Hit Scene::trace(const Ray & ray)
    Hit returnHit(ray);
    for (std::vector<std::shared_ptr<IGeometry>>::iterator i = geometry.begin(); i != geometry.end(); ++i)
    {
-      Hit hit = (*i)->intersect(ray);
+      Hit hit = (*i)->intersect(ray, mDist);
       if(hit.didHit() && (mDist < 0 || hit.getDistance() < mDist))
       {
          returnHit = hit;

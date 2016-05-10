@@ -23,7 +23,7 @@ void ImageWriter::set_pixel(int x, int y, const Color4 & color)
    float yFlipped = (height - y - 1);
    if(x >= 0 && x < width && yFlipped >= 0 && yFlipped < height)
    {
-      buffer[3*(yFlipped * width + x)] =     (int)255 *     fmin(color.x(),1.0);
+      buffer[3*(yFlipped * width + x)] =     (int)255 * fmin(color.x(),1.0);
       buffer[3*(yFlipped * width + x) + 1] = (int)255 * fmin(color.y(),1.0);
       buffer[3*(yFlipped * width + x) + 2] = (int)255 * fmin(color.z(),1.0);
    }

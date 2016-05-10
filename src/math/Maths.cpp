@@ -33,3 +33,18 @@ Amount Maths::Fresnel0(Amount iorA, Amount iorB)
    return pow((iorA - iorB)/(iorA + iorB),2);
 }
 
+
+Vector3 Maths::refract(Amount iorA, Amount iorB, const Vector3  & incoming, const Vector3 & normal)
+{
+  Vector3 n = normal.normalized();
+  Vector3 d  = incoming.normalized();
+  const Amount iorRatio = iorA/iorB;
+  const Amount cosD   = -(n.dot(d));
+  const Amount sinT2  = iorRatio * iorRatio * (1.0 - cosD * cosD);
+  if(sinT2 > 1.0)
+  {
+      return Vector3(0,0,0);
+  }
+  const Amount cosT = sqrt(1.0 - sinT2);
+  return (iorRatio * d + (iorRatio * cosD - cosT) * n).normalized();
+}

@@ -3,6 +3,7 @@
 #include "camera/Camera.hpp"
 #include "geometry/IGeometry.hpp"
 #include "geometry/Sphere.hpp"
+#include "geometry/Triangle.hpp"
 #include "light/PointLight.hpp"
 #include "geometry/Plane.hpp"
 #include <vector>
@@ -45,6 +46,12 @@ public:
       a pointer to the newly added plane
     */
    std::shared_ptr<Plane> addPlane();
+
+   /** Add a triangle to the scene, and return
+   a poitner to the new triangle.
+   The signiture here differs from the other signitures
+   due to the triangle having to create it's normal. */
+   std::shared_ptr<Triangle> addTriangle(Vector3 vA, Vector3 vB, Vector3 vC);
 
    /**
     * Add a light to the scene, and retunr a reference

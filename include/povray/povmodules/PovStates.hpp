@@ -9,6 +9,7 @@
 #include "PlaneState.hpp"
 #include "ObjectModifierState.hpp"
 #include "LightState.hpp"
+#include "TriangleState.hpp"
 #include "scene/Scene.hpp"
 
 struct PovStates
@@ -22,6 +23,7 @@ struct PovStates
    static PlaneState planeState;
    static ObjectModifierState objectState;
    static LightState lightState;
+   static TriangleState triangleState;
 
    static void SetScene(std::shared_ptr<Scene> scenePtr);
 };

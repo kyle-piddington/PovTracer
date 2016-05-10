@@ -11,6 +11,8 @@ struct Ray
    Ray(Vector3 orig, Vector3 dir);
    Vector3 origin;
    Vector3 direction;
+   Amount ior;
+   Amount iter;
    /**
     * Get the position of the ray at time t
     * @param  t the time of impact

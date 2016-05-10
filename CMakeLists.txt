@@ -37,6 +37,7 @@ add_custom_command(TARGET raytrace POST_BUILD
 
 
 #Tests!
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DTEST_MODE")
 file(GLOB_RECURSE raytrace_test_sources "test/*.cpp")
 add_executable(raytrace_test ${raytrace_test_sources})
 target_link_libraries(raytrace_test raytrace_lib)

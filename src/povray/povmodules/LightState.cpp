@@ -29,6 +29,12 @@ ParseState * LightState::accept(std::istream & stream)
       stream >> bfr;
 
    }
+   int backTrace = bfr.size() - 1;
+   while(backTrace > 0)
+   {
+      stream.unget();
+      backTrace --;
+   }
    PointLight & light = currentScene->addPointLight();
    light.setPosition(lightPos);
    light.setColor(lightColor);

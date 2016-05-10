@@ -20,7 +20,7 @@ Plane::Plane(Vector3 orientation, Amount distance) :
 
 }
 
-Hit Plane::intersect(const Ray & ray)
+Hit Plane::intersect(const Ray & ray, Amount closestT)
 {
    Amount rayDotN = ray.direction.dot(orientation);
    if(rayDotN == 0)
@@ -35,6 +35,13 @@ Hit Plane::intersect(const Ray & ray)
       {
          return Hit(ray);
       }
-      return Hit(ray, this, orientation, t);
+      if(ray.direction.dot(orientation) > 0)
+      {
+         return Hit(ray, this, -orientation, t)
+      }
+      else
+      {
+         return Hit(ray, this, orientation, t);
+      }
    }
 }

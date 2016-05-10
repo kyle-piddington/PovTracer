@@ -28,6 +28,16 @@ namespace Maths
     */
    Amount Fresnel0(Amount iorA, Amount iorb);
 
+   /**
+    * Refract a ray through a surface
+    * @param  iorA The index of refraction of the first surface
+    * @param  iorB the index of refraction of the second surface
+    * @param  d    The vector pointing towards the surface of intersection
+    * @param  n    The normal of the surface, opposed to the d vecto
+    * @return      The refracted vector
+    */
+   Vector3 refract(Amount iorA, Amount iorB, const Vector3  & d, const Vector3 & n);
+
    Quaternion quatFromEuler(Vector3 euler);
 
    Matrix4 Matrix4_cast(const Quaternion & q);

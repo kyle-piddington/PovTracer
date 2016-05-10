@@ -76,7 +76,7 @@ std::ostream& operator<<(std::ostream& os, const Hit& hit)
    }
    else
    {
-      os << "Hit: No Intersection";
+      os << "No Intersection.";
    }
    return os;
 }

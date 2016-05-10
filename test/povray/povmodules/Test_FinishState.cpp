@@ -24,8 +24,8 @@ TEST_CASE("Read finish state","[Parse]")
    REQUIRE(finish.getDiffuse() == Amount(1.0));
    REQUIRE(finish.getSpecular() == Amount(1.0));
    REQUIRE(finish.getRoughness() == Amount(1.0));
-   REQUIRE(finish.getRefraction() == Amount(1.0));
-   REQUIRE(finish.getRefraction() == Amount(1.0));
+   REQUIRE(finish.getReflection() == Amount(1.0));
+   REQUIRE(finish.getRefraction());
    REQUIRE(finish.getIor() == Amount(0.0));
 }
 

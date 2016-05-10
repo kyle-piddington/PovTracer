@@ -15,6 +15,7 @@ std::shared_ptr<Scene> parseScene(std::istream & buffer)
    cState->setScene(scenePtr);
    while(!buffer.eof())
    {
+
       cState = cState->accept(buffer);
    }
    return scenePtr;

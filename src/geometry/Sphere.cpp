@@ -24,7 +24,7 @@ void Sphere::setRadius(Amount radius)
 }
 
 
-Hit Sphere::intersect(const Ray & ray)
+Hit Sphere::intersect(const Ray & ray, Amount closestT)
 {
    //Check ray determinent
    Amount A, B, C;
@@ -52,6 +52,8 @@ Hit Sphere::intersect(const Ray & ray)
          return Hit(ray);
       }
       Vector3 normal = (ray.at(t) - pos).normalized();
+      //Hitting the inside of the sphere is only possible if the ray origin
+      //is inside the sphere.
       return Hit(ray, this, normal,  t);
    }
 }

@@ -14,7 +14,7 @@ class IGeometry
 public:
     IGeometry();
 
-   virtual Hit intersect(const Ray & ray) = 0;
+   virtual Hit intersect(const Ray & ray, Amount closestT) = 0;
 
    void setPigment(std::shared_ptr<IPigment> pigment);
 

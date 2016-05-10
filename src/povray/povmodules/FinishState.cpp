@@ -75,6 +75,14 @@ ParseState * FinishState::accept(std::istream & stream)
       }
       stream >> bfr;
    }
+   //If Finish read more than it was supposed to,
+   //reinstert characters into the stream.
+   int backTrace = bfr.size() - 1;
+   while(backTrace > 0)
+   {
+      stream.unget();
+      backTrace --;
+   }
    if(parent != nullptr)
    {
       return transition(parent);

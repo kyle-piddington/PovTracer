@@ -41,6 +41,13 @@ ParseState * CameraState::accept(std::istream & stream)
       stream >> bfr;
    
    }
+   int backTrace = bfr.size() - 1;
+   while(backTrace > 0)
+   {
+      stream.unget();
+      backTrace --;
+   }
+   
    cam.init();
    currentScene->setCamera(cam);
 

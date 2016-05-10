@@ -60,9 +60,9 @@ Amount Finish::getReflection() const
 {
    return reflection;
 }
-Amount Finish::getRefraction() const
+bool Finish::getRefraction() const
 {
-   return refraction;
+   return refraction > 0;
 }
 Amount Finish::getIor() const
 {

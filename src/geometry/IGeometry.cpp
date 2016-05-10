@@ -1,5 +1,7 @@
 #include "geometry/IGeometry.hpp"
 #include "shade/ColorPigment.hpp"
+
+
 IGeometry::IGeometry():
    pigment(ColorPigment::CreateDefault())
    {

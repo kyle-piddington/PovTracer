@@ -44,3 +44,11 @@ TEST_CASE("Map", "[Mapping]")
    
 }
 
+TEST_CASE("Refract 1", "[Refraction]")
+{
+   //Through no issue IOR
+   Vector3 entry(1,1,1);
+   Vector3 nor(0,-1,0);
+   Vector3 exitVec = Maths::refract(1,1,entry,nor);
+   REQUIRE((exitVec - entry.normalized()).norm() < kEpsilon);
+}

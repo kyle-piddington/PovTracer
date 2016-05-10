@@ -37,6 +37,10 @@ ParseState * BaseState::accept(std::istream & stream)
       {
          return transition(&PovStates::planeState);
       }
+      else if(state == "triangle")
+      {
+         return transition(&PovStates::triangleState);
+      }
       else
       {
          throw ParseException(state, "Unrecognized state for BaseState");

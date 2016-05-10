@@ -1,12 +1,18 @@
 #include "base/Ray.hpp"
 
-Ray::Ray()
+Ray::Ray():
+origin(Vector3(0,0,0)),
+direction(Vector3(0,0,0)),
+ior(1.0),
+iter(0)
 {
    
 }
 Ray::Ray(Vector3 o, Vector3 d):
    origin(o),
-   direction(d)
+   direction(d),
+   ior(1.0),
+   iter(0)
    {
 
    }
@@ -17,7 +23,6 @@ Vector3 Ray::at(Amount t) const
 }
 std::ostream& operator<<(std::ostream& os, const Ray& ray)
 {
-   os << "Position: " << ray.origin.transpose() << std::endl
-      << "Direction: " << ray.direction.transpose();
+   os << "{ " << ray.origin.transpose() << " -> " << ray.direction.transpose() << "}";
    return os;
 }

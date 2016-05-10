@@ -6,6 +6,8 @@
 #include "render/Renderer.hpp"
 #include "render/FlatRenderer.hpp"
 #include "render/SpecDiffuseBRDFRenderer.hpp"
+#include "render/ReflectRefractRenderer.hpp"
+#include "render/VisNormalsRenderer.hpp"
 #include "material/LambertianBRDF.hpp"
 #include "material/PhongBRDF.hpp"
 #include "material/CookTorrance.hpp"
@@ -24,9 +26,9 @@ int main(int argC, char ** argV)
    std::shared_ptr<Scene> scene = nullptr;
 
    int width, height;
-   if(argC < 5)
+   if(argC < 4)
    {
-      std::cout << "raytrace <width> <height> <input_file> <BRDF Switch> " << window->flags();
+      std::cout << "raytrace <width> <height> <input_file> [BRDF Switch] " << window->flags();
       return -1;
    }
    if(window->init(argC, argV))
@@ -55,7 +57,11 @@ int main(int argC, char ** argV)
       scene = PovParser::CreateScene(file);
    }
    file.close();
-   BRDFSwitch brdfswitch = (BRDFSwitch)atoi(argV[4]);
+   BRDFSwitch brdfswitch = BRDFSwitch::PHONG;
+   if(argC >= 5){
+      brdfswitch =  (BRDFSwitch)atoi(argV[4]);
+   }
+
    //Choose renderer
    std::shared_ptr<Renderer> renderer;
    std::shared_ptr<BRDF> diffBRFD;
@@ -76,10 +82,10 @@ int main(int argC, char ** argV)
          diffBRFD = std::make_shared<NullBRDF>();
          break;
    }
-
-   renderer = std::make_shared<SpecDiffuseBRDFRenderer>(width, height, scene, diffBRFD, specBRDF);
+   //renderer = std::make_shared<VisNormalsRenderer>(width,height,scene);
+   renderer = std::make_shared<ReflectRefractRenderer>(width, height, scene, diffBRFD, specBRDF,5);
    //Take 4x4 samples (16 per pixel)
-   renderer->setNSamples(4);
+   renderer->setNSamples(1);
    for(int j = 0; j < height; j++)
    {
       for(int i = 0; i < width; i++)

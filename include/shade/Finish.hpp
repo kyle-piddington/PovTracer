@@ -35,7 +35,7 @@ public:
    Amount getSpecular() const;
    Amount getRoughness() const;
    Amount getReflection() const;
-   Amount getRefraction() const;
+   bool getRefraction() const;
    Amount getIor() const;
 
 private:
