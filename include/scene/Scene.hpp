@@ -6,6 +6,8 @@
 #include "geometry/Triangle.hpp"
 #include "light/PointLight.hpp"
 #include "geometry/Plane.hpp"
+#include "spatial/ISpatialStructure.hpp"
+
 #include <vector>
 /**
  * The Scene represents all active geometry, camera,
@@ -42,8 +44,9 @@ public:
     */
    std::shared_ptr<Sphere> addSphere();
 
-   /**Add a plane to the scene, and return
-      a pointer to the newly added plane
+   /**
+    * Add a plane to the scene, and return
+    * a pointer to the newly added plane
     */
    std::shared_ptr<Plane> addPlane();
 
@@ -67,6 +70,13 @@ public:
    virtual void initialize();
 
    /**
+    * Provide a new spatial data structure
+    * for the scene to use during tracing.
+    * @param structure a new structure
+    */
+   void provideSpatialStructure(std::shared_ptr<ISpatialStructure> structure);
+
+   /**
     * Retrieve all the lights in the scene
     */
    const std::vector<PointLight> & getLights();
@@ -77,10 +87,17 @@ public:
 
 
 private:
+   bool sStructureInitted;
    Color4 backgroundColor;
    Camera camera;
    std::vector<std::shared_ptr<IGeometry>> geometry;
+
+   //Planes don't have a traditional boudning box,
+   //and are removed from the spatial data structure.
+   std::vector<std::shared_ptr<IGeometry>> planeGeometry;
+
    std::vector<PointLight> lights;
+   std::shared_ptr<ISpatialStructure> spatialStructure;
 
 };
 #endif

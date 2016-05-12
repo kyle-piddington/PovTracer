@@ -6,6 +6,7 @@
  */
 struct SceneObject
 {
+   SceneObject(std::shared_ptr<IGeometry> geometry);
    std::shared_ptr<IGeometry> geometry;
    BoundingBox bounds;
-}
+};

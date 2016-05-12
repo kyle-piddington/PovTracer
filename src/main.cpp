@@ -103,13 +103,15 @@ int main(int argC, char ** argV)
    renderer = std::make_shared<ReflectRefractRenderer>(width, height, scene, diffBRFD, specBRDF,5);
    //Take 4x4 samples (16 per pixel)
    renderer->setNSamples(1);
-   for(int j = 0; j < height; j++)
+   int i, j;
+   for(j = 0; j < height; j++)
    {
-      for(int i = 0; i < width; i++)
+      for(i = 0; i < width; i++)
       {
          window->set_pixel(i,j,renderer->cast(i,j));
-         printProgressBar(j*width + i, width*height);
+
       }
+      printProgressBar(j*width + i, width*height);
    }
    if(window->shutdown())
    {

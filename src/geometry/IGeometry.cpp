@@ -59,7 +59,7 @@ void IGeometry::setTransform(const Matrix4 & transform)
 BoundingBox IGeometry::createBoundingBox() const
 {
    BoundingBox bBox = this->createUntransformedBoundingBox();
-   if(bBox.isValid())
+   if(bBox.isValid() && transformed)
    {
       bBox = bBox.transform(getTransform());
    }
