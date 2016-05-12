@@ -21,4 +21,9 @@
 
 #define kEpsilon (Amount)1e-4
 
+#define kMinAmount -std::numeric_limits<Amount>::max()
+#define kMaxAmount std::numeric_limits<Amount>::max()
+
+
+
 #endif

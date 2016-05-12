@@ -12,7 +12,8 @@ struct Ray
    {
       PRIMARY,
       REFLECTION,
-      REFRACTION
+      REFRACTION,
+      SHADOW
    };
 
 
@@ -20,6 +21,7 @@ struct Ray
    Ray(Vector3 orig, Vector3 dir);
    Ray(const Ray & other);
    Ray & operator=(const Ray &rhs);
+
    Vector3 origin;
    Vector3 direction;
    Amount ior;

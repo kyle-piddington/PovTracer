@@ -31,8 +31,6 @@ ReflectRefractRenderer::ColorInfo ReflectRefractRenderer::calculateDiffuseSpec(H
       diffuseColor.setZero();
       specularColor.setZero();
 
-      //Try a refractive bounce just in case
-
       if(!shadowRes.didHit()||shadowRes.getDistance() > lightDir.norm())
       {
          Vector3 wi = lightDir.normalized();
@@ -102,8 +100,11 @@ Color4 ReflectRefractRenderer::shade(Hit & hit)
    diffSpec.w() = hit.getGeometry()->getPigment()->getColor(hit)(3);
    if(hit.getRay().iter < kDepth && (finish->getReflection() > kEpsilon || finish->getRefraction()))
    {
-
-      Color4 refl = calculateReflection(hit);
+      Color4 refl; refl << 0,0,0,1;
+      if(finish->getReflection() > kEpsilon)
+      {
+         refl = calculateReflection(hit);
+      }
       if(finish->getRefraction())
       {
          Color4 refr = calculateRefraction(hit);

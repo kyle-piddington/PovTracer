@@ -23,7 +23,7 @@ Hit Triangle::intersect(const Ray & ray, Amount closestT)
     * | g h i | |t|      |l|
     */
    //Local Variables
-   
+
    //Implementation from http://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/moller-trumbore-ray-triangle-intersection
    Vector3 v0v1 = vB-vA;
    Vector3 v0v2 = vC-vA;
@@ -59,7 +59,7 @@ Hit Triangle::intersect(const Ray & ray, Amount closestT)
    {
       return Hit(ray);
    }
-   
+
    return Hit(ray,this,this->normal,t);
 
 
@@ -101,6 +101,17 @@ Hit Triangle::intersect(const Ray & ray, Amount closestT)
    // }
 
    //return Hit(ray, this, this->normal, t);
+}
 
 
+BoundingBox Triangle::createUntransformedBoundingBox() const
+{
+  BoundingBox box;
+  box.minCoords.x() = fmin(fmin(vB.x(),vC.x()),vA.x());
+  box.minCoords.y() = fmin(fmin(vB.y(),vC.y()),vA.y());
+  box.minCoords.z() = fmin(fmin(vB.z(),vC.z()),vA.z());
+  box.maxCoords.x() = fmax(fmax(vB.x(),vC.x()),vA.x());
+  box.maxCoords.y() = fmax(fmax(vB.y(),vC.y()),vA.y());
+  box.maxCoords.z() = fmax(fmax(vB.z(),vC.z()),vA.z());
+  return box;
 }

@@ -41,3 +41,9 @@ Hit Plane::intersect(const Ray & ray, Amount closestT)
       }
    }
 }
+
+
+BoundingBox Plane::createUntransformedBoundingBox() const
+{
+   return BoundingBox::Invalid();
+}

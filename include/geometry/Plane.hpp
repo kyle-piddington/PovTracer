@@ -11,6 +11,12 @@ public:
    virtual Hit intersect(const Ray & ray, Amount closestT);
 
 private:
+   /**
+    * Planes are a special case, with an infinite bounding box.
+    * They will be kept outside of any acceleration structure, and traced after the fact.
+    * @return [description]
+    */
+   virtual BoundingBox createUntransformedBoundingBox() const;
    Vector3 position;
    Vector3 orientation;
 

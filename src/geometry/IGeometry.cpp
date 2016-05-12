@@ -5,7 +5,6 @@
 
 IGeometry::IGeometry():
    pigment(ColorPigment::CreateDefault()),
-   transform(Matrix4::Identity()),
    transformInv(Matrix4::Identity())
    {
 
@@ -48,10 +47,28 @@ void IGeometry::setPigment(std::shared_ptr<IPigment> pigment)
 
 void IGeometry::setTransform(const Matrix4 & transform)
 {
-   this->transform = transform;
-   //Inverse the transform matrix for hit detection
-   this->transformInv = transform.inverse();
-   transformed = true;
+   if(Matrix4::Identity() != transform)
+   {
+      //Inverse the transform matrix for hit detection
+      this->transformInv = transform.inverse();
+      transformed = true;
+   }
+
+}
+
+BoundingBox IGeometry::createBoundingBox() const
+{
+   BoundingBox bBox = this->createUntransformedBoundingBox();
+   if(bBox.isValid())
+   {
+      bBox = bBox.transform(getTransform());
+   }
+   return bBox;
+}
+
+Matrix4 IGeometry::getTransform() const
+{
+   return transformInv.inverse();
 }
 
 std::shared_ptr<IPigment>  IGeometry::getPigment()

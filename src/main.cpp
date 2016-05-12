@@ -18,6 +18,23 @@ enum BRDFSwitch
    PHONG = 0,
    COOKTORRANCE = 1,
 };
+
+void printProgressBar(int amt, int total)
+{
+   int barWidth = 70;
+   float progress = (float)amt/total;
+   std::cout << "[";
+   int pos = barWidth * progress;
+   for (int i = 0; i < barWidth; ++i) {
+      if (i < pos) std::cout << "=";
+      else if (i == pos) std::cout << ">";
+      else std::cout << " ";
+   }
+   std::cout << "] " << int(progress * 100.0) << " %\r";
+   std::cout.flush();
+}
+
+
 int main(int argC, char ** argV)
 {
    //./raytrace wdth ht povray
@@ -91,6 +108,7 @@ int main(int argC, char ** argV)
       for(int i = 0; i < width; i++)
       {
          window->set_pixel(i,j,renderer->cast(i,j));
+         printProgressBar(j*width + i, width*height);
       }
    }
    if(window->shutdown())

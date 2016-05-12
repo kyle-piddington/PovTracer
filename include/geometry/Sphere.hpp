@@ -13,6 +13,8 @@ public:
 
    virtual Hit intersect(const Ray & ray, Amount bestT);
 
+protected:
+     virtual BoundingBox createUntransformedBoundingBox() const;
 private:
    Vector3 pos;
    Amount rad;

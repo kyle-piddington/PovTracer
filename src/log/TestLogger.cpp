@@ -29,6 +29,8 @@ void TestLogger::logRay(const Ray & ray, Hit & hit, Color3 amb, Color3 diff, Col
       case Ray::REFRACTION:
          result.type = "Refraction";
          break;
+      case Ray::SHADOW:
+         result.type = "Shadow";
    }
    result.ray = ray;
    result.amb = amb;
@@ -45,7 +47,7 @@ void TestLogger::printLog(std::ostream & str)
       str << "Pixel: ["<< i->px << "," << i->py << "] Ray: " << i->ray;
       if(i->t > 0)
       {
-         str << " T: " << i->t << " Color: " << i->finalColor.transpose();
+         str << " T: " << i->t << " Color: " << 255*i->finalColor.transpose();
       }
       else
       {
@@ -54,17 +56,14 @@ void TestLogger::printLog(std::ostream & str)
       str << std::endl << "----" << std::endl;
       for (std::vector<rayRes>::iterator ray = i->traceRays.begin(); ray != i->traceRays.end(); ++ray)
       {
-         str << "Iteration Type:" << ray->type << std::endl;
+         str << "Iteration Type: " << ray->type << std::endl;
          str << "Ray: " << ray->ray << std::endl;
          if(ray->hit.didHit())
          {
-            str << "Hit Object ID (" << ray->hit.ID() << ")"
-                <<" at T=" << ray->hit.getT()
-                << ", Intersection = " << ray->hit.getHitpoint().transpose() << std::endl;
             str << "Ambient: " << ray->amb.transpose() << std::endl;
             str << "Diffuse: " << ray->diff.transpose() << std::endl;
             str << "Specular: "<< ray->spec.transpose() << std::endl;
-
+            str << "T: " << ray->hit.getT() << std::endl;
          }
          else
          {
@@ -75,3 +74,4 @@ void TestLogger::printLog(std::ostream & str)
       str << "==========" << std::endl;
    }
 }
+

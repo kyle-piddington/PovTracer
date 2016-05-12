@@ -57,3 +57,9 @@ Hit Sphere::intersect(const Ray & ray, Amount closestT)
       return Hit(ray, this, normal,  t);
    }
 }
+
+BoundingBox Sphere::createUntransformedBoundingBox() const
+{
+   Vector3 bounds; bounds << rad, rad, rad;
+   return BoundingBox(pos - bounds, pos + bounds);
+}

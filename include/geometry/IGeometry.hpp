@@ -5,6 +5,7 @@
 #include "base/Ray.hpp"
 #include "shade/IPigment.hpp"
 #include "shade/Finish.hpp"
+#include "spatial/BoundingBox.hpp"
 /**
  * The IGeometry interface is used by the Raytracer
  * to intersect rays with objects
@@ -16,6 +17,14 @@ public:
 
    Hit intersectTransform(const Ray & ray, Amount closestT);
    virtual Hit intersect(const Ray & ray, Amount closestT) = 0;
+   
+   /**
+    * Create an axis-aligned bounding box of
+    * a transformed geometric object.
+    * @return the object's bounding box;
+    */
+   virtual BoundingBox createBoundingBox() const;
+  
 
    void setPigment(std::shared_ptr<IPigment> pigment);
    void setTransform(const Matrix4 & transform);
@@ -30,11 +39,22 @@ public:
    
    Finish * getFinish();
 
+   /**
+    * Return the transformation matrix
+    * @note: minimize calls to this function, as it executes a matrix inverse
+    * operation every call. Ideally, this is called exactly once per object to build a bounding
+    * box.
+    * @return a matrix mapping local space to world space.
+    */
+   Matrix4 getTransform() const;
 
+protected:
+  virtual BoundingBox createUntransformedBoundingBox() const = 0;
 
 private:
+
    bool transformed;
-   Matrix4 transform, transformInv;
+   Matrix4 transformInv;
    std::shared_ptr<IPigment> pigment;
    Finish finish;
 };
