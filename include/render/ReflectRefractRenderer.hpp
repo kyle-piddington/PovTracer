@@ -15,8 +15,8 @@ public:
          std::shared_ptr<BRDF> specular,
          Amount kDepth);
 
-   Color4 shade(Hit & hit);
-private:
+   virtual Color4 shade(Hit & hit);
+protected:
    //Shading info:
    struct ColorInfo{
       Color4 amb;
