@@ -7,6 +7,7 @@
 #include "render/FlatRenderer.hpp"
 #include "render/SpecDiffuseBRDFRenderer.hpp"
 #include "render/ReflectRefractRenderer.hpp"
+#include "render/SchlickRenderer.hpp"
 #include "render/VisNormalsRenderer.hpp"
 #include "material/LambertianBRDF.hpp"
 #include "material/PhongBRDF.hpp"
@@ -46,7 +47,7 @@ int main(int argC, char ** argV)
    int width, height;
    if(argC < 4)
    {
-      std::cout << "raytrace <width> <height> <input_file> [BRDF Switch] " << window->flags();
+      std::cout << "raytrace <width> <height> <input_file> <anti-aliasing>" << window->flags();
       return -1;
    }
    if(window->init(argC, argV))
@@ -75,38 +76,32 @@ int main(int argC, char ** argV)
       scene = PovParser::CreateScene(file);
    }
    file.close();
-   BRDFSwitch brdfswitch = BRDFSwitch::PHONG;
+   bool aaSwitch = false;
    if(argC >= 5){
-      brdfswitch =  (BRDFSwitch)atoi(argV[4]);
+      aaSwitch = atoi(argV[4]);
    }
 
    //Choose renderer
    std::shared_ptr<Renderer> renderer;
    std::shared_ptr<BRDF> diffBRFD;
    std::shared_ptr<BRDF> specBRDF;
-   switch(brdfswitch){
-      case PHONG:
-         specBRDF = std::make_shared<PhongSpecularBRDF>();
-         diffBRFD = std::make_shared<LambertianBRDF>();
+   specBRDF = std::make_shared<PhongSpecularBRDF>();
+   diffBRFD = std::make_shared<LambertianBRDF>();
 
-         break;
-      case COOKTORRANCE:
-         specBRDF = std::make_shared<PhongSpecularBRDF>();
-         diffBRFD = std::make_shared<OrenNayar>();
-
-         break;
-      default:
-         specBRDF = std::make_shared<NullBRDF>();
-         diffBRFD = std::make_shared<NullBRDF>();
-         break;
-   }
-
+   
    //Add bvh
    scene->provideSpatialStructure(std::make_shared<BVH>());
    //renderer = std::make_shared<VisNormalsRenderer>(width,height,scene);
-   renderer = std::make_shared<ReflectRefractRenderer>(width, height, scene, diffBRFD, specBRDF,5);
+   renderer = std::make_shared<SchlickRenderer>(width, height, scene, diffBRFD, specBRDF,5);
    //Take 4x4 samples (16 per pixel)
-   renderer->setNSamples(1);
+   if(aaSwitch)
+   {
+      renderer->setNSamples(3);
+   }
+   else
+   {
+      renderer->setNSamples(1);   
+   }
    int i, j;
    for(j = 0; j < height; j++)
    {

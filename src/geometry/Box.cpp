@@ -1,4 +1,4 @@
-#include "Box.hpp"
+#include "geometry/Box.hpp"
 
 Box::Box():
    minCoords(Vector3(0,0,0)),
@@ -16,7 +16,7 @@ void Box::setMinCoords(Vector3 minCoords)
 {
    this->minCoords = minCoords;
 }
-void Box::setMaxCoords(vector3 maxCoords)
+void Box::setMaxCoords(Vector3 maxCoords)
 {
    this->maxCoords = maxCoords;
 }
