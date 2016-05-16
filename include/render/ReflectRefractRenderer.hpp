@@ -26,7 +26,7 @@ private:
    
    ColorInfo calculateDiffuseSpec(Hit & hit);
    Color4 calculateReflection(Hit & hit);
-   Color4 calculateRefraction(Hit & hit);
+   Color4 calculateRefraction(Hit & hit, bool internal);
    Amount kDepth;
    std::shared_ptr<BRDF> diffuseBrdf;
    std::shared_ptr<BRDF> specularBrdf;

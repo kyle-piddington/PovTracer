@@ -13,6 +13,7 @@
 #include "material/CookTorrance.hpp"
 #include "material/NullBRDF.hpp"
 #include "material/OrenNayar.hpp"
+#include "spatial/BVH.hpp"
 enum BRDFSwitch
 {
    PHONG = 0,
@@ -99,6 +100,9 @@ int main(int argC, char ** argV)
          diffBRFD = std::make_shared<NullBRDF>();
          break;
    }
+
+   //Add bvh
+   scene->provideSpatialStructure(std::make_shared<BVH>());
    //renderer = std::make_shared<VisNormalsRenderer>(width,height,scene);
    renderer = std::make_shared<ReflectRefractRenderer>(width, height, scene, diffBRFD, specBRDF,5);
    //Take 4x4 samples (16 per pixel)

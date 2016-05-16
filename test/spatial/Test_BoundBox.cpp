@@ -65,12 +65,29 @@ TEST_CASE("Boundbox intersection Test", "[Bounding Box]")
 
    //Negative box
    REQUIRE(!box.intersect(AABB_Ray(Vector3(0,0,10),Vector3(0,0,1))));
-   
-   
-   
-      
-         
+
 
 }
 
+TEST_CASE("Boundbox centroid", "[Bounding box]")
+{
+   BoundingBox box(Vector3(0,0,0), Vector3(1,2,3));
+   REQUIRE((box.centroid - Vector3(0.5, 1, 1.5)).norm() < kEpsilon);
+}
+
+TEST_CASE("BoundBox T values", "[Bounding box]")
+{
+   BoundingBox box(Vector3(-1,-1,-1), Vector3(1,1,1));
+   //Six intersecting sides
+   REQUIRE(9 == box.intersect(AABB_Ray(Vector3(0,0,10),Vector3(0,0,-1))));
+  
+}
+
+TEST_CASE("BoundBox internal intersection", "[Bounding box]")
+{
+   BoundingBox box(Vector3(-1,-1,-1), Vector3(1,1,1));
+   //Six intersecting sides
+   REQUIRE(1 == box.intersect(AABB_Ray(Vector3(0,0,0),Vector3(0,0,-1))));
+  
+}
 

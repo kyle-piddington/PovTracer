@@ -5,7 +5,7 @@
 #include "povray/PovParser.hpp"
 #include <iostream>
 
-#define EPS 0.003
+#define EPS 0.01
 bool compareEps(Vector3 a, Vector3 b)
 {
    if((b-a).norm() >= EPS)

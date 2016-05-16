@@ -1,5 +1,11 @@
 #include "render/ReflectRefractRenderer.hpp"
 #include "math/Maths.hpp"
+/**
+ * @TODO: Internal reflection bugs. 
+ * Spheres2.pov is currently rendering
+ * incorrectly due to how refraction handles the weird edge case
+ * of entering and exiting. really, the best solution is.....
+ */
 ReflectRefractRenderer::ReflectRefractRenderer(int imgw, int imgh, std::shared_ptr<Scene> scene,
          std::shared_ptr<BRDF> diffuse,
          std::shared_ptr<BRDF> specular,
@@ -60,7 +66,7 @@ Color4 ReflectRefractRenderer::calculateReflection(Hit & hit)
 }
 
 
-Color4 ReflectRefractRenderer::calculateRefraction(Hit & hit)
+Color4 ReflectRefractRenderer::calculateRefraction(Hit & hit, bool internal)
 {
    //Create new ray
     
@@ -69,13 +75,13 @@ Color4 ReflectRefractRenderer::calculateRefraction(Hit & hit)
    Amount iorA = 1.0;
    Amount iorB = finish->getIor();
    Vector3 normal = hit.getNormal();
-   if(r.direction.dot(normal) >= 0)
+   if(internal)
    {
       Amount tmp = iorA;
       iorA = iorB;
       iorB = tmp;
-      normal = - normal;
    }
+
    Vector3 refractDir = Maths::refract(iorA,iorB,r.direction, normal);
    if(refractDir.norm() == 0)
    {
@@ -91,6 +97,14 @@ Color4 ReflectRefractRenderer::calculateRefraction(Hit & hit)
 
 Color4 ReflectRefractRenderer::shade(Hit & hit)
 {
+   const Ray & r = hit.getRay();
+   bool internal = false;
+   if(r.direction.dot(hit.getNormal()) >= 0)
+   {
+      
+      internal = true;
+      hit.flipNormal();
+   }
    Finish * finish = hit.getGeometry()->getFinish();
    ColorInfo diffSpecInfo = calculateDiffuseSpec(hit);
    Color4 diffSpec = diffSpecInfo.amb + diffSpecInfo.diff + diffSpecInfo.spec;
@@ -107,10 +121,9 @@ Color4 ReflectRefractRenderer::shade(Hit & hit)
       }
       if(finish->getRefraction())
       {
-         Color4 refr = calculateRefraction(hit);
+         Color4 refr = calculateRefraction(hit, internal);
          Amount filter = hit.getGeometry()->getPigment()->getColor(hit)(3);
          return (1 - (finish->getReflection() + filter))*diffSpec + finish->getReflection()*refl + filter*refr;
-
       }
       else
       {

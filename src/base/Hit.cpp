@@ -79,6 +79,11 @@ void Hit::transform(const Matrix4  & transform, const Matrix4 & transposeInverse
 
 }
 
+void Hit::flipNormal()
+{
+   this->normal = -this->normal;
+}
+
 //@TODO, Finish
 int Hit::ID() const
 {

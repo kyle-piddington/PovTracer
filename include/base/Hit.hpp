@@ -71,6 +71,8 @@ public:
     */
    Vector3 getNormal() const;
 
+   void flipNormal();
+
 
    /**
     * Check to see if this hit actually was a hit

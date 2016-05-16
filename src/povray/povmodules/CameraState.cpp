@@ -34,6 +34,10 @@ ParseState * CameraState::accept(std::istream & stream)
       {
          cam.setLookAt(PovUtil::readVec3(stream));
       }
+      else if(bfr == "direction")
+      {
+         cam.setDirection(PovUtil::readVec3(stream));
+      }
       else
       {
          throw ParseException(bfr, "Unsupported state for camera");

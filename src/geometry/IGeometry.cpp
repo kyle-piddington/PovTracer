@@ -35,8 +35,6 @@ Hit IGeometry::intersectTransform(const Ray & ray, Amount closestT)
       {
          return Hit(ray);
       }
-      //Intersect with geometry after transform.
-      
    }
 }
 
