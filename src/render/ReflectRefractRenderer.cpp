@@ -24,6 +24,8 @@ ReflectRefractRenderer::ColorInfo ReflectRefractRenderer::calculateDiffuseSpec(H
    Color4 pigmentColor = hit.getGeometry()->getPigment()->getColor(hit);
    Finish * finish = hit.getGeometry()->getFinish();
    ColorInfo info;
+   info.diff = Color4::Zero();
+   info.spec = Color4::Zero();
    info.amb = finish->getAmbient() * pigmentColor;
    Vector3 wr = (sceneCam.getLocation() - hit.getHitpoint()).normalized();
    for (std::vector<const PointLight>::iterator pLight = lights.begin(); pLight != lights.end(); ++pLight)
@@ -46,8 +48,9 @@ ReflectRefractRenderer::ColorInfo ReflectRefractRenderer::calculateDiffuseSpec(H
          //Specular color of surface assumed to be (1,1,1)
          specularColor = pLight->getColor() * specular;
       }
-      info.diff = diffuseColor;
-      info.spec = specularColor;
+      //Forgot to add, gawwwwwwdd damnit
+      info.diff += diffuseColor;
+      info.spec += specularColor;
    }
    return info;
 }

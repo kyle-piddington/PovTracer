@@ -9,16 +9,16 @@ SchlickRenderer::SchlickRenderer(int imgw, int imgh, std::shared_ptr<Scene> scen
          Amount kDepth):
    ReflectRefractRenderer(imgw, imgh, scene, diffuse, specular, kDepth)
    {
-      
+
    }
 Amount calculateShlicks(Amount iorA, Amount iorB, const Vector3 & rI, Vector3 n)
 {
    Amount angle = (-rI).normalized().dot(n.normalized());
-   
    if(iorA > iorB)
    {
-      Amount s2Theta = pow(sin(acos(angle)),2);
-      if(fabs(s2Theta - 1) < kEpsilon)
+      Amount iorRatio = iorA/iorB;
+      const Amount s2Theta  = iorRatio * iorRatio * (1.0 - angle * angle);
+      if(s2Theta > 1)
       {
          return 1;
       }
@@ -47,6 +47,7 @@ Color4 SchlickRenderer::shade(Hit & hit)
    logger->logRay(hit.getRay(),hit,diffSpecInfo.amb.segment<3>(0),
                                    diffSpecInfo.diff.segment<3>(0),
                                    diffSpecInfo.spec.segment<3>(0));
+
    diffSpec.w() = hit.getGeometry()->getPigment()->getColor(hit)(3);
    if(hit.getRay().iter < kDepth && (finish->getReflection() > kEpsilon || finish->getRefraction()))
    {
