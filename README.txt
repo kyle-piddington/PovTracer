@@ -4,6 +4,9 @@ CPE 474 (Advanced Rendering)
 Credits;
 This raytracer would not be possible without the help of:
 
+http://stackoverflow.com/a/14539953
+Leemes from StackOverflow's code for creating a progress bar.
+
 https://tavianator.com/fast-branchless-raybounding-box-intersections/
    For branchless AABB intersections using the slab method
 
@@ -26,3 +29,4 @@ http://ruh.li/GraphicsOrenNayar.html
 
 http://www.rorydriscoll.com/2009/01/25/energy-conservation-in-games/
    Energy conserving blinn-phong lighting
+

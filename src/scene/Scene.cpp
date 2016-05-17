@@ -60,6 +60,7 @@ Hit Scene::trace(const Ray & ray)
    {
       //Lock
       //Double guard for mutex
+      #pragma omp critical
       if(!sStructureInitted)
       {
          initialize();

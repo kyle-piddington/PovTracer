@@ -28,7 +28,7 @@ ReflectRefractRenderer::ColorInfo ReflectRefractRenderer::calculateDiffuseSpec(H
    info.spec = Color4::Zero();
    info.amb = finish->getAmbient() * pigmentColor;
    Vector3 wr = (sceneCam.getLocation() - hit.getHitpoint()).normalized();
-   for (std::vector<const PointLight>::iterator pLight = lights.begin(); pLight != lights.end(); ++pLight)
+   for (auto pLight = lights.begin(); pLight != lights.end(); ++pLight)
    {
       //Shadowfeeler hit
       Vector3 lightDir = (pLight->getPosition() - hit.getHitpoint());

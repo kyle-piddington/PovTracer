@@ -15,6 +15,7 @@
 #include "material/NullBRDF.hpp"
 #include "material/OrenNayar.hpp"
 #include "spatial/BVH.hpp"
+#include <omp.h>
 enum BRDFSwitch
 {
    PHONG = 0,
@@ -102,15 +103,22 @@ int main(int argC, char ** argV)
    {
       renderer->setNSamples(1);   
    }
-   int i, j;
-   for(j = 0; j < height; j++)
+   int pxWritten = 0;
+   #pragma omp parallel for
+   for(int j = 0; j < height; j++)
    {
+      int i = 0;
       for(i = 0; i < width; i++)
       {
          window->set_pixel(i,j,renderer->cast(i,j));
 
       }
-      printProgressBar(j*width + i, width*height);
+      #pragma omp critical
+      {
+         pxWritten+=width;
+         printProgressBar(pxWritten, width*height);
+
+      }
    }
    if(window->shutdown())
    {

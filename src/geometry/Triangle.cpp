@@ -113,5 +113,14 @@ BoundingBox Triangle::createUntransformedBoundingBox() const
   box.maxCoords.x() = fmax(fmax(vB.x(),vC.x()),vA.x());
   box.maxCoords.y() = fmax(fmax(vB.y(),vC.y()),vA.y());
   box.maxCoords.z() = fmax(fmax(vB.z(),vC.z()),vA.z());
+  //Add a bit of box for the bounding volume.
+  for(int i=0; i < 3; i++)
+  {
+    if(fabs(box.minCoords(i) - box.maxCoords(i)) < kEpsilon)
+    {
+      box.minCoords(i) -= kEpsilon;
+      box.maxCoords(i) += kEpsilon;
+    }
+  }
   return box;
 }

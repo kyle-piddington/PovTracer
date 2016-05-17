@@ -19,7 +19,7 @@ Color4 SpecDiffuseBRDFRenderer::shade(Hit & hit)
    Color4 endRes;
    endRes = finish->getAmbient() * pigmentColor;
    Vector3 wr = (sceneCam.getLocation() - hit.getHitpoint()).normalized();
-   for (std::vector<const PointLight>::iterator pLight = lights.begin(); pLight != lights.end(); ++pLight)
+   for (auto pLight = lights.begin(); pLight != lights.end(); ++pLight)
    {
       //Shadowfeeler hit
       Vector3 lightDir = (pLight->getPosition() - hit.getHitpoint());
