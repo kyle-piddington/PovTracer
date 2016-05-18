@@ -55,9 +55,10 @@ ParseState * ObjectModifierState::accept(std::istream & stream)
       else if(bfr == "rotate")
       {
          setTransform = true;
-         cTransform = 
+         cTransform =
             Transform::createRotationMatirx(PovUtil::readVec3(stream)) * cTransform;
          return this;
+
       }
       else if(bfr == "scale")
       {

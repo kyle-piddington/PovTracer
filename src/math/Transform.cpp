@@ -22,12 +22,12 @@ Matrix4 Transform::createRotationMatirx(const Vector3 & rotation)
    }
 
 
-   if(fabs(rotRads.z()) > kEpsilon)
+   if(fabs(rotRads.y()) > kEpsilon)
    {
       Matrix4 yRot = Matrix4::Identity();
-      yRot.block<3,3>(0,0) << cos(rotRads.z()),0,sin(rotRads.z()),
+      yRot.block<3,3>(0,0) << cos(rotRads.y()),0,sin(rotRads.y()),
                               0,1,0,
-                              -sin(rotRads.z()),0,cos(rotRads.z());
+                              -sin(rotRads.y()),0,cos(rotRads.y());
       rot = yRot * rot;
    }
 

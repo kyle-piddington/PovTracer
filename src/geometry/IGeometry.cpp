@@ -27,6 +27,7 @@ Hit IGeometry::intersectTransform(const Ray & ray, Amount closestT)
       //to world coordinates (Short circuit if it's not worth it)
       if(tIntersect.didHit())
       {
+
          //Create normal
          Vector3 nor = (transformInv.transpose() * Maths::make_vec4(tIntersect.getNormal(),1)).segment<3>(0);
          return Hit(ray,this,nor,tIntersect.getT());

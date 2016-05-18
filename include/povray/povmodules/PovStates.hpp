@@ -10,6 +10,7 @@
 #include "ObjectModifierState.hpp"
 #include "LightState.hpp"
 #include "TriangleState.hpp"
+#include "BoxState.hpp"
 #include "scene/Scene.hpp"
 
 struct PovStates
@@ -24,7 +25,7 @@ struct PovStates
    static ObjectModifierState objectState;
    static LightState lightState;
    static TriangleState triangleState;
-
+   static BoxState boxState;
    static void SetScene(std::shared_ptr<Scene> scenePtr);
 };
 #endif

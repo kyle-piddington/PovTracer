@@ -79,7 +79,7 @@ void Camera::init()
   }
 
   this->direction = (this->look_at - this->location).normalized() * direction.norm();
-  this->upVec = 
+  this->upVec =
     (this->sky - Maths::project(this->sky,this->direction)) * this->upVec.norm();
   Vector3 rVec = this->rightVec;
   this->rightVec =  (direction.cross(upVec)).normalized() * this->rightVec.norm();

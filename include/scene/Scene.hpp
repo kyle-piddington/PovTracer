@@ -4,8 +4,10 @@
 #include "geometry/IGeometry.hpp"
 #include "geometry/Sphere.hpp"
 #include "geometry/Triangle.hpp"
-#include "light/PointLight.hpp"
 #include "geometry/Plane.hpp"
+#include "geometry/Box.hpp"
+#include "light/PointLight.hpp"
+
 #include "spatial/ISpatialStructure.hpp"
 
 #include <vector>
@@ -55,6 +57,12 @@ public:
    The signiture here differs from the other signitures
    due to the triangle having to create it's normal. */
    std::shared_ptr<Triangle> addTriangle(Vector3 vA, Vector3 vB, Vector3 vC);
+
+   /**
+    * Add a box to the scene, return
+    * a pointer to the newly adde
+    */
+   std::shared_ptr<Box> addBox();
 
    /**
     * Add a light to the scene, and retunr a reference

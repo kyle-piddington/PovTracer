@@ -11,6 +11,18 @@ public:
    virtual Hit intersect(const Ray & ray, Amount closestT);
 
 private:
+
+   enum Plane
+   {
+      X_NEAR,
+      X_FAR,
+      Y_NEAR,
+      Y_FAR,
+      Z_NEAR,
+      Z_FAR
+   };
+   
+   Vector3 normalFor(Plane plane);
    virtual BoundingBox createUntransformedBoundingBox() const;
    Vector3 minCoords, maxCoords;
 

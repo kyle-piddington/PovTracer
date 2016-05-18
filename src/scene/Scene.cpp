@@ -47,6 +47,12 @@ std::shared_ptr<Triangle> Scene::addTriangle(Vector3 vA, Vector3 vB, Vector3 vC)
    return triPt;
 }
 
+std::shared_ptr<Box> Scene::addBox()
+{
+   auto boxPt = std::make_shared<Box>();
+   geometry.push_back(std::static_pointer_cast<IGeometry>(boxPt));
+   return boxPt;
+}
 PointLight & Scene::addPointLight()
 {
    lights.push_back(PointLight());

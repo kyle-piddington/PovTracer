@@ -10,6 +10,7 @@ PlaneState PovStates::planeState;
 ObjectModifierState PovStates::objectState;
 LightState PovStates::lightState;
 TriangleState PovStates::triangleState;
+BoxState      PovStates::boxState;
 
 
 void PovStates::SetScene(std::shared_ptr<Scene> scenePtr)
@@ -24,5 +25,6 @@ void PovStates::SetScene(std::shared_ptr<Scene> scenePtr)
    objectState.setScene(scenePtr);
    lightState.setScene(scenePtr);
    triangleState.setScene(scenePtr);
+   boxState.setScene(scenePtr);
 
 }

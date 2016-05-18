@@ -15,12 +15,17 @@
 #include "material/NullBRDF.hpp"
 #include "material/OrenNayar.hpp"
 #include "spatial/BVH.hpp"
+
+#ifdef OMP_ENABLED
 #include <omp.h>
+#endif
+
 enum BRDFSwitch
 {
    PHONG = 0,
    COOKTORRANCE = 1,
 };
+
 
 void printProgressBar(int amt, int total)
 {
@@ -36,7 +41,6 @@ void printProgressBar(int amt, int total)
    std::cout << "] " << int(progress * 100.0) << " %\r";
    std::cout.flush();
 }
-
 
 int main(int argC, char ** argV)
 {
@@ -89,11 +93,10 @@ int main(int argC, char ** argV)
    specBRDF = std::make_shared<PhongSpecularBRDF>();
    diffBRFD = std::make_shared<LambertianBRDF>();
 
-   
+
    //Add bvh
    scene->provideSpatialStructure(std::make_shared<BVH>());
-   //renderer = std::make_shared<VisNormalsRenderer>(width,height,scene);
-   renderer = std::make_shared<SchlickRenderer>(width, height, scene, diffBRFD, specBRDF,5);
+   renderer = std::make_shared<SchlickRenderer>(width, height, scene, diffBRFD, specBRDF, 5);
    //Take 4x4 samples (16 per pixel)
    if(aaSwitch)
    {
@@ -101,9 +104,10 @@ int main(int argC, char ** argV)
    }
    else
    {
-      renderer->setNSamples(1);   
+      renderer->setNSamples(1);
    }
    int pxWritten = 0;
+
    #pragma omp parallel for
    for(int j = 0; j < height; j++)
    {
@@ -117,7 +121,6 @@ int main(int argC, char ** argV)
       {
          pxWritten+=width;
          printProgressBar(pxWritten, width*height);
-
       }
    }
    if(window->shutdown())

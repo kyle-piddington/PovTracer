@@ -19,7 +19,6 @@ ParseState * TriangleState::accept(std::istream & token)
 
    Vector3 vC = PovUtil::readVec3(token);
    Triangle * tri = &(*currentScene->addTriangle(vA, vB, vC));
-   std::cout << "Triangle added" << std::endl;
    PovStates::objectState = ObjectModifierState(tri);
    return transition(&PovStates::objectState);
 }

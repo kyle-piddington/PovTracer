@@ -146,7 +146,7 @@ BVH::BVHLeaf::BVHLeaf(SceneObject object):
 
 Hit BVH::BVHLeaf::trace(const AABB_Ray & aabb_ray, const Ray & ray, Amount minT)
 {
-   return object.geometry->intersectTransform(ray,minT);   
+   return object.geometry->intersectTransform(ray,minT);
 }
 const BoundingBox & BVH::BVHLeaf::getBox() const
 {
