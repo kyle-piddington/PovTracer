@@ -91,3 +91,14 @@ TEST_CASE("BoundBox internal intersection", "[Bounding box]")
   
 }
 
+TEST_CASE("BoundBox intersects method" , "[Bounding box]")
+{
+  BoundingBox a(Vector3(-1, -1, -1), Vector3(1,1,1));
+  BoundingBox b(Vector3 (-0.5, -0.5, -0.5), Vector3(0.5,0.5,0.5));
+  REQUIRE(a.intersects(b));
+  BoundingBox c(Vector3(0.5,0.5,0.5), Vector3(1.5,1.5,1.5));
+  REQUIRE(a.intersects(c));
+  BoundingBox d(Vector3(2,2,2),Vector3(3,3,3));
+  REQUIRE(!a.intersects(d));
+}
+

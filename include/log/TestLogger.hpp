@@ -13,6 +13,7 @@ private:
       rayRes(const Hit & hit);
       std::string type;
       Ray ray;
+      Ray transformed;
       Hit hit;
       Color3 amb;
       Color3 diff;
@@ -32,7 +33,7 @@ private:
 
 public:
    virtual void logPixel(int px, int py, const Ray & ray, Amount t, Color3 color);
-   virtual void logRay(const Ray & ray, Hit & hit, Color3 amb, Color3 diff, Color3 spec);
+   virtual void logRay(Hit & hit, Color3 amb, Color3 diff, Color3 spec);
    virtual void printLog(std::ostream & str);
 
 

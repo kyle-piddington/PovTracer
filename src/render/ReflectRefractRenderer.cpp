@@ -111,7 +111,7 @@ Color4 ReflectRefractRenderer::shade(Hit & hit)
    Finish * finish = hit.getGeometry()->getFinish();
    ColorInfo diffSpecInfo = calculateDiffuseSpec(hit);
    Color4 diffSpec = diffSpecInfo.amb + diffSpecInfo.diff + diffSpecInfo.spec;
-   logger->logRay(hit.getRay(),hit,diffSpecInfo.amb.segment<3>(0), 
+   logger->logRay(hit,diffSpecInfo.amb.segment<3>(0), 
                                    diffSpecInfo.diff.segment<3>(0),
                                    diffSpecInfo.spec.segment<3>(0));
    diffSpec.w() = hit.getGeometry()->getPigment()->getColor(hit)(3);

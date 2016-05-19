@@ -16,7 +16,7 @@
 #include "material/OrenNayar.hpp"
 #include "spatial/BVH.hpp"
 
-#ifdef OMP_ENABLED
+#ifdef _OPENMP
 #include <omp.h>
 #endif
 
@@ -52,13 +52,14 @@ int main(int argC, char ** argV)
    int width, height;
    if(argC < 4)
    {
-      std::cout << "raytrace <width> <height> <input_file> <anti-aliasing>" << window->flags();
+      std::cout << "raytrace  <width> <height> <input_file> <anti-aliasing>" << window->flags();
       return -1;
    }
    if(window->init(argC, argV))
    {
       return -1;
    }
+
 
    width = atoi(argV[1]);
    height = atoi(argV[2]);
@@ -97,7 +98,7 @@ int main(int argC, char ** argV)
    //Add bvh
    scene->provideSpatialStructure(std::make_shared<BVH>());
    renderer = std::make_shared<SchlickRenderer>(width, height, scene, diffBRFD, specBRDF, 5);
-   //Take 4x4 samples (16 per pixel)
+   //Take 3x3 samples (9 per pixel)
    if(aaSwitch)
    {
       renderer->setNSamples(3);

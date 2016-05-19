@@ -104,6 +104,15 @@ bool BoundingBox::isValid() const
    return _isValid;
 }
 
+bool BoundingBox::intersects(const BoundingBox & other) const
+{
+  Vector3 centerA = this->centroid;
+  Vector3 centerB = other.centroid;
+  Vector3 diff =  2*(centerA-centerB).cwiseAbs() - ((this->maxCoords - this->minCoords)
+                                            +(other.maxCoords - other.minCoords));
+  return diff(0) < 0 && diff(1) < 0 && diff(2) < 0;
+}
+
 BoundingBox BoundingBox::merge(const BoundingBox & other) const
 {
    Vector3 newMin, newMax;

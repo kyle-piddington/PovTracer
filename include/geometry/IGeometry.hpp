@@ -17,6 +17,8 @@ public:
 
    Hit intersectTransform(const Ray & ray, Amount closestT);
    virtual Hit intersect(const Ray & ray, Amount closestT) = 0;
+
+   Ray transformRay(const Ray & ray) const;
    
    /**
     * Create an axis-aligned bounding box of

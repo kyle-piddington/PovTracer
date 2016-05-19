@@ -1,5 +1,5 @@
 #include "log/TestLogger.hpp"
-
+#include "geometry/IGeometry.hpp"
 TestLogger::rayRes::rayRes(const Hit & hit):
    hit(hit){}
 
@@ -16,8 +16,9 @@ void TestLogger::logPixel(int px, int py, const Ray & ray, Amount t, Color3 colo
    traces.push_back(result);
 }
 
-void TestLogger::logRay(const Ray & ray, Hit & hit, Color3 amb, Color3 diff, Color3 spec)
+void TestLogger::logRay(Hit & hit, Color3 amb, Color3 diff, Color3 spec)
 {
+   Ray ray = hit.getRay();
    rayRes result(hit);
    switch(ray.type){
       case Ray::PRIMARY:
@@ -32,7 +33,11 @@ void TestLogger::logRay(const Ray & ray, Hit & hit, Color3 amb, Color3 diff, Col
       case Ray::SHADOW:
          result.type = "Shadow";
    }
-   result.ray = ray;
+   result.ray = hit.getRay();
+   if(hit.didHit())
+   {
+      result.transformed = hit.getGeometry()->transformRay(hit.getRay());
+   }
    result.amb = amb;
    result.diff = diff;
    result.spec = spec;
@@ -47,7 +52,7 @@ void TestLogger::printLog(std::ostream & str)
       str << "Pixel: ["<< i->px << "," << i->py << "] Ray: " << i->ray;
       if(i->t > 0)
       {
-         str << " T: " << i->t << " Color: " << 255*i->finalColor.transpose();
+         str << " T: " << i->t << std::endl << " Color: " << (255*i->finalColor.transpose()).cast<int>();
       }
       else
       {
@@ -60,6 +65,9 @@ void TestLogger::printLog(std::ostream & str)
          str << "Ray: " << ray->ray << std::endl;
          if(ray->hit.didHit())
          {
+            str << "Transformed Ray:  " << ray->transformed << std::endl;
+            str << "Normal : " << ray->hit.getNormal().transpose() << std::endl;
+
             str << "Ambient: " << ray->amb.transpose() << std::endl;
             str << "Diffuse: " << ray->diff.transpose() << std::endl;
             str << "Specular: "<< ray->spec.transpose() << std::endl;

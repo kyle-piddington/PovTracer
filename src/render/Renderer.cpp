@@ -57,7 +57,7 @@ Color4 Renderer::shadeRay(Ray & ray)
    else
    {
       Color3 zero; zero << 0,0,0;
-      logger->logRay(hit.getRay(),hit,zero,zero,zero);
+      logger->logRay(hit,zero,zero,zero);
       return scenePtr->getBackgroundColor();
    }
 }

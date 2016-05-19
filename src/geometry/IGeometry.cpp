@@ -19,9 +19,7 @@ Hit IGeometry::intersectTransform(const Ray & ray, Amount closestT)
    }
    else
    {
-      Ray transformed(ray);
-      transformed.origin = (transformInv * Maths::make_vec4(transformed.origin,1)).segment<3>(0);
-      transformed.direction = (transformInv * Maths::make_vec4(transformed.direction,0)).segment<3>(0);
+      Ray transformed = transformRay(ray);
       Hit tIntersect = intersect(transformed, closestT);
       //Modify tIntersect if hit to transform back
       //to world coordinates (Short circuit if it's not worth it)
@@ -29,7 +27,7 @@ Hit IGeometry::intersectTransform(const Ray & ray, Amount closestT)
       {
 
          //Create normal
-         Vector3 nor = (transformInv.transpose() * Maths::make_vec4(tIntersect.getNormal(),1)).segment<3>(0);
+         Vector3 nor = (transformInv.transpose() * Maths::make_vec4(tIntersect.getNormal(),0)).segment<3>(0);
          return Hit(ray,this,nor,tIntersect.getT());
       }
       else
@@ -37,6 +35,14 @@ Hit IGeometry::intersectTransform(const Ray & ray, Amount closestT)
          return Hit(ray);
       }
    }
+}
+
+Ray IGeometry::transformRay(const Ray & ray) const
+{
+   Ray transformed(ray);
+   transformed.origin = (transformInv * Maths::make_vec4(transformed.origin,1)).segment<3>(0);
+   transformed.direction = (transformInv * Maths::make_vec4(transformed.direction,0)).segment<3>(0);
+   return transformed;
 }
 
 void IGeometry::setPigment(std::shared_ptr<IPigment> pigment)

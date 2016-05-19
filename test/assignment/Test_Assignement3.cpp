@@ -31,6 +31,7 @@ TEST_CASE("Test Assignment 3-2","[Asgn3]")
    renderer.setNSamples(1);
    renderer.cast(315, 185);
    renderer.cast(220, 240);
+   renderer.cast(295,265);
    logger->printLog(std::cout);
 }
 

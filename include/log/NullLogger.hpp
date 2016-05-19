@@ -23,7 +23,7 @@ class NullLogger : public ILogger
     * @param diff diffuse shade component
     * @param spec specular shade component
     */
-   virtual void logRay(const Ray & ray, Hit & hit, Color3 amb, Color3 diff, Color3 spec){}
+   virtual void logRay(Hit & hit, Color3 amb, Color3 diff, Color3 spec){}
 
    /**
     * Print the log result.

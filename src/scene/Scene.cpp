@@ -105,4 +105,5 @@ Color4 Scene::getBackgroundColor() const
 void Scene::provideSpatialStructure(std::shared_ptr<ISpatialStructure> structure)
 {
    this->spatialStructure = structure;
+   initialize();
 }

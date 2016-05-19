@@ -29,6 +29,13 @@ struct BoundingBox
    Amount intersect(const AABB_Ray & ray) const;
 
    /**
+    * Determine if a box intersects another box
+    * @param  other the other box
+    * @return       true if it intersects.
+    */
+   bool intersects(const BoundingBox & other) const;
+
+   /**
     * Planes return invalid bounding boxes. If the mincoord and
     * maxCoord of a bounding box are identical, it is
     * considered invalid.

@@ -23,6 +23,7 @@ private:
       Z_AXIS
    };
    static SplitAxis GetNextAxis(SplitAxis cAxis);
+   static SplitAxis GetLongestAxis(const std::vector<SceneObject> & objects);
    
    /**
     * Interface for tree node.
@@ -59,7 +60,7 @@ private:
       const BoundingBox & getBox() const override;
    };
 
-   static std::shared_ptr<IBVHNode> createBVHNode(std::vector<SceneObject> objects, SplitAxis splitAxis);
+   static std::shared_ptr<IBVHNode> createBVHNode(std::vector<SceneObject> objects);
    /**
     * sort the BVH objects in a list.
     * @param  objects The objects to sort

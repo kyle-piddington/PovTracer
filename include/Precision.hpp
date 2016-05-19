@@ -24,6 +24,4 @@
 #define kMinAmount -std::numeric_limits<Amount>::max()
 #define kMaxAmount std::numeric_limits<Amount>::max()
 
-
-
 #endif
