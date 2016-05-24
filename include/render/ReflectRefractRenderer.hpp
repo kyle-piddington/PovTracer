@@ -24,8 +24,8 @@ protected:
       Color4 spec;
    };
    
-   ColorInfo calculateDiffuseSpec(Hit & hit);
-   Color4 calculateReflection(Hit & hit);
+   virtual ColorInfo calculateDiffuseSpec(Hit & hit);
+   virtual Color4 calculateReflection(Hit & hit);
    virtual Color4 calculateRefraction(Hit & hit, bool internal);
    Amount kDepth;
    std::shared_ptr<BRDF> diffuseBrdf;

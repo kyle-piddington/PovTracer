@@ -11,25 +11,7 @@ SchlickRenderer::SchlickRenderer(int imgw, int imgh, std::shared_ptr<Scene> scen
    {
 
    }
-Amount calculateShlicks(Amount iorA, Amount iorB, const Vector3 & rI, Vector3 n)
-{
-   Amount angle = (-rI).normalized().dot(n.normalized());
-   if(iorA > iorB)
-   {
-      Amount iorRatio = iorA/iorB;
-      const Amount s2Theta  = iorRatio * iorRatio * (1.0 - angle * angle);
-      if(s2Theta > 1)
-      {
-         return 1;
-      }
-      angle = sqrt(1-s2Theta);
-   }
 
-   Amount R0 = pow((iorA - iorB)/(iorA + iorB),2);
-   return R0 + (1 - R0)*pow(1 - angle,5);
-
-
-}
 
 Color4 SchlickRenderer::calculateRefraction(Hit & hit, bool internal)
 {
@@ -121,7 +103,7 @@ Color4 SchlickRenderer::shade(Hit & hit)
             iorA = iorB;
             iorB = tmp;
          }
-         Amount schlicks =  calculateShlicks(iorA, iorB, r.direction, hit.getNormal());
+         Amount schlicks =  Maths::calculateShlicks(iorA, iorB, r.direction, hit.getNormal());
          Color4 refr = calculateRefraction(hit, internal);
 
          return schlicks*refl + (1-schlicks)*refr;// + diffSpecInfo.spec;

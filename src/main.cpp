@@ -7,6 +7,7 @@
 #include "render/FlatRenderer.hpp"
 #include "render/SpecDiffuseBRDFRenderer.hpp"
 #include "render/ReflectRefractRenderer.hpp"
+#include "render/MonteCarloRenderer.hpp"
 #include "render/SchlickRenderer.hpp"
 #include "render/VisNormalsRenderer.hpp"
 #include "material/LambertianBRDF.hpp"
@@ -97,7 +98,7 @@ int main(int argC, char ** argV)
 
    //Add bvh
    scene->provideSpatialStructure(std::make_shared<BVH>());
-   renderer = std::make_shared<SchlickRenderer>(width, height, scene, diffBRFD, specBRDF, 5);
+   renderer = std::make_shared<MonteCarloRenderer>(width, height, scene, diffBRFD, specBRDF, 5,2,256);
    //Take 3x3 samples (9 per pixel)
    if(aaSwitch)
    {

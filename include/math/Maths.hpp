@@ -29,6 +29,10 @@ namespace Maths
    Amount Fresnel0(Amount iorA, Amount iorb);
 
    /**
+    * Random float between range
+    */
+   Amount randAmount(Amount min, Amount max);
+   /**
     * Refract a ray through a surface
     * @param  iorA The index of refraction of the first surface
     * @param  iorB the index of refraction of the second surface
@@ -43,5 +47,17 @@ namespace Maths
    Vector4 make_vec4(const Vector3 & vec3, Amount hCoord);
 
    Matrix4 Matrix4_cast(const Quaternion & q);
+
+   Amount calculateShlicks(Amount iorA, Amount iorB, const Vector3 & rI, Vector3 n);
+
+   /**
+    * Generate a hemisphere sample with a square-root 
+    * distribution
+    * @param  nor   the normal to orient the sample on
+    * @param  focus the amount to focus the sample. Higher = closer to noermal
+    * @return       a new vector 3.
+    */
+   Vector3 generateHemisphereSample(const Vector3 & nor, Amount focus);
+
 }
 #endif

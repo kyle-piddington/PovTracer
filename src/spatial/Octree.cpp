@@ -71,7 +71,7 @@ Hit Octree::trace(const Ray & ray) const
    return Hit(ray);
 }
 
-Hit Octree::Node::trace(const Ray & ray)
+Hit Octree::Node::trace(const Ray & ray) const
 {
    return Hit(ray);
 }
