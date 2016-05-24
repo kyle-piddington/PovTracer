@@ -1,7 +1,9 @@
 #include "spatial/BoundingBox.hpp"
 #include "spatial/AABB_Ray.hpp"
 #define VERTS_PER_BOX 8
-
+#define X_MASK 0x1
+#define Y_MASK 0x2
+#define Z_MASK 0x4
 #define aabb_min(x, y) ((x) < (y) ? (x) : (y))
 #define aabb_max(x, y) ((x) > (y) ? (x) : (y))
 
@@ -35,9 +37,9 @@ BoundingBox BoundingBox::transform(Matrix4 tMat) const
    //Fast block;
    for(int i = 0; i < VERTS_PER_BOX; i++)
    {
-      bool xMax = i%2;
-      bool yMax = (i%4)/2;
-      bool zMax = i/4;
+      bool xMax = i&X_MASK;
+      bool yMax = i&Y_MASK;
+      bool zMax = i&Z_MASK;
       Vector4 newCorner; newCorner << (xMax ? maxCoords(0):minCoords(0)),
                            (yMax ? maxCoords(1):minCoords(1)),
                            (zMax ? maxCoords(2):minCoords(2)),

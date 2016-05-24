@@ -17,4 +17,6 @@ public:
          Amount kDepth);
    Color4 shade(Hit & hit);
   
+protected:
+   Color4 calculateRefraction(Hit & hit, bool internal) override;
 };

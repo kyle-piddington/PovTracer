@@ -41,8 +41,14 @@ Vector3 PovUtil::readVec3(std::istream & istream)
    istream >> dummy;
    if(dummy != '<')
    {
-      printf("'%c' != <\n", dummy);
-      assert(false);
+      //Could be a single number, read back
+      float scale;
+      istream.unget();
+      istream >> scale;
+      checkStream(istream, "Could not parse vector, not single number or vector");
+      vector << scale, scale, scale;
+      return vector;
+
    }
    //Try to read out 3 floats
    istream >> vector[0];

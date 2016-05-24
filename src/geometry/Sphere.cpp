@@ -28,6 +28,7 @@ Hit Sphere::intersect(const Ray & ray, Amount closestT)
 {
    //Check ray determinent
    Amount A, B, C;
+   
    A =  (ray.direction.dot(ray.direction));
    B =  2*(ray.origin - pos).dot(ray.direction);
    C =  (ray.origin - pos).dot(ray.origin - pos) - rad*rad;

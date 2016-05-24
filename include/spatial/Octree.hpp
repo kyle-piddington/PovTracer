@@ -18,7 +18,7 @@ private:
 
    struct Node
    {
-      virtual Hit trace(const Ray & ray);
+      Hit trace(const Ray & ray) const;
       std::vector<SceneObject *> objects;
       bool terminal;
       std::vector<Node> children;
@@ -31,7 +31,6 @@ private:
     */
    
 
-   Hit trace(const Ray & ray, Amount t) const;
 
    Node root;
    BoundingBox bounds;

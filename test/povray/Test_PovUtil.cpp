@@ -15,10 +15,10 @@ TEST_CASE("Comment detection","[Parse]")
 
 TEST_CASE("Parsing Vec3", "[Parse]")
 {
-   std::string test("  <1, 2.0, 3.3>  <4, 5.5, 6.0>");
+   std::string test("  <1, 2.0, 3.3>  <4, 5.5, 6.0> 2.5");
    std::stringstream stream;
    stream.str(test);
-   Vector3 vec, vec2;
+   Vector3 vec, vec2, vec3;
    REQUIRE_NOTHROW(vec = PovUtil::readVec3(stream));
    REQUIRE(vec.x() == 1.0f);
    REQUIRE(vec.y() == 2.0f);
@@ -27,6 +27,10 @@ TEST_CASE("Parsing Vec3", "[Parse]")
    REQUIRE(vec2.x() == 4.0f);
    REQUIRE(vec2.y() == 5.5f);
    REQUIRE(vec2.z() == 6.0f);
+   REQUIRE_NOTHROW(vec3 = PovUtil::readVec3(stream));
+   REQUIRE(vec3.x() == 2.5f);
+   REQUIRE(vec3.y() == 2.5f);
+   REQUIRE(vec3.z() == 2.5f);
 }
 TEST_CASE("Reading Comments", "[Parse]")
 {

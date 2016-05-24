@@ -1,5 +1,7 @@
 #include "spatial/Octree.hpp"
-
+#define Z_MASK 0x1
+#define Y_MASK 0x2
+#define X_MASK 0x4
 Octree::Octree(int maxDepth):
    maxDepth(maxDepth)
 {
@@ -30,9 +32,9 @@ void Octree::splitTree(std::vector<Node> & children, const std::vector<SceneObje
    //Create the new children
    for(int i = 0; i < 8; i++)
    {
-      bool zBox = i%2;
-      bool yBox = (i%4)/2;
-      bool xBox = i/4;
+      bool zBox = i & Z_MASK;
+      bool yBox = i & Y_MASK;
+      bool xBox = i & X_MASK;
       Vector3 offset = Vector3(xBox, yBox, zBox).cwiseProduct((maxBounds-minBounds))/2;
       BoundingBox containingBox(minBounds + offset, minBounds + offset + (maxBounds-minBounds)/2);
       std::vector<SceneObject *> childObjects;

@@ -31,6 +31,63 @@ Amount calculateShlicks(Amount iorA, Amount iorB, const Vector3 & rI, Vector3 n)
 
 }
 
+Color4 SchlickRenderer::calculateRefraction(Hit & hit, bool internal)
+{
+   //Create new ray
+    
+   Finish * finish = hit.getGeometry()->getFinish();
+   const Ray & r = hit.getRay();
+   Amount iorA = 1.0;
+   Amount iorB = finish->getIor();
+   Vector3 normal = hit.getNormal();
+   if(internal)
+   {
+      Amount tmp = iorA;
+      iorA = iorB;
+      iorB = tmp;
+   }
+
+   Vector3 refractDir = Maths::refract(iorA,iorB,r.direction, normal);
+   if(refractDir.norm() == 0)
+   {
+      return Color4(0,0,0,1);
+   }
+   Ray refrRay(hit.getHitpoint() + refractDir * kEpsilon, refractDir);
+   refrRay.ior = finish->getIor();
+   refrRay.iter = r.iter + 1;
+   refrRay.type = Ray::REFRACTION;
+   Hit refrHit = scenePtr->trace(refrRay);
+   Color4 transColor;
+   if(!refrHit.didHit())
+   {
+      transColor = scenePtr->getBackgroundColor();
+   }
+   else
+   {
+      transColor = shade(refrHit);
+   }
+   if(internal || !refrHit.didHit())
+   {
+      return transColor;
+   }
+   else
+   {
+      Color4 transparency;
+      Color4 absorption = 0.1*hit.getGeometry()->getPigment()->getColor(hit);
+      Amount dist = (hit.getHitpoint() - refrHit.getHitpoint()).norm();
+      //Beers time!
+      for(int i = 0; i < 3; i++)
+      {
+         transparency(i) = transparency(i)*exp(-dist*absorption(i));
+      }
+      transparency(3) = 1;
+
+      return transColor.cwiseProduct(transparency);
+   }
+
+}
+
+
 Color4 SchlickRenderer::shade(Hit & hit)
 {
    const Ray & r = hit.getRay();
