@@ -48,7 +48,7 @@ namespace Maths
 
    Matrix4 Matrix4_cast(const Quaternion & q);
 
-   Amount calculateShlicks(Amount iorA, Amount iorB, const Vector3 & rI, Vector3 n);
+   Amount calculateShlicks(Amount iorA, Amount iorB, const Vector3 & rI, const Vector3 & n);
 
    /**
     * Generate a hemisphere sample with a square-root 

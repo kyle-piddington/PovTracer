@@ -48,7 +48,7 @@ ParseState * ObjectModifierState::accept(std::istream & stream)
       else if(bfr == "translate")
       {
          setTransform = true;
-         
+         cTransform = 
             Transform::createTranslationMatrix(PovUtil::readVec3(stream)) * cTransform;
          return this;
       }

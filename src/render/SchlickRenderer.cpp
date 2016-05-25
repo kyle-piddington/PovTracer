@@ -60,10 +60,9 @@ Color4 SchlickRenderer::calculateRefraction(Hit & hit, bool internal)
       //Beers time!
       for(int i = 0; i < 3; i++)
       {
-         transparency(i) = transparency(i)*exp(-dist*absorption(i));
+         transparency(i) = exp(-dist*absorption(i));
       }
       transparency(3) = 1;
-
       return transColor.cwiseProduct(transparency);
    }
 
@@ -105,7 +104,6 @@ Color4 SchlickRenderer::shade(Hit & hit)
          }
          Amount schlicks =  Maths::calculateShlicks(iorA, iorB, r.direction, hit.getNormal());
          Color4 refr = calculateRefraction(hit, internal);
-
          return schlicks*refl + (1-schlicks)*refr;// + diffSpecInfo.spec;
       }
       else

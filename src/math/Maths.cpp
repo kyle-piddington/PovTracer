@@ -84,7 +84,7 @@ Vector3 Maths::generateHemisphereSample(const Vector3 & normal, Amount focus)
   return rotSample;
 }
 
-Amount Maths::calculateShlicks(Amount iorA, Amount iorB, const Vector3 & rI, Vector3 n)
+Amount Maths::calculateShlicks(Amount iorA, Amount iorB, const Vector3 & rI, const Vector3 & n)
 {
    Amount angle = (-rI).normalized().dot(n.normalized());
    if(iorA > iorB)
