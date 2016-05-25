@@ -52,3 +52,36 @@ TEST_CASE("Refract 1", "[Refraction]")
    Vector3 exitVec = Maths::refract(1,1,entry,nor);
    REQUIRE((exitVec - entry.normalized()).norm() < kEpsilon);
 }
+
+TEST_CASE("Sample 1", "[Sample]")
+{
+   for(int i = 0; i < 128; i++)
+   {
+      Vector3 test = Maths::generateHemisphereSample(Vector3(0,0,1),2);
+      REQUIRE(test.z() > 0);
+   }
+}
+TEST_CASE("Sample 2", "[Sample]")
+{
+   for(int i = 0; i < 128; i++)
+   {
+      Vector3 test = Maths::generateHemisphereSample(Vector3(1,0,0),2);
+      REQUIRE(test.x() > 0);
+   }
+}
+TEST_CASE("Sample 3", "[Sample]")
+{
+   for(int i = 0; i < 128; i++)
+   {
+      Vector3 test = Maths::generateHemisphereSample(Vector3(0,-1,0),2);
+      REQUIRE(test.y() < 0);
+   }
+}
+TEST_CASE("Sample 4", "[Sample]")
+{
+   for(int i = 0; i < 128; i++)
+   {
+      Vector3 test = Maths::generateHemisphereSample(Vector3(0,0,-1),2);
+      REQUIRE(test.z() < 0);
+   }
+}

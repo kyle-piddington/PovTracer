@@ -98,7 +98,9 @@ int main(int argC, char ** argV)
 
    //Add bvh
    scene->provideSpatialStructure(std::make_shared<BVH>());
-   renderer = std::make_shared<SchlickRenderer>(width, height, scene, diffBRFD, specBRDF, 5);
+   //renderer = std::make_shared<VisNormalsRenderer>(width,height,scene);
+   //renderer = std::make_shared<SchlickRenderer>(width,height,scene,diffBRFD,specBRDF,5);
+   renderer = std::make_shared<MonteCarloRenderer>(width, height, scene, diffBRFD, specBRDF, 5, 2, 32);
    //Take 3x3 samples (9 per pixel)
    if(aaSwitch)
    {

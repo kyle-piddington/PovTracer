@@ -25,8 +25,8 @@ Color4 MonteCarloRenderer::calculateIndirectLighting(Hit & hit)
       for(int i = 0 ; i < kNSamples; i++)
       {
          //Generate normal-centric samples
-         Vector3 newDir = Maths::generateHemisphereSample(hit.getNormal(),2);
-         Ray newRay(hit.getHitpoint() + hit.getNormal() * kEpsilon, newDir);
+         Vector3 newDir = Maths::generateHemisphereSample(hit.getNormal(),2); 
+         Ray newRay(hit.getHitpoint() + newDir * kEpsilon, newDir);
          newRay.iter = hit.getRay().iter + 1;
          collectedLight += shadeRay(newRay);
       }
@@ -56,8 +56,8 @@ ReflectRefractRenderer::ColorInfo MonteCarloRenderer::calculateDiffuseSpec(Hit &
       Hit shadowRes = scenePtr->trace(shadowRay);
       //If T  > 1.0
       Color4 diffuseColor, specularColor;
-      diffuseColor.setZero();
-      specularColor.setZero();
+      diffuseColor = Color4::Zero();
+      specularColor = Color4::Zero();
 
       if(!shadowRes.didHit()||shadowRes.getDistance() > lightDir.norm())
       {
@@ -81,7 +81,6 @@ Color4 MonteCarloRenderer::shade(Hit & hit)
    bool internal = false;
    if(r.direction.dot(hit.getNormal()) >= 0)
    {
-
       internal = true;
       hit.flipNormal();
    }

@@ -1,6 +1,7 @@
 #include "math/Maths.hpp"
 #include <Eigen/Geometry>
 
+#include <iostream>
 Vector3 Maths::project(Vector3 v, Vector3 u)
 {
    return (u.dot(v)/u.dot(u)) * u;
@@ -70,17 +71,18 @@ Vector3 Maths::generateHemisphereSample(const Vector3 & normal, Amount focus)
   Vector3 axis;
   if(fabs(cosA) > 1 - kEpsilon)
   {
-    axis = normal;
+    axis = Vector3(1,0,0);
   }
   else
   {
-    axis = normal.cross(Vector3(0,0,1));
+    axis = Vector3(0,0,1).cross(normal);
   }
   if(cosA < 0)
   {
     axis = -axis;
   }
-  Vector3 rotSample = Eigen::AngleAxis<Amount>(acos(cosA),axis).matrix() * sample;
+
+  Vector3 rotSample = Eigen::AngleAxis<Amount>(acos(cosA),axis.normalized()).matrix() * sample;
   return rotSample;
 }
 
