@@ -25,6 +25,7 @@ void Scene::initialize()
       objs.push_back(*i);
    }
    spatialStructure->init(objs);
+   sStructureInitted = true;
 }
 std::shared_ptr<Sphere> Scene::addSphere()
 {

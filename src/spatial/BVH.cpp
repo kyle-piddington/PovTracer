@@ -2,6 +2,7 @@
 
 void BVH::init(const std::vector<SceneObject> & objects)
 {
+   std::cout << "Creating bvh with " << objects.size() << " objects" << std::endl;
    root = createBVHNode(objects);
 }
 
@@ -53,7 +54,7 @@ BVH::SplitAxis BVH::GetNextAxis(SplitAxis cAxis)
 BVH::SplitAxis BVH::GetLongestAxis(const std::vector<SceneObject> & objects)
 {
    Vector3 minCoords, maxCoords;
-   if(objects.size() > 0)
+   if(objects.size() > 1)
    {
       minCoords = objects[0].bounds.minCoords;
       maxCoords = objects[1].bounds.maxCoords;
@@ -82,6 +83,8 @@ std::shared_ptr<BVH::IBVHNode> BVH::createBVHNode(std::vector<SceneObject> objec
    }
    else
    {
+      std::cout << "Creating bvh node with " << objects.size() << " objects" << std::endl;
+   
       //Sort and split recursivley, swapping the split axis each time.
       SplitAxis axis = GetLongestAxis(objects);
       SortObjects(&objects,axis);

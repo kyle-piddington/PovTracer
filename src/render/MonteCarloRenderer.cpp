@@ -22,15 +22,18 @@ Color4 MonteCarloRenderer::calculateIndirectLighting(Hit & hit)
    {
       //Sample and recurse
       Color4 collectedLight = Color4::Zero();
-      for(int i = 0 ; i < kNSamples; i++)
+      Vector3 hitPoint = hit.getHitpoint();
+      Ray hRay = hit.getRay();
+      int nSamp = pow(kNSamples,1.0/(hRay.iter+1));
+      for(int i = 0 ; i < nSamp; i++)
       {
          //Generate normal-centric samples
          Vector3 newDir = Maths::generateHemisphereSample(hit.getNormal(),2); 
-         Ray newRay(hit.getHitpoint() + newDir * kEpsilon, newDir);
-         newRay.iter = hit.getRay().iter + 1;
+         Ray newRay(hitPoint + newDir * kEpsilon, newDir);
+         newRay.iter = hRay.iter + 1;
          collectedLight += shadeRay(newRay);
       }
-      collectedLight/= kNSamples;
+      collectedLight/= nSamp;
       return collectedLight;
    }
    else

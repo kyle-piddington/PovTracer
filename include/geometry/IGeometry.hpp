@@ -19,14 +19,14 @@ public:
    virtual Hit intersect(const Ray & ray, Amount closestT) = 0;
 
    Ray transformRay(const Ray & ray) const;
-   
+
    /**
     * Create an axis-aligned bounding box of
     * a transformed geometric object.
     * @return the object's bounding box;
     */
    virtual BoundingBox createBoundingBox() const;
-  
+
 
    void setPigment(std::shared_ptr<IPigment> pigment);
    void setTransform(const Matrix4 & transform);
@@ -38,7 +38,7 @@ public:
     * Get a reference to the pigment pointer
     */
    std::shared_ptr<IPigment> * getPigmentPtr();
-   
+
    Finish * getFinish();
 
    /**

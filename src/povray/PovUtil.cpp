@@ -26,7 +26,7 @@ void PovUtil::processComment(std::istream & istream)
    std::string bfr;
    std::getline(istream, bfr);
 }
- 
+
 void checkStream(std::istream & stream, std::string err)
 {
    if(stream.fail())
@@ -79,9 +79,17 @@ Vector4 PovUtil::readVec4(std::istream & istream)
    istream >> vector[2];
    checkStream(istream, "Could not parse Z");
    istream >> dummy; //Read ,
-   istream >> vector[3];
-   checkStream(istream, "Could not parse Z");
-   
+   if(dummy == '>')
+   {
+      vector[3] = 0;
+      return vector;
+   }
+   else
+   {
+      istream >> vector[3];
+      checkStream(istream, "Could not parse W");
+   }
+
    istream >> dummy; //Read >
    assert(dummy == '>');
    return vector;
