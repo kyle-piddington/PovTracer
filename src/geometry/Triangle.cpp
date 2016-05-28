@@ -106,21 +106,22 @@ Hit Triangle::intersect(const Ray & ray, Amount closestT)
 
 BoundingBox Triangle::createUntransformedBoundingBox() const
 {
-  BoundingBox box;
-  box.minCoords.x() = fmin(fmin(vB.x(),vC.x()),vA.x());
-  box.minCoords.y() = fmin(fmin(vB.y(),vC.y()),vA.y());
-  box.minCoords.z() = fmin(fmin(vB.z(),vC.z()),vA.z());
-  box.maxCoords.x() = fmax(fmax(vB.x(),vC.x()),vA.x());
-  box.maxCoords.y() = fmax(fmax(vB.y(),vC.y()),vA.y());
-  box.maxCoords.z() = fmax(fmax(vB.z(),vC.z()),vA.z());
+  Vector3 minCoords;
+  Vector3 maxCoords;
+  minCoords.x() = fmin(fmin(vB.x(),vC.x()),vA.x());
+  minCoords.y() = fmin(fmin(vB.y(),vC.y()),vA.y());
+  minCoords.z() = fmin(fmin(vB.z(),vC.z()),vA.z());
+  maxCoords.x() = fmax(fmax(vB.x(),vC.x()),vA.x());
+  maxCoords.y() = fmax(fmax(vB.y(),vC.y()),vA.y());
+  maxCoords.z() = fmax(fmax(vB.z(),vC.z()),vA.z());
   //Add a bit of box for the bounding volume.
   for(int i=0; i < 3; i++)
   {
-    if(fabs(box.minCoords(i) - box.maxCoords(i)) < kEpsilon)
+    if(fabs(minCoords(i) - maxCoords(i)) < kEpsilon)
     {
-      box.minCoords(i) -= kEpsilon;
-      box.maxCoords(i) += kEpsilon;
+      minCoords(i) -= kEpsilon;
+      maxCoords(i) += kEpsilon;
     }
   }
-  return box;
+  return BoundingBox(minCoords, maxCoords);
 }

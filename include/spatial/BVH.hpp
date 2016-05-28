@@ -32,6 +32,7 @@ private:
    {
       virtual Hit trace(const AABB_Ray & aabb, const Ray & ray, Amount minT) = 0;
       virtual const BoundingBox & getBox() const = 0;
+      int depth;
 
    };
    /**
@@ -60,7 +61,7 @@ private:
       const BoundingBox & getBox() const override;
    };
 
-   static std::shared_ptr<IBVHNode> createBVHNode(std::vector<SceneObject> objects);
+   static std::shared_ptr<IBVHNode> createBVHNode(std::vector<SceneObject> objects, int depth);
    /**
     * sort the BVH objects in a list.
     * @param  objects The objects to sort

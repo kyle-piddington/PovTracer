@@ -2,8 +2,7 @@
 
 void BVH::init(const std::vector<SceneObject> & objects)
 {
-   std::cout << "Creating bvh with " << objects.size() << " objects" << std::endl;
-   root = createBVHNode(objects);
+   root = createBVHNode(objects,0);
 }
 
 
@@ -57,21 +56,23 @@ BVH::SplitAxis BVH::GetLongestAxis(const std::vector<SceneObject> & objects)
    if(objects.size() > 1)
    {
       minCoords = objects[0].bounds.minCoords;
-      maxCoords = objects[1].bounds.maxCoords;
+      maxCoords = objects[0].bounds.maxCoords;
       for(int i = 1; i < objects.size(); i++)
       {
          minCoords = minCoords.cwiseMin(objects[i].bounds.minCoords);
          maxCoords = maxCoords.cwiseMax(objects[i].bounds.maxCoords);
       }
       Vector3 diff = maxCoords - minCoords;
+
       BVH::SplitAxis retAxis = diff(0) > diff(1)? BVH::SplitAxis::X_AXIS : BVH::SplitAxis::Y_AXIS;
       retAxis = diff((int)retAxis) > diff(2) ? retAxis : BVH::SplitAxis::Z_AXIS;
       return retAxis;
+
    }
    return BVH::SplitAxis::X_AXIS;
 }
 
-std::shared_ptr<BVH::IBVHNode> BVH::createBVHNode(std::vector<SceneObject> objects)
+std::shared_ptr<BVH::IBVHNode> BVH::createBVHNode(std::vector<SceneObject> objects, int depth)
 {
    if(objects.size() == 0)
    {
@@ -83,19 +84,21 @@ std::shared_ptr<BVH::IBVHNode> BVH::createBVHNode(std::vector<SceneObject> objec
    }
    else
    {
-      std::cout << "Creating bvh node with " << objects.size() << " objects" << std::endl;
    
       //Sort and split recursivley, swapping the split axis each time.
       SplitAxis axis = GetLongestAxis(objects);
+      
       SortObjects(&objects,axis);
       //SplitAxis nextAxis = GetNextAxis(axis);
       std::shared_ptr<BVH::BVHNode> newNode = std::make_shared<BVH::BVHNode>();
+      newNode->depth = depth;
       newNode->left = createBVHNode(
-                        std::vector<SceneObject>(objects.begin(), objects.begin() + objects.size()/2)
+                        std::vector<SceneObject>(objects.begin(), objects.begin() + objects.size()/2), depth+1
                         );
       newNode->right = createBVHNode(
-                        std::vector<SceneObject>(objects.begin() + objects.size()/2, objects.end())
+                        std::vector<SceneObject>(objects.begin() + objects.size()/2, objects.end()), depth+1
                            );
+
       //Create bounding box
       newNode->nodeBounds = newNode->left->getBox().merge(newNode->right->getBox());
       return newNode;
@@ -139,7 +142,7 @@ Hit BVH::BVHNode::trace(const AABB_Ray & aabb_ray, const Ray & ray, Amount minT)
    Amount thisT = getBox().intersect(aabb_ray);
 
    if(thisT > 0 && (thisT < minT || minT < 0))
-   {  
+   {
       if(this->left != nullptr)
       {
          Hit hLeft = this->left->trace(aabb_ray,ray,minT);
@@ -158,6 +161,7 @@ Hit BVH::BVHNode::trace(const AABB_Ray & aabb_ray, const Ray & ray, Amount minT)
          }
       }
    }
+
 
    return retHit;
 }

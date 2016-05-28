@@ -48,7 +48,7 @@ BoundingBox BoundingBox::transform(Matrix4 tMat) const
       newMin.x() = fmin(transCorner.x(),newMin.x());
       newMin.y() = fmin(transCorner.y(),newMin.y());
       newMin.z() = fmin(transCorner.z(),newMin.z());
-
+      
       newMax.x() = fmax(transCorner.x(),newMax.x());
       newMax.y() = fmax(transCorner.y(),newMax.y());
       newMax.z() = fmax(transCorner.z(),newMax.z());
