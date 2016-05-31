@@ -85,6 +85,39 @@ Vector3 Maths::generateHemisphereSample(const Vector3 & normal, Amount focus)
   Vector3 rotSample = Eigen::AngleAxis<Amount>(acos(cosA),axis.normalized()).matrix() * sample;
   return rotSample;
 }
+void Maths::generateHemisphereSamples(const Vector3 & normal, Amount focus, int count, std::vector<Vector3> * sampleOut)
+{
+  //Rotate sample
+  Amount cosA = normal.dot(Vector3(0,0,1));
+  Vector3 axis;
+
+  if(fabs(cosA) > 1 - kEpsilon)
+  {
+    axis = Vector3(1,0,0);
+  }
+  else
+  {
+    axis = Vector3(0,0,1).cross(normal);
+  }
+  if(cosA < 0)
+  {
+    axis = -axis;
+  }
+
+  Matrix3 rotMtx = Eigen::AngleAxis<Amount>(acos(cosA),axis.normalized()).matrix();
+  sampleOut->clear();
+  sampleOut->reserve(count);
+  for(int i = 0; i < count; i++)
+  {
+    Amount r = pow(Maths::randAmount(0,1),1.0/focus);
+    Amount theta = Maths::randAmount(0,2*M_PI);
+    Amount x = cos(theta)*r;
+    Amount y = sin(theta)*r;
+    Vector3 sample; sample << x, y, sqrt(1 - (x*x + y*y));
+    Vector3 rotSample = rotMtx * sample;
+    sampleOut->push_back(rotSample);
+  }
+}
 
 Amount Maths::calculateShlicks(Amount iorA, Amount iorB, const Vector3 & rI, const Vector3 & n)
 {

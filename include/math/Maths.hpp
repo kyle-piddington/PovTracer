@@ -1,6 +1,7 @@
 #ifndef __MATHS_HPP__
 #define __MATHS_HPP__
 #include "Precision.hpp"
+#include <vector>
 namespace Maths
 {
    /**
@@ -58,6 +59,9 @@ namespace Maths
     * @return       a new vector 3.
     */
    Vector3 generateHemisphereSample(const Vector3 & nor, Amount focus);
+   
+   void generateHemisphereSamples(const Vector3 & normal, Amount focus, int count, std::vector<Vector3> * sampleOut);
+
 
 }
 #endif

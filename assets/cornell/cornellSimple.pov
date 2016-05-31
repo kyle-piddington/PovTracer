@@ -39,11 +39,11 @@ box { <-1,-1,-1>, <1,1,1>
 
 // floor @ y=0
 triangle { <-5,0,5>, <5,0,-5>, <-5,0,-5>
-   pigment { color rgb <1,1,1> }
+   pigment { color rgb <0.5,0.5,0.5> }
    finish { ambient 0 diffuse 0.5 }
 }
 triangle { <-5,0,5>, <5,0,5>, <5,0,-5>
-   pigment { color rgb <1,1,1> }
+   pigment { color rgb <0.5,0.5,0.5> }
    finish { ambient 0 diffuse 0.5 }
 }
 

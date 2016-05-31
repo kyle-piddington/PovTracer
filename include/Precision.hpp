@@ -14,6 +14,7 @@
 #define Color4 Eigen::Vector4f
 
 #define Matrix4 Eigen::Matrix4f
+#define Matrix3 Eigen::Matrix3f
 #define Quaternion  Eigen::Quaternionf
 
 #define Amount float

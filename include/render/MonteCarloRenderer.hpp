@@ -15,10 +15,10 @@ public:
          std::shared_ptr<BRDF> diffuse,
          std::shared_ptr<BRDF> specular,
          int kDepth, int giDepth, int nSamples);
-   Color4 shade(Hit & hit);
+   Color4 shade(Hit & hit) override;
   
 protected:
-   ReflectRefractRenderer::ColorInfo calculateDiffuseSpec(Hit & hit);
+   ReflectRefractRenderer::ColorInfo calculateDiffuseSpec(Hit & hit) override;
    Color4 calculateIndirectLighting(Hit & hit);
    /**
     * Generate a centered hemisphere sample oriented

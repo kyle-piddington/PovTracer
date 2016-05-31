@@ -28,6 +28,8 @@ enum BRDFSwitch
 };
 
 
+
+
 void printProgressBar(int amt, int total)
 {
    int barWidth = 70;
@@ -51,9 +53,9 @@ int main(int argC, char ** argV)
    std::shared_ptr<Scene> scene = nullptr;
 
    int width, height;
-   if(argC < 4)
+   if(argC < 6)
    {
-      std::cout << "raytrace  <width> <height> <input_file> <anti-aliasing>" << window->flags();
+      std::cout << "raytrace  <width> <height> <input_file> <anti-aliasing> <GI>" << window->flags();
       return -1;
    }
    if(window->init(argC, argV))
@@ -87,6 +89,11 @@ int main(int argC, char ** argV)
    if(argC >= 5){
       aaSwitch = atoi(argV[4]);
    }
+   bool giSwitch = false;
+   if(argC >= 6)
+   {
+      giSwitch = atoi(argV[5]);
+   }
 
    //Choose renderer
    std::shared_ptr<Renderer> renderer;
@@ -99,8 +106,15 @@ int main(int argC, char ** argV)
    //Add bvh
    scene->provideSpatialStructure(std::make_shared<BVH>());
    //renderer = std::make_shared<VisNormalsRenderer>(width,height,scene);
-   renderer = std::make_shared<SchlickRenderer>(width,height,scene,diffBRFD,specBRDF,5);
-   //renderer = std::make_shared<MonteCarloRenderer>(width, height, scene, diffBRFD, specBRDF, 5, 2, 256);
+   if(giSwitch)
+   {
+
+      renderer = std::make_shared<MonteCarloRenderer>(width, height, scene, diffBRFD, specBRDF, 5, 2, 256);
+   }
+   else
+   {
+      renderer = std::make_shared<SchlickRenderer>(width,height,scene,diffBRFD,specBRDF,5);
+   }
    //Take 3x3 samples (9 per pixel)
    if(aaSwitch)
    {

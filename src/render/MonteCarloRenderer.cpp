@@ -25,10 +25,12 @@ Color4 MonteCarloRenderer::calculateIndirectLighting(Hit & hit)
       Vector3 hitPoint = hit.getHitpoint();
       Ray hRay = hit.getRay();
       int nSamp = pow(kNSamples,1.0/(hRay.iter+1));
+      std::vector<Vector3> samples;
+      Maths::generateHemisphereSamples(hit.getNormal(),2,nSamp,&samples);
       for(int i = 0 ; i < nSamp; i++)
       {
          //Generate normal-centric samples
-         Vector3 newDir = Maths::generateHemisphereSample(hit.getNormal(),2); 
+         Vector3 newDir = samples[i];
          Ray newRay(hitPoint + newDir * kEpsilon, newDir);
          newRay.iter = hRay.iter + 1;
          collectedLight += shadeRay(newRay);
@@ -42,6 +44,10 @@ Color4 MonteCarloRenderer::calculateIndirectLighting(Hit & hit)
    }
 }
 
+
+/**
+ * Monte carlo doesn't actually have specular, use relflection instead.
+ */
 ReflectRefractRenderer::ColorInfo MonteCarloRenderer::calculateDiffuseSpec(Hit & hit)
 {
    Color4 pigmentColor = hit.getGeometry()->getPigment()->getColor(hit);
@@ -58,9 +64,9 @@ ReflectRefractRenderer::ColorInfo MonteCarloRenderer::calculateDiffuseSpec(Hit &
       Ray shadowRay(hit.getHitpoint() + hit.getNormal()*kEpsilon,lightDir);
       Hit shadowRes = scenePtr->trace(shadowRay);
       //If T  > 1.0
-      Color4 diffuseColor, specularColor;
+      Color4 diffuseColor;
       diffuseColor = Color4::Zero();
-      specularColor = Color4::Zero();
+
 
       if(!shadowRes.didHit()||shadowRes.getDistance() > lightDir.norm())
       {
@@ -69,10 +75,8 @@ ReflectRefractRenderer::ColorInfo MonteCarloRenderer::calculateDiffuseSpec(Hit &
          Amount specular = specularBrdf->eval(wi, wr, hit);
          diffuseColor = diffuse * pigmentColor.cwiseProduct(pLight->getColor());
          //Specular color of surface assumed to be (1,1,1)
-         specularColor = pLight->getColor() * specular;
       }
       info.diff += diffuseColor;
-      info.spec += specularColor;
    }
    return info;
 }
@@ -115,11 +119,10 @@ Color4 MonteCarloRenderer::shade(Hit & hit)
          //return Color4(0.0);
          ColorInfo diffSpecInfo = calculateDiffuseSpec(hit);
          Color4 diffSpec = diffSpecInfo.amb + diffSpecInfo.diff + diffSpecInfo.spec;
-         
+
          logger->logRay(hit,          diffSpecInfo.amb.segment<3>(0),
                                       diffSpecInfo.diff.segment<3>(0),
                                       diffSpecInfo.spec.segment<3>(0));
-
          return (1 - finish->getReflection())*diffSpec + finish->getReflection()*refl;
       }
    }
@@ -127,7 +130,7 @@ Color4 MonteCarloRenderer::shade(Hit & hit)
    {
       ColorInfo diffSpecInfo = calculateDiffuseSpec(hit);
       Color4 diffSpec = diffSpecInfo.amb + diffSpecInfo.diff + diffSpecInfo.spec;
-      
+
       logger->logRay(hit,          diffSpecInfo.amb.segment<3>(0),
                                    diffSpecInfo.diff.segment<3>(0),
                                    diffSpecInfo.spec.segment<3>(0));
