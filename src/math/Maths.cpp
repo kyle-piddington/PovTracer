@@ -77,11 +77,7 @@ Vector3 Maths::generateHemisphereSample(const Vector3 & normal, Amount focus)
   {
     axis = Vector3(0,0,1).cross(normal);
   }
-  if(cosA < 0)
-  {
-    axis = -axis;
-  }
-
+  
   Vector3 rotSample = Eigen::AngleAxis<Amount>(acos(cosA),axis.normalized()).matrix() * sample;
   return rotSample;
 }

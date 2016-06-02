@@ -53,6 +53,7 @@ BVH::SplitAxis BVH::GetNextAxis(SplitAxis cAxis)
 BVH::SplitAxis BVH::GetLongestAxis(const std::vector<SceneObject> & objects)
 {
    Vector3 minCoords, maxCoords;
+
    if(objects.size() > 1)
    {
       minCoords = objects[0].bounds.minCoords;
