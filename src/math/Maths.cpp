@@ -115,6 +115,11 @@ void Maths::generateHemisphereSamples(const Vector3 & normal, Amount focus, int 
   }
 }
 
+Amount Maths::clamp(Amount min, Amount max, Amount val)
+{
+  return fminf(max,fmaxf(min,val));
+}
+
 Amount Maths::calculateShlicks(Amount iorA, Amount iorB, const Vector3 & rI, const Vector3 & n)
 {
    Amount angle = (-rI).normalized().dot(n.normalized());

@@ -1,5 +1,6 @@
 #include "povray/povmodules/ObjectModifierState.hpp"
 #include "povray/povmodules/PovStates.hpp"
+#include "shade/SphericalMapping.hpp"
 #include "povray/PovUtil.hpp"
 #include "camera/Camera.hpp"
 #include "math/Transform.hpp"
@@ -66,6 +67,17 @@ ParseState * ObjectModifierState::accept(std::istream & stream)
          cTransform = Transform::createScaleMatrix(PovUtil::readVec3(stream)) * cTransform;
          return this;
       }
+      else if (bfr == "mapping")
+      {
+         //Only mapping is spherehical
+         stream >> bfr;
+         if(bfr == "spherical")
+         {
+            *geometry->getMappingPtr() = std::make_shared<SphericalMapping>();
+         }
+         return this;
+      }
+      
       else
       {
          throw ParseException(bfr, "Unsupported state for Modifier state");

@@ -103,8 +103,16 @@ Color4 SchlickRenderer::shade(Hit & hit)
             iorB = tmp;
          }
          Amount schlicks =  Maths::calculateShlicks(iorA, iorB, r.direction, hit.getNormal());
-         Color4 refr = calculateRefraction(hit, internal);
-         return schlicks*refl + (1-schlicks)*refr;// + diffSpecInfo.spec;
+         if(schlicks < 1)
+         {
+            Color4 refr = calculateRefraction(hit, internal);
+            return schlicks*refl + (1-schlicks)*refr;// + diffSpecInfo.spec;
+
+         }
+         else
+         {
+            return refl;
+         }
       }
       else
       {

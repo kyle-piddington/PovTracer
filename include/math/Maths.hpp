@@ -51,6 +51,7 @@ namespace Maths
 
    Amount calculateShlicks(Amount iorA, Amount iorB, const Vector3 & rI, const Vector3 & n);
 
+   Amount clamp(Amount min, Amount max, Amount val);
    /**
     * Generate a hemisphere sample with a square-root 
     * distribution

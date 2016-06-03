@@ -9,7 +9,7 @@ public:
    Plane(Vector3 position, Vector3 orientation);
    Plane(Vector3 orientation, Amount distance);
    virtual Hit intersect(const Ray & ray, Amount closestT);
-
+   std::string getName() const{return "Plane";}
 private:
    /**
     * Planes are a special case, with an infinite bounding box.

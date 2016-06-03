@@ -55,7 +55,7 @@ ReflectRefractRenderer::ColorInfo MonteCarloRenderer::calculateDiffuseSpec(Hit &
    ColorInfo info;
    info.diff = Color4::Zero();
    info.spec = Color4::Zero();
-   info.amb = calculateIndirectLighting(hit);
+   info.amb = calculateIndirectLighting(hit).cwiseProduct(pigmentColor);
    Vector3 wr = (sceneCam.getLocation() - hit.getHitpoint()).normalized();
    for (auto pLight = lights.begin(); pLight != lights.end(); ++pLight)
    {

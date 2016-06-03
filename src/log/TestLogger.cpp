@@ -65,12 +65,7 @@ void TestLogger::printLog(std::ostream & str)
          str << "Ray: " << ray->ray << std::endl;
          if(ray->hit.didHit())
          {
-            str << "Transformed Ray:  " << ray->transformed << std::endl;
-            str << "Normal : " << ray->hit.getNormal().transpose() << std::endl;
-
-            str << "Ambient: " << ray->amb.transpose() << std::endl;
-            str << "Diffuse: " << ray->diff.transpose() << std::endl;
-            str << "Specular: "<< ray->spec.transpose() << std::endl;
+            str << "Hit: " << ray->hit.getHitpoint().transpose() << " on " << ray->hit.getGeometry()->getName() << std::endl;
             str << "T: " << ray->hit.getT() << std::endl;
          }
          else

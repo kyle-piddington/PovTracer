@@ -109,7 +109,7 @@ int main(int argC, char ** argV)
    if(giSwitch)
    {
 
-      renderer = std::make_shared<MonteCarloRenderer>(width, height, scene, diffBRFD, specBRDF, 5, 2, 16);
+      renderer = std::make_shared<MonteCarloRenderer>(width, height, scene, diffBRFD, specBRDF, 5, 2, 128);
    }
    else
    {

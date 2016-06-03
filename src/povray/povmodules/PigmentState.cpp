@@ -2,6 +2,9 @@
 #include "povray/PovUtil.hpp"
 #include "povray/povmodules/PovStates.hpp"
 #include "shade/ColorPigment.hpp"
+#include "shade/ISampleable.hpp"
+#include "shade/SamplerPigment.hpp"
+#include "shade/Texture.hpp" 
 PigmentState::PigmentState():
    pigmentPtr(nullptr),
    parent(nullptr)
@@ -20,6 +23,7 @@ void PigmentState::processColorPigment(std::istream & stream)
 
    std::string type;
    stream >> type;
+
    if(type == "rgb")
    {
       Color3 col = PovUtil::readVec3(stream);
@@ -55,6 +59,11 @@ ParseState * PigmentState::accept(std::istream & stream)
       else if(bfr == "color")
       {
          processColorPigment(stream);
+      }
+      else if(bfr == "texture")
+      {
+         stream >> bfr;
+         *pigmentPtr = std::make_shared<SamplerPigment>(std::make_shared<Texture>(bfr));
       }
       else
       {

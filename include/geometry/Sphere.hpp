@@ -13,6 +13,7 @@ public:
 
    virtual Hit intersect(const Ray & ray, Amount bestT);
 
+   std::string getName() const {return "Sphere";}
 protected:
      virtual BoundingBox createUntransformedBoundingBox() const;
 private:

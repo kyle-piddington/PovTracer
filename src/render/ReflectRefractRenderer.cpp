@@ -69,6 +69,24 @@ Color4 ReflectRefractRenderer::calculateReflection(Hit & hit)
 }
 
 
+bool isTIR(Hit & hit, bool internal)
+{
+   Finish * finish = hit.getGeometry()->getFinish();
+   const Ray & r = hit.getRay();
+   Amount iorA = 1.0;
+   Amount iorB = finish->getIor();
+   Vector3 normal = hit.getNormal();
+   if(internal)
+   {
+      Amount tmp = iorA;
+      iorA = iorB;
+      iorB = tmp;
+   }
+
+   Vector3 refractDir = Maths::refract(iorA,iorB,r.direction, normal);
+   return refractDir.norm() == 0;
+   
+}
 Color4 ReflectRefractRenderer::calculateRefraction(Hit & hit, bool internal)
 {
    //Create new ray
@@ -122,8 +140,9 @@ Color4 ReflectRefractRenderer::shade(Hit & hit)
       {
          refl = calculateReflection(hit);
       }
-      if(finish->getRefraction())
+      if(finish->getRefraction() && !isTIR(hit,internal))
       {
+
          Color4 refr = calculateRefraction(hit, internal);
          Amount filter = hit.getGeometry()->getPigment()->getColor(hit)(3);
          return (1 - (finish->getReflection() + filter))*diffSpec + finish->getReflection()*refl + filter*refr;

@@ -1,10 +1,11 @@
 #include "geometry/IGeometry.hpp"
 #include "shade/ColorPigment.hpp"
 #include "math/Maths.hpp"
-
+#include "shade/NullMapping.hpp"
 
 IGeometry::IGeometry():
    pigment(ColorPigment::CreateDefault()),
+   mapping(std::make_shared<NullMapping>()),
    transformInv(Matrix4::Identity())
    {
 
@@ -61,16 +62,23 @@ void IGeometry::setTransform(const Matrix4 & transform)
 
 }
 
-BoundingBox IGeometry::createBoundingBox() const
+BoundingBox IGeometry::createBoundingBox()
 {
    BoundingBox bBox = this->createUntransformedBoundingBox();
    if(bBox.isValid() && transformed)
    {
       bBox = bBox.transform(getTransform());
    }
+   this->box = bBox;
+   boxInitted = true;
    return bBox;
 }
 
+BoundingBox IGeometry::getBoundingBox() const
+{
+   assert(boxInitted);
+   return box;
+}
 Matrix4 IGeometry::getTransform() const
 {
    return transformInv.inverse();
@@ -84,6 +92,15 @@ std::shared_ptr<IPigment>  IGeometry::getPigment()
 std::shared_ptr<IPigment> * IGeometry::getPigmentPtr()
 {
    return &pigment;
+}
+std::shared_ptr<IMapping> IGeometry::getMapping()
+{
+   return mapping;
+}
+
+std::shared_ptr<IMapping> * IGeometry::getMappingPtr()
+{
+   return &mapping;
 }
 Finish * IGeometry::getFinish()
 {

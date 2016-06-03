@@ -9,6 +9,7 @@ public:
    void setMinCoords(Vector3 minCoords);
    void setMaxCoords(Vector3 maxCoords);
    virtual Hit intersect(const Ray & ray, Amount closestT);
+   std::string getName() const {return "Box";}
 
 private:
 
