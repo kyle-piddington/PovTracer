@@ -1,5 +1,4 @@
-kpidding
-CPE 474 (Advanced Rendering)
+This Raytracer is a pet project developed in partial fufillment for Advanced Rendering at Cal Poly. 
 
 Credits;
 This raytracer would not be possible without the help of:
