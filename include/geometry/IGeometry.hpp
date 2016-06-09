@@ -57,6 +57,8 @@ public:
     */
    Matrix4 getTransform() const;
 
+   Vector3 getLocalPoint(const Vector3 & wPt) const;
+
    virtual std::string getName() const = 0;
 
 protected:

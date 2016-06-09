@@ -105,7 +105,6 @@ int main(int argC, char ** argV)
 
    //Add bvh
    scene->provideSpatialStructure(std::make_shared<BVH>());
-   //renderer = std::make_shared<VisNormalsRenderer>(width,height,scene);
    if(giSwitch)
    {
 
@@ -115,6 +114,8 @@ int main(int argC, char ** argV)
    {
       renderer = std::make_shared<SchlickRenderer>(width,height,scene,diffBRFD,specBRDF,5);
    }
+   
+   //renderer = std::make_shared<VisNormalsRenderer>(width,height,scene);
    //Take 3x3 samples (9 per pixel)
    if(aaSwitch)
    {
@@ -125,7 +126,7 @@ int main(int argC, char ** argV)
       renderer->setNSamples(1);
    }
    int pxWritten = 0;
-
+   
    #pragma omp parallel for
    for(int j = 0; j < height; j++)
    {

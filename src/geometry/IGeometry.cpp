@@ -84,6 +84,11 @@ Matrix4 IGeometry::getTransform() const
    return transformInv.inverse();
 }
 
+Vector3 IGeometry::getLocalPoint(const Vector3 & pt) const
+{
+   Vector4 blk; blk << pt, 1.0;
+   return (transformInv * blk).segment<3>(0);
+}
 std::shared_ptr<IPigment>  IGeometry::getPigment()
 {
    return pigment;

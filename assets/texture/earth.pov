@@ -11,10 +11,11 @@ camera {
 light_source {<-100, 100, 100> color rgb <1.5, 1.5, 1.5>}
 
 sphere { <0, 0, 0>, 2
-  pigment { texture ../assets/texture/grid.png }
+  pigment { texture ../assets/texture/earth.bmp }
   finish {ambient 0.2 diffuse 0.4 specular 0.4 roughness 0.001}
   mapping spherical
   translate <0, 0, 0>
+  rotate <0, 135, 0>
 }
 
 plane {<0, 1, 0>, -2

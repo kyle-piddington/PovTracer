@@ -111,6 +111,7 @@ Color3 Texture::sample(Vector2 uv) const
       uv(1) = Maths::clamp(0,1-kEpsilon,uv(1));
       int pll_x = width *  (uv(0) - (0.5/width));
       int pll_y = height * (uv(1) -  (0.5/height));
+
       //Sample and weight 4 pixels;
       
       Color3 lowerLeft, lowerRight, upperLeft, upperRight;
@@ -134,11 +135,11 @@ Color3 Texture::sample(Vector2 uv) const
 
 Color3 Texture::readPixel(int x, int y) const
 {  
-   x = (int)Maths::clamp(0, width -1, x);
+   x = (width - (int)Maths::clamp(0, width -1, x) - 1);
    y = (int)Maths::clamp(0, height-1, y);
-   Color3 col; col << buffer[nComps * (x * height + y) + 0],
-                      buffer[nComps * (x * height + y) + 1],
-                      buffer[nComps * (x * height + y) + 2];
+   Color3 col; col << buffer[nComps * (y * width + x) + 0],
+                      buffer[nComps * (y * width + x) + 1],
+                      buffer[nComps * (y * width + x) + 2];
    return col;
 
 }
